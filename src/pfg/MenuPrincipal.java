@@ -15,6 +15,8 @@ import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
+import pfg.resources.PanelPersonal;
 
 /**
  * The application's main frame.
@@ -382,6 +384,11 @@ public class MenuPrincipal extends FrameView {
 
         jLabel5.setText(resourceMap.getString("jLabel5.text")); // NOI18N
         jLabel5.setName("jLabel5"); // NOI18N
+        jLabel5.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel5MouseClicked(evt);
+            }
+        });
 
         jLabel6.setText(resourceMap.getString("jLabel6.text")); // NOI18N
         jLabel6.setName("jLabel6"); // NOI18N
@@ -573,6 +580,20 @@ public class MenuPrincipal extends FrameView {
         setComponent(mainPanel);
         setMenuBar(menuBar);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
+        /*
+        Metodo de prueba para cambiar los paneles.
+        */
+        jPanel2.removeAll();
+        JPanel jp = new PanelPersonal();
+        JPanel jp2 = new PanelPersonal();
+        JPanel jp3 = new PanelPersonal();
+        jPanel2.add(jp);
+        jPanel2.add(jp2);
+        jPanel2.add(jp3);
+        jPanel2.updateUI();
+    }//GEN-LAST:event_jLabel5MouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;

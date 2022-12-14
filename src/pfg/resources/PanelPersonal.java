@@ -17,6 +17,11 @@ public class PanelPersonal extends javax.swing.JPanel {
     public PanelPersonal() {
         initComponents();
     }
+    public PanelPersonal(String nombre, String email, String telefono){
+        jLabelNombreUsuario.setText(nombre);
+        jLabelTelefono.setText(telefono);
+        jLabelEmail.setText(email);
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.

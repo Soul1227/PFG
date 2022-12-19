@@ -6,22 +6,20 @@ import java.awt.Color;
  *
  * @author angel
  */
-public class PanelTarea extends javax.swing.JPanel {
+public class EtiquetaTarea extends javax.swing.JPanel {
 
     /**
      * Creates new form PanelTarea
      */
-    public PanelTarea() {
+    public EtiquetaTarea() {
         initComponents();
     }
-    public PanelTarea(String nombre, String hora, Color color) {
+    public EtiquetaTarea(String nombre, String hora, Color color) {
         initComponents();
         jLabelNombreTarea.setText(nombre);
         jLabelHora.setText(hora);
-        setBackground(color);
+        jPanelColor.setBackground(color);
     }
-
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -29,10 +27,11 @@ public class PanelTarea extends javax.swing.JPanel {
         jLabelNombreTarea = new javax.swing.JLabel();
         jLabelHora = new javax.swing.JLabel();
         jPanelPersonalEnTarea = new javax.swing.JPanel();
+        jPanelColor = new javax.swing.JPanel();
 
         setName("Form"); // NOI18N
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(PanelTarea.class);
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(EtiquetaTarea.class);
         jLabelNombreTarea.setText(resourceMap.getString("jLabelNombreTarea.text")); // NOI18N
         jLabelNombreTarea.setName("jLabelNombreTarea"); // NOI18N
 
@@ -40,16 +39,21 @@ public class PanelTarea extends javax.swing.JPanel {
         jLabelHora.setName("jLabelHora"); // NOI18N
 
         jPanelPersonalEnTarea.setBorder(javax.swing.BorderFactory.createTitledBorder(null, resourceMap.getString("jPanelPersonalEnTarea.border.title"), javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.TOP)); // NOI18N
+        jPanelPersonalEnTarea.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         jPanelPersonalEnTarea.setName("jPanelPersonalEnTarea"); // NOI18N
+        jPanelPersonalEnTarea.setLayout(new java.awt.GridLayout(1, 0));
 
-        javax.swing.GroupLayout jPanelPersonalEnTareaLayout = new javax.swing.GroupLayout(jPanelPersonalEnTarea);
-        jPanelPersonalEnTarea.setLayout(jPanelPersonalEnTareaLayout);
-        jPanelPersonalEnTareaLayout.setHorizontalGroup(
-            jPanelPersonalEnTareaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
+        jPanelColor.setName("jPanelColor"); // NOI18N
+        jPanelColor.setPreferredSize(new java.awt.Dimension(15, 100));
+
+        javax.swing.GroupLayout jPanelColorLayout = new javax.swing.GroupLayout(jPanelColor);
+        jPanelColor.setLayout(jPanelColorLayout);
+        jPanelColorLayout.setHorizontalGroup(
+            jPanelColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 15, Short.MAX_VALUE)
         );
-        jPanelPersonalEnTareaLayout.setVerticalGroup(
-            jPanelPersonalEnTareaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanelColorLayout.setVerticalGroup(
+            jPanelColorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 100, Short.MAX_VALUE)
         );
 
@@ -59,6 +63,8 @@ public class PanelTarea extends javax.swing.JPanel {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jPanelColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanelPersonalEnTarea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addGroup(layout.createSequentialGroup()
@@ -71,18 +77,24 @@ public class PanelTarea extends javax.swing.JPanel {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabelNombreTarea)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabelHora)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanelPersonalEnTarea, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanelColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabelNombreTarea)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabelHora)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jPanelPersonalEnTarea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabelHora;
     private javax.swing.JLabel jLabelNombreTarea;
+    private javax.swing.JPanel jPanelColor;
     private javax.swing.JPanel jPanelPersonalEnTarea;
     // End of variables declaration//GEN-END:variables
 }

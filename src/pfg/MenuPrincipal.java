@@ -4,7 +4,6 @@
 
 package pfg;
 
-import java.awt.Color;
 import org.jdesktop.application.Action;
 import org.jdesktop.application.ResourceMap;
 import org.jdesktop.application.SingleFrameApplication;
@@ -12,24 +11,26 @@ import org.jdesktop.application.FrameView;
 import org.jdesktop.application.TaskMonitor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
-import pfg.resources.EtiquetaTarea;
 import pfg.resources.PanelSemana;
 
 /**
  * The application's main frame.
  */
 public class MenuPrincipal extends FrameView {
+    
+    private Calendar calendar;
 
     public MenuPrincipal(SingleFrameApplication app) {
         super(app);
 
         initComponents();
-        jPaneAbajo.add(new PanelSemana());
+        ActualizarSemana();
+        AbrirPanelSemana();
         
 
         // status bar initialization - message timeout, idle icon and busy animation, etc
@@ -363,7 +364,7 @@ public class MenuPrincipal extends FrameView {
     private void jButtonActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonActualizarMouseClicked
         PanelSemana panel = new PanelSemana();
 
-        panel.setSize(jPaneAbajo.getWidth(), this.getComponent().getHeight());
+        panel.setSize(jPaneAbajo.getWidth(), jPaneAbajo.getHeight());
         jPaneAbajo.add(panel);
         jPaneAbajo.updateUI();
 
@@ -399,4 +400,13 @@ public class MenuPrincipal extends FrameView {
     private int busyIconIndex = 0;
 
     private JDialog aboutBox;
+
+    private void ActualizarSemana() {
+        calendar = Calendar.getInstance();
+    }
+
+    private void AbrirPanelSemana() {
+       jPaneAbajo.add(new PanelSemana(calendar.getWeekYear()));
+       jPaneAbajo.updateUI();
+    }
 }

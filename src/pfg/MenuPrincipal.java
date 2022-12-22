@@ -11,20 +11,27 @@ import org.jdesktop.application.FrameView;
 import org.jdesktop.application.TaskMonitor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Calendar;
 import javax.swing.Timer;
 import javax.swing.Icon;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import pfg.resources.PanelSemana;
 
 /**
  * The application's main frame.
  */
 public class MenuPrincipal extends FrameView {
+    
+    private Calendar calendar;
 
     public MenuPrincipal(SingleFrameApplication app) {
         super(app);
 
         initComponents();
+        ActualizarSemana();
+        AbrirPanelSemana();
+        
 
         // status bar initialization - message timeout, idle icon and busy animation, etc
         ResourceMap resourceMap = getResourceMap();
@@ -67,7 +74,7 @@ public class MenuPrincipal extends FrameView {
             }
         });
     }
-
+ 
     @Action
     public void showAboutBox() {
         if (aboutBox == null) {
@@ -88,30 +95,6 @@ public class MenuPrincipal extends FrameView {
     private void initComponents() {
 
         mainPanel = new javax.swing.JPanel();
-        mainPanel1 = new javax.swing.JPanel();
-        jPaneSemana = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jPanelLunes = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jButtonAñadirTareaLunes = new javax.swing.JButton();
-        jPanelMartes = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        jButtonAñadirTareaMartes = new javax.swing.JButton();
-        jPanelMiercoles = new javax.swing.JPanel();
-        jScrollPane3 = new javax.swing.JScrollPane();
-        jButtonAñadirTareaMiercoles = new javax.swing.JButton();
-        jPanelJueves = new javax.swing.JPanel();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jButtonAñadirTareaJueves = new javax.swing.JButton();
-        jPanelViernes = new javax.swing.JPanel();
-        jScrollPane5 = new javax.swing.JScrollPane();
-        jButtonAñadirTareaViernes = new javax.swing.JButton();
-        jPanelSabado = new javax.swing.JPanel();
-        jScrollPane6 = new javax.swing.JScrollPane();
-        jButtonAñadirTareaSabado = new javax.swing.JButton();
-        jPanelDomingo = new javax.swing.JPanel();
-        jScrollPane7 = new javax.swing.JScrollPane();
-        jButton7 = new javax.swing.JButton();
         jPanelArriba = new javax.swing.JPanel();
         jPanelLogo = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
@@ -129,6 +112,7 @@ public class MenuPrincipal extends FrameView {
         jButtonActualizar = new javax.swing.JButton();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
+        jPaneAbajo = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
@@ -137,214 +121,11 @@ public class MenuPrincipal extends FrameView {
 
         mainPanel.setName("mainPanel"); // NOI18N
 
-        mainPanel1.setName("mainPanel1"); // NOI18N
-
-        jPaneSemana.setMaximumSize(jPaneSemana.getMaximumSize());
-        jPaneSemana.setName("jPaneSemana"); // NOI18N
-
-        jPanel2.setName("jPanel2"); // NOI18N
-        jPanel2.setLayout(new java.awt.GridLayout(1, 0));
-
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(MenuPrincipal.class);
-        jPanelLunes.setBorder(javax.swing.BorderFactory.createTitledBorder(null, resourceMap.getString("jPanelLunes.border.title"), javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP)); // NOI18N
-        jPanelLunes.setName("jPanelLunes"); // NOI18N
-
-        jScrollPane1.setName("jScrollPane1"); // NOI18N
-
-        jButtonAñadirTareaLunes.setText(resourceMap.getString("jButtonAñadirTareaLunes.text")); // NOI18N
-        jButtonAñadirTareaLunes.setName("jButtonAñadirTareaLunes"); // NOI18N
-
-        javax.swing.GroupLayout jPanelLunesLayout = new javax.swing.GroupLayout(jPanelLunes);
-        jPanelLunes.setLayout(jPanelLunesLayout);
-        jPanelLunesLayout.setHorizontalGroup(
-            jPanelLunesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1)
-            .addComponent(jButtonAñadirTareaLunes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-        );
-        jPanelLunesLayout.setVerticalGroup(
-            jPanelLunesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelLunesLayout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonAñadirTareaLunes, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        jPanel2.add(jPanelLunes);
-
-        jPanelMartes.setBorder(javax.swing.BorderFactory.createTitledBorder(null, resourceMap.getString("jPanelMartes.border.title"), javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP)); // NOI18N
-        jPanelMartes.setName("jPanelMartes"); // NOI18N
-
-        jScrollPane2.setName("jScrollPane2"); // NOI18N
-
-        jButtonAñadirTareaMartes.setText(resourceMap.getString("jButtonAñadirTareaMartes.text")); // NOI18N
-        jButtonAñadirTareaMartes.setName("jButtonAñadirTareaMartes"); // NOI18N
-
-        javax.swing.GroupLayout jPanelMartesLayout = new javax.swing.GroupLayout(jPanelMartes);
-        jPanelMartes.setLayout(jPanelMartesLayout);
-        jPanelMartesLayout.setHorizontalGroup(
-            jPanelMartesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane2)
-            .addComponent(jButtonAñadirTareaMartes, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-        );
-        jPanelMartesLayout.setVerticalGroup(
-            jPanelMartesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelMartesLayout.createSequentialGroup()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 640, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonAñadirTareaMartes, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        jPanel2.add(jPanelMartes);
-
-        jPanelMiercoles.setBorder(javax.swing.BorderFactory.createTitledBorder(null, resourceMap.getString("jPanelMiercoles.border.title"), javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP)); // NOI18N
-        jPanelMiercoles.setName("jPanelMiercoles"); // NOI18N
-
-        jScrollPane3.setName("jScrollPane3"); // NOI18N
-
-        jButtonAñadirTareaMiercoles.setText(resourceMap.getString("jButtonAñadirTareaMiercoles.text")); // NOI18N
-        jButtonAñadirTareaMiercoles.setName("jButtonAñadirTareaMiercoles"); // NOI18N
-
-        javax.swing.GroupLayout jPanelMiercolesLayout = new javax.swing.GroupLayout(jPanelMiercoles);
-        jPanelMiercoles.setLayout(jPanelMiercolesLayout);
-        jPanelMiercolesLayout.setHorizontalGroup(
-            jPanelMiercolesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane3)
-            .addComponent(jButtonAñadirTareaMiercoles, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-        );
-        jPanelMiercolesLayout.setVerticalGroup(
-            jPanelMiercolesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelMiercolesLayout.createSequentialGroup()
-                .addComponent(jScrollPane3, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonAñadirTareaMiercoles, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        jPanel2.add(jPanelMiercoles);
-
-        jPanelJueves.setBorder(javax.swing.BorderFactory.createTitledBorder(null, resourceMap.getString("jPanelJueves.border.title"), javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP)); // NOI18N
-        jPanelJueves.setName("jPanelJueves"); // NOI18N
-
-        jScrollPane4.setName("jScrollPane4"); // NOI18N
-
-        jButtonAñadirTareaJueves.setText(resourceMap.getString("jButtonAñadirTareaJueves.text")); // NOI18N
-        jButtonAñadirTareaJueves.setName("jButtonAñadirTareaJueves"); // NOI18N
-
-        javax.swing.GroupLayout jPanelJuevesLayout = new javax.swing.GroupLayout(jPanelJueves);
-        jPanelJueves.setLayout(jPanelJuevesLayout);
-        jPanelJuevesLayout.setHorizontalGroup(
-            jPanelJuevesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane4)
-            .addComponent(jButtonAñadirTareaJueves, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-        );
-        jPanelJuevesLayout.setVerticalGroup(
-            jPanelJuevesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelJuevesLayout.createSequentialGroup()
-                .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonAñadirTareaJueves, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        jPanel2.add(jPanelJueves);
-
-        jPanelViernes.setBorder(javax.swing.BorderFactory.createTitledBorder(null, resourceMap.getString("jPanelViernes.border.title"), javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP)); // NOI18N
-        jPanelViernes.setName("jPanelViernes"); // NOI18N
-
-        jScrollPane5.setName("jScrollPane5"); // NOI18N
-
-        jButtonAñadirTareaViernes.setText(resourceMap.getString("jButtonAñadirTareaViernes.text")); // NOI18N
-        jButtonAñadirTareaViernes.setName("jButtonAñadirTareaViernes"); // NOI18N
-
-        javax.swing.GroupLayout jPanelViernesLayout = new javax.swing.GroupLayout(jPanelViernes);
-        jPanelViernes.setLayout(jPanelViernesLayout);
-        jPanelViernesLayout.setHorizontalGroup(
-            jPanelViernesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane5)
-            .addComponent(jButtonAñadirTareaViernes, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-        );
-        jPanelViernesLayout.setVerticalGroup(
-            jPanelViernesLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelViernesLayout.createSequentialGroup()
-                .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonAñadirTareaViernes, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        jPanel2.add(jPanelViernes);
-
-        jPanelSabado.setBorder(javax.swing.BorderFactory.createTitledBorder(null, resourceMap.getString("jPanelSabado.border.title"), javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP)); // NOI18N
-        jPanelSabado.setName("jPanelSabado"); // NOI18N
-
-        jScrollPane6.setName("jScrollPane6"); // NOI18N
-
-        jButtonAñadirTareaSabado.setText(resourceMap.getString("jButtonAñadirTareaSabado.text")); // NOI18N
-        jButtonAñadirTareaSabado.setName("jButtonAñadirTareaSabado"); // NOI18N
-
-        javax.swing.GroupLayout jPanelSabadoLayout = new javax.swing.GroupLayout(jPanelSabado);
-        jPanelSabado.setLayout(jPanelSabadoLayout);
-        jPanelSabadoLayout.setHorizontalGroup(
-            jPanelSabadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane6)
-            .addComponent(jButtonAñadirTareaSabado, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-        );
-        jPanelSabadoLayout.setVerticalGroup(
-            jPanelSabadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelSabadoLayout.createSequentialGroup()
-                .addComponent(jScrollPane6, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonAñadirTareaSabado, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        jPanel2.add(jPanelSabado);
-
-        jPanelDomingo.setBorder(javax.swing.BorderFactory.createTitledBorder(null, resourceMap.getString("jPanelDomingo.border.title"), javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP)); // NOI18N
-        jPanelDomingo.setName("jPanelDomingo"); // NOI18N
-
-        jScrollPane7.setName("jScrollPane7"); // NOI18N
-
-        jButton7.setText(resourceMap.getString("jButton7.text")); // NOI18N
-        jButton7.setName("jButton7"); // NOI18N
-
-        javax.swing.GroupLayout jPanelDomingoLayout = new javax.swing.GroupLayout(jPanelDomingo);
-        jPanelDomingo.setLayout(jPanelDomingoLayout);
-        jPanelDomingoLayout.setHorizontalGroup(
-            jPanelDomingoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane7)
-            .addComponent(jButton7, javax.swing.GroupLayout.DEFAULT_SIZE, 194, Short.MAX_VALUE)
-        );
-        jPanelDomingoLayout.setVerticalGroup(
-            jPanelDomingoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanelDomingoLayout.createSequentialGroup()
-                .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 641, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton7, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
-        );
-
-        jPanel2.add(jPanelDomingo);
-
-        javax.swing.GroupLayout jPaneSemanaLayout = new javax.swing.GroupLayout(jPaneSemana);
-        jPaneSemana.setLayout(jPaneSemanaLayout);
-        jPaneSemanaLayout.setHorizontalGroup(
-            jPaneSemanaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPaneSemanaLayout.setVerticalGroup(
-            jPaneSemanaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPaneSemanaLayout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
         jPanelArriba.setName("jPanelArriba"); // NOI18N
 
         jPanelLogo.setName("jPanelLogo"); // NOI18N
 
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(MenuPrincipal.class);
         jLabel1.setFont(resourceMap.getFont("jLabel1.font")); // NOI18N
         jLabel1.setText(resourceMap.getString("jLabel1.text")); // NOI18N
         jLabel1.setName("jLabel1"); // NOI18N
@@ -458,6 +239,11 @@ public class MenuPrincipal extends FrameView {
 
         jButtonActualizar.setText(resourceMap.getString("jButtonActualizar.text")); // NOI18N
         jButtonActualizar.setName("jButtonActualizar"); // NOI18N
+        jButtonActualizar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonActualizarMouseClicked(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelUsuarioLayout = new javax.swing.GroupLayout(jPanelUsuario);
         jPanelUsuario.setLayout(jPanelUsuarioLayout);
@@ -492,13 +278,13 @@ public class MenuPrincipal extends FrameView {
             .addGroup(jPanelArribaLayout.createSequentialGroup()
                 .addGap(0, 0, 0)
                 .addComponent(jPanelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 464, Short.MAX_VALUE)
                 .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelMedio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 465, Short.MAX_VALUE)
                 .addComponent(jPanelUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         jPanelArribaLayout.setVerticalGroup(
@@ -517,36 +303,37 @@ public class MenuPrincipal extends FrameView {
                 .addComponent(jLabel8))
         );
 
-        javax.swing.GroupLayout mainPanel1Layout = new javax.swing.GroupLayout(mainPanel1);
-        mainPanel1.setLayout(mainPanel1Layout);
-        mainPanel1Layout.setHorizontalGroup(
-            mainPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(mainPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelArriba, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPaneSemana, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap())
+        jPaneAbajo.setMaximumSize(jPaneAbajo.getMaximumSize());
+        jPaneAbajo.setName("jPaneAbajo"); // NOI18N
+
+        javax.swing.GroupLayout jPaneAbajoLayout = new javax.swing.GroupLayout(jPaneAbajo);
+        jPaneAbajo.setLayout(jPaneAbajoLayout);
+        jPaneAbajoLayout.setHorizontalGroup(
+            jPaneAbajoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1503, Short.MAX_VALUE)
         );
-        mainPanel1Layout.setVerticalGroup(
-            mainPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanelArriba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPaneSemana, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap())
+        jPaneAbajoLayout.setVerticalGroup(
+            jPaneAbajoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 728, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(mainPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelArriba, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(jPaneAbajo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(mainPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
+                .addComponent(jPanelArriba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPaneAbajo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         menuBar.setName("menuBar"); // NOI18N
@@ -574,17 +361,19 @@ public class MenuPrincipal extends FrameView {
         setMenuBar(menuBar);
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonActualizarMouseClicked
+        PanelSemana panel = new PanelSemana();
+
+        panel.setSize(jPaneAbajo.getWidth(), jPaneAbajo.getHeight());
+        jPaneAbajo.add(panel);
+        jPaneAbajo.updateUI();
+
+    }//GEN-LAST:event_jButtonActualizarMouseClicked
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.Box.Filler filler1;
     private javax.swing.Box.Filler filler2;
-    private javax.swing.JButton jButton7;
     private javax.swing.JButton jButtonActualizar;
-    private javax.swing.JButton jButtonAñadirTareaJueves;
-    private javax.swing.JButton jButtonAñadirTareaLunes;
-    private javax.swing.JButton jButtonAñadirTareaMartes;
-    private javax.swing.JButton jButtonAñadirTareaMiercoles;
-    private javax.swing.JButton jButtonAñadirTareaSabado;
-    private javax.swing.JButton jButtonAñadirTareaViernes;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -594,29 +383,13 @@ public class MenuPrincipal extends FrameView {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPaneSemana;
+    private javax.swing.JPanel jPaneAbajo;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanelArriba;
-    private javax.swing.JPanel jPanelDomingo;
-    private javax.swing.JPanel jPanelJueves;
     private javax.swing.JPanel jPanelLogo;
-    private javax.swing.JPanel jPanelLunes;
-    private javax.swing.JPanel jPanelMartes;
     private javax.swing.JPanel jPanelMedio;
-    private javax.swing.JPanel jPanelMiercoles;
-    private javax.swing.JPanel jPanelSabado;
     private javax.swing.JPanel jPanelUsuario;
-    private javax.swing.JPanel jPanelViernes;
-    private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane3;
-    private javax.swing.JScrollPane jScrollPane4;
-    private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JScrollPane jScrollPane6;
-    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JPanel mainPanel;
-    private javax.swing.JPanel mainPanel1;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
 
@@ -627,4 +400,13 @@ public class MenuPrincipal extends FrameView {
     private int busyIconIndex = 0;
 
     private JDialog aboutBox;
+
+    private void ActualizarSemana() {
+        calendar = Calendar.getInstance();
+    }
+
+    private void AbrirPanelSemana() {
+       jPaneAbajo.add(new PanelSemana(calendar.getWeekYear()));
+       jPaneAbajo.updateUI();
+    }
 }

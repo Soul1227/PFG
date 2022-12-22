@@ -9,15 +9,15 @@ package pfg.resources;
  *
  * @author angel
  */
-public class PanelPersonal extends javax.swing.JPanel {
+public class EtiquetaPersonal extends javax.swing.JPanel {
 
     /**
      * Creates new form PanelPersonal
      */
-    public PanelPersonal() {
+    public EtiquetaPersonal() {
         initComponents();
     }
-    public PanelPersonal(String nombre, String email, String telefono){
+    public EtiquetaPersonal(String nombre, String email, String telefono){
         jLabelNombreUsuario.setText(nombre);
         jLabelTelefono.setText(telefono);
         jLabelEmail.setText(email);
@@ -38,7 +38,7 @@ public class PanelPersonal extends javax.swing.JPanel {
 
         setName("Form"); // NOI18N
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(PanelPersonal.class);
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(EtiquetaPersonal.class);
         jLabelNombreUsuario.setText(resourceMap.getString("jLabelNombreUsuario.text")); // NOI18N
         jLabelNombreUsuario.setName("jLabelNombreUsuario"); // NOI18N
 

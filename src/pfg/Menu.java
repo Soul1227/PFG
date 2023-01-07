@@ -1,104 +1,51 @@
-/*
- * MenuPrincipal.java
- */
 package pfg;
 
 import java.awt.Image;
-import org.jdesktop.application.Action;
-import org.jdesktop.application.ResourceMap;
-import org.jdesktop.application.SingleFrameApplication;
-import org.jdesktop.application.FrameView;
-import org.jdesktop.application.TaskMonitor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import javax.swing.Timer;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 import pfg.resources.PanelSemana;
+import servidorprueba.Persona;
 
 /**
- * The application's main frame.
+ *
+ * @author angel
  */
-public class MenuPrincipal extends FrameView {
+public class Menu extends javax.swing.JFrame {
 
     private final Date diaActual;
     private final Calendar calendar;
     private final Date[] dias;
-    public String nombreUsuario;
-    public String apellidos;
     private boolean esAdmin;
+    private final Persona usuario;
+    private JPanel panel;
 
-    public MenuPrincipal(SingleFrameApplication app, String nombreUsuario, String Apellidos, boolean esAdmin) {
-        super(app);
+    /**
+     * Creates new form Menu
+     *
+     * @param usuario Usuario que ha logeado.
+     */
+    public Menu(Persona usuario) {
+        super();
+        this.usuario = usuario;
         dias = new Date[7];
         calendar = Calendar.getInstance();
         diaActual = calendar.getTime();
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-        this.nombreUsuario = nombreUsuario;
-        this.apellidos = Apellidos;
-        this.esAdmin = esAdmin;
         initComponents();
         PrepararInterface();
         ActualizarSemana();
         AbrirPanelSemana();
-
-        // status bar initialization - message timeout, idle icon and busy animation, etc
-        ResourceMap resourceMap = getResourceMap();
-        int messageTimeout = resourceMap.getInteger("StatusBar.messageTimeout");
-        messageTimer = new Timer(messageTimeout, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-            }
-        });
-        messageTimer.setRepeats(false);
-        int busyAnimationRate = resourceMap.getInteger("StatusBar.busyAnimationRate");
-        for (int i = 0; i < busyIcons.length; i++) {
-            busyIcons[i] = resourceMap.getIcon("StatusBar.busyIcons[" + i + "]");
-        }
-        busyIconTimer = new Timer(busyAnimationRate, new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                busyIconIndex = (busyIconIndex + 1) % busyIcons.length;
-            }
-        });
-        idleIcon = resourceMap.getIcon("StatusBar.idleIcon");
-
-        // connecting action tasks to status bar via TaskMonitor
-        TaskMonitor taskMonitor = new TaskMonitor(getApplication().getContext());
-        taskMonitor.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                String propertyName = evt.getPropertyName();
-                if ("started".equals(propertyName)) {
-                    if (!busyIconTimer.isRunning()) {
-                        busyIconIndex = 0;
-                        busyIconTimer.start();
-                    }
-                } else if ("done".equals(propertyName)) {
-                    busyIconTimer.stop();
-
-                } else if ("message".equals(propertyName)) {
-                    String text = (String) (evt.getNewValue());
-                    messageTimer.restart();
-                } else if ("progress".equals(propertyName)) {
-                    int value = (Integer) (evt.getNewValue());
-                }
-            }
-        });
     }
 
-    @Action
-    public void showAboutBox() {
-        if (aboutBox == null) {
-            JFrame mainFrame = PFGApp.getApplication().getMainFrame();
-            aboutBox = new PFGAboutBox(mainFrame);
-            aboutBox.setLocationRelativeTo(mainFrame);
-        }
-        PFGApp.getApplication().show(aboutBox);
+    private Menu() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
@@ -126,14 +73,17 @@ public class MenuPrincipal extends FrameView {
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setName("Form"); // NOI18N
+
         mainPanel.setName("mainPanel"); // NOI18N
 
         jPanelArriba.setName("jPanelArriba"); // NOI18N
-        jPanelArriba.setLayout(new java.awt.GridLayout(1, 0));
+        jPanelArriba.setLayout(new java.awt.GridLayout());
 
         jPanelLogo.setName("jPanelLogo"); // NOI18N
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(MenuPrincipal.class);
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(Menu.class);
         jLabelLogo.setFont(resourceMap.getFont("jLabelLogo.font")); // NOI18N
         jLabelLogo.setText(resourceMap.getString("jLabelLogo.text")); // NOI18N
         jLabelLogo.setName("jLabelLogo"); // NOI18N
@@ -230,9 +180,9 @@ public class MenuPrincipal extends FrameView {
         javax.swing.GroupLayout jPanelUsuarioLayout = new javax.swing.GroupLayout(jPanelUsuario);
         jPanelUsuario.setLayout(jPanelUsuarioLayout);
         jPanelUsuarioLayout.setHorizontalGroup(
-            jPanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-            .addGroup(jPanelUsuarioLayout.createSequentialGroup()
-                .addGap(0, 408, Short.MAX_VALUE)
+            jPanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUsuarioLayout.createSequentialGroup()
+                .addGap(0, 410, Short.MAX_VALUE)
                 .addGroup(jPanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelUsuarioLayout.createSequentialGroup()
                         .addComponent(jButtonActualizar)
@@ -252,37 +202,24 @@ public class MenuPrincipal extends FrameView {
 
         jPanelArriba.add(jPanelUsuario);
 
-        jPaneAbajo.setMaximumSize(jPaneAbajo.getMaximumSize());
         jPaneAbajo.setName("jPaneAbajo"); // NOI18N
         jPaneAbajo.setPreferredSize(new java.awt.Dimension(500, 500));
-
-        javax.swing.GroupLayout jPaneAbajoLayout = new javax.swing.GroupLayout(jPaneAbajo);
-        jPaneAbajo.setLayout(jPaneAbajoLayout);
-        jPaneAbajoLayout.setHorizontalGroup(
-            jPaneAbajoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
-        jPaneAbajoLayout.setVerticalGroup(
-            jPaneAbajoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 687, Short.MAX_VALUE)
-        );
+        jPaneAbajo.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPaneAbajo, javax.swing.GroupLayout.DEFAULT_SIZE, 1517, Short.MAX_VALUE)
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanelArriba, javax.swing.GroupLayout.DEFAULT_SIZE, 1511, Short.MAX_VALUE))
+            .addComponent(jPanelArriba, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1517, Short.MAX_VALUE)
+            .addComponent(jPaneAbajo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanelArriba, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanelArriba, javax.swing.GroupLayout.PREFERRED_SIZE, 96, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPaneAbajo, javax.swing.GroupLayout.DEFAULT_SIZE, 687, Short.MAX_VALUE))
+                .addComponent(jPaneAbajo, javax.swing.GroupLayout.DEFAULT_SIZE, 681, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         menuBar.setName("menuBar"); // NOI18N
@@ -290,7 +227,7 @@ public class MenuPrincipal extends FrameView {
         fileMenu.setText(resourceMap.getString("fileMenu.text")); // NOI18N
         fileMenu.setName("fileMenu"); // NOI18N
 
-        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getActionMap(MenuPrincipal.class, this);
+        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getActionMap(Menu.class, this);
         exitMenuItem.setAction(actionMap.get("quit")); // NOI18N
         exitMenuItem.setName("exitMenuItem"); // NOI18N
         fileMenu.add(exitMenuItem);
@@ -306,43 +243,64 @@ public class MenuPrincipal extends FrameView {
 
         menuBar.add(helpMenu);
 
-        setComponent(mainPanel);
-        setMenuBar(menuBar);
+        setJMenuBar(menuBar);
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 1517, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 789, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(mainPanel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonActualizarMouseClicked
         AbrirPanelSemana();
     }//GEN-LAST:event_jButtonActualizarMouseClicked
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonActualizar;
-    private javax.swing.JLabel jLabelCalendario;
-    private javax.swing.JLabel jLabelFlechaDerecha;
-    private javax.swing.JLabel jLabelFlechaIzquierda;
-    private javax.swing.JLabel jLabelHome;
-    private javax.swing.JLabel jLabelLogo;
-    private javax.swing.JLabel jLabelNombreUsuario;
-    private javax.swing.JLabel jLabelPersonal;
-    private javax.swing.JLabel jLabelSemana;
-    private javax.swing.JLabel jLabelTareas;
-    private javax.swing.JPanel jPaneAbajo;
-    private javax.swing.JPanel jPanelArriba;
-    private javax.swing.JPanel jPanelIconos;
-    private javax.swing.JPanel jPanelLogo;
-    private javax.swing.JPanel jPanelMedio;
-    private javax.swing.JPanel jPanelSemana;
-    private javax.swing.JPanel jPanelUsuario;
-    private javax.swing.JPanel mainPanel;
-    private javax.swing.JMenuBar menuBar;
-    // End of variables declaration//GEN-END:variables
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException ex) {
+            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        //</editor-fold>
 
-    private final Timer messageTimer;
-    private final Timer busyIconTimer;
-    private final Icon idleIcon;
-    private final Icon[] busyIcons = new Icon[15];
-    private int busyIconIndex = 0;
-
-    private JDialog aboutBox;
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Menu().setVisible(true);
+            }
+        });
+    }
 
     private void ActualizarSemana() {
         StringBuilder textoSemana = new StringBuilder();
@@ -360,7 +318,7 @@ public class MenuPrincipal extends FrameView {
     }
 
     private void AbrirPanelSemana() {
-        PanelSemana panel = new PanelSemana(dias);
+        panel = new PanelSemana(dias);
         panel.setSize(jPaneAbajo.getWidth(), jPaneAbajo.getHeight());
         jPaneAbajo.add(panel);
         jPaneAbajo.updateUI();
@@ -384,16 +342,36 @@ public class MenuPrincipal extends FrameView {
         if (esAdmin) {
             ImageIcon imagePersonal = new ImageIcon(new ImageIcon(".\\iconos\\staff.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
             ImageIcon imageTareas = new ImageIcon(new ImageIcon(".\\iconos\\tasks.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-
             jLabelPersonal.setText("");
             jLabelTareas.setText("");
             jLabelPersonal.setIcon(imagePersonal);
             jLabelTareas.setIcon(imageTareas);
-
         } else {
             jPanelIconos.remove(jLabelPersonal);
             jPanelIconos.remove(jLabelTareas);
         }
-        jLabelNombreUsuario.setText(nombreUsuario + " " + apellidos);
+        jLabelNombreUsuario.setText(usuario.getNombre() + " " + usuario.getApellidos());
     }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButtonActualizar;
+    private javax.swing.JLabel jLabelCalendario;
+    private javax.swing.JLabel jLabelFlechaDerecha;
+    private javax.swing.JLabel jLabelFlechaIzquierda;
+    private javax.swing.JLabel jLabelHome;
+    private javax.swing.JLabel jLabelLogo;
+    private javax.swing.JLabel jLabelNombreUsuario;
+    private javax.swing.JLabel jLabelPersonal;
+    private javax.swing.JLabel jLabelSemana;
+    private javax.swing.JLabel jLabelTareas;
+    private javax.swing.JPanel jPaneAbajo;
+    private javax.swing.JPanel jPanelArriba;
+    private javax.swing.JPanel jPanelIconos;
+    private javax.swing.JPanel jPanelLogo;
+    private javax.swing.JPanel jPanelMedio;
+    private javax.swing.JPanel jPanelSemana;
+    private javax.swing.JPanel jPanelUsuario;
+    private javax.swing.JPanel mainPanel;
+    private javax.swing.JMenuBar menuBar;
+    // End of variables declaration//GEN-END:variables
 }

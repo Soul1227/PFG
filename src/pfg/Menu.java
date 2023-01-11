@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
+import pfg.resources.PanelPersonal;
 import pfg.resources.PanelSemana;
 import servidorprueba.Persona;
 
@@ -19,7 +20,6 @@ public class Menu extends javax.swing.JFrame {
     private final Date diaActual;
     private final Calendar calendar;
     private final Date[] dias;
-    private boolean esAdmin;
     private final Persona usuario;
     private JPanel panel;
 
@@ -79,7 +79,7 @@ public class Menu extends javax.swing.JFrame {
         mainPanel.setName("mainPanel"); // NOI18N
 
         jPanelArriba.setName("jPanelArriba"); // NOI18N
-        jPanelArriba.setLayout(new java.awt.GridLayout());
+        jPanelArriba.setLayout(new java.awt.GridLayout(1, 0));
 
         jPanelLogo.setName("jPanelLogo"); // NOI18N
 
@@ -122,6 +122,11 @@ public class Menu extends javax.swing.JFrame {
 
         jLabelPersonal.setText(resourceMap.getString("jLabelPersonal.text")); // NOI18N
         jLabelPersonal.setName("jLabelPersonal"); // NOI18N
+        jLabelPersonal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelPersonalMouseClicked(evt);
+            }
+        });
         jPanelIconos.add(jLabelPersonal);
 
         jLabelCalendario.setText(resourceMap.getString("jLabelCalendario.text")); // NOI18N
@@ -267,6 +272,10 @@ public class Menu extends javax.swing.JFrame {
         AbrirPanelSemana();
     }//GEN-LAST:event_jButtonActualizarMouseClicked
 
+    private void jLabelPersonalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPersonalMouseClicked
+        AbrirPanelPersonal();
+    }//GEN-LAST:event_jLabelPersonalMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -318,6 +327,7 @@ public class Menu extends javax.swing.JFrame {
     }
 
     private void AbrirPanelSemana() {
+        jPaneAbajo.removeAll();
         panel = new PanelSemana(dias);
         panel.setSize(jPaneAbajo.getWidth(), jPaneAbajo.getHeight());
         jPaneAbajo.add(panel);
@@ -338,8 +348,8 @@ public class Menu extends javax.swing.JFrame {
         jLabelCalendario.setText("");
         jLabelCalendario.setIcon(imageCalendar);
         jLabelHome.setIcon(imageHome);
-
-        if (esAdmin) {
+        jLabelNombreUsuario.setText(usuario.getNombre() + " " + usuario.getApellidos());
+        if (usuario.isEsAdmin()) {
             ImageIcon imagePersonal = new ImageIcon(new ImageIcon(".\\iconos\\staff.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
             ImageIcon imageTareas = new ImageIcon(new ImageIcon(".\\iconos\\tasks.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
             jLabelPersonal.setText("");
@@ -349,8 +359,15 @@ public class Menu extends javax.swing.JFrame {
         } else {
             jPanelIconos.remove(jLabelPersonal);
             jPanelIconos.remove(jLabelTareas);
-        }
-        jLabelNombreUsuario.setText(usuario.getNombre() + " " + usuario.getApellidos());
+        }   
+    }
+    
+    private void AbrirPanelPersonal() {
+        jPaneAbajo.removeAll();
+        panel = new PanelPersonal(ConectorDB.BuscarPersonal());
+        panel.setSize(jPaneAbajo.getWidth(), jPaneAbajo.getHeight());
+        jPaneAbajo.add(panel);
+        jPaneAbajo.updateUI();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -374,4 +391,5 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
+
 }

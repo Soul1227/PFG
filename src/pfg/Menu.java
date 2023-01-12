@@ -114,6 +114,11 @@ public class Menu extends javax.swing.JFrame {
 
         jLabelHome.setText(resourceMap.getString("jLabelHome.text")); // NOI18N
         jLabelHome.setName("jLabelHome"); // NOI18N
+        jLabelHome.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelHomeMouseClicked(evt);
+            }
+        });
         jPanelIconos.add(jLabelHome);
 
         jLabelTareas.setText(resourceMap.getString("jLabelTareas.text")); // NOI18N
@@ -275,6 +280,11 @@ public class Menu extends javax.swing.JFrame {
     private void jLabelPersonalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPersonalMouseClicked
         AbrirPanelPersonal();
     }//GEN-LAST:event_jLabelPersonalMouseClicked
+
+    private void jLabelHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelHomeMouseClicked
+        ActualizarSemana();
+        AbrirPanelSemana();
+    }//GEN-LAST:event_jLabelHomeMouseClicked
 
     /**
      * @param args the command line arguments

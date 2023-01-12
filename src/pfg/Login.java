@@ -1,26 +1,14 @@
 package pfg;
 
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import servidorprueba.Comandos;
 import servidorprueba.Persona;
-import servidorprueba.Mensaje;
 
 /**
  *
  * @author angel
  */
 public class Login extends javax.swing.JFrame {
-
-    private final String SERVERIP = "192.168.0.12";
-    private final int PUERTO = 6565;
 
     /**
      * Creates new form Login
@@ -63,11 +51,6 @@ public class Login extends javax.swing.JFrame {
         jPasswordField1.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jPasswordField1.setText(resourceMap.getString("jPasswordField1.text")); // NOI18N
         jPasswordField1.setName("jPasswordField1"); // NOI18N
-        jPasswordField1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jPasswordField1ActionPerformed(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -137,39 +120,24 @@ public class Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAceptarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAceptarMouseClicked
-        //Envia al servidor un Array con el comando para activar el protocolo de login, y los
-        //credenciales introducidos por el usuario.
-        try {
-            Socket s = new Socket(SERVERIP, PUERTO);
-            ObjectInputStream flujoEntrada = new ObjectInputStream(s.getInputStream());
-            ObjectOutputStream flujoSalida = new ObjectOutputStream(s.getOutputStream());
-            LinkedList<String> argumentos = new LinkedList<String>();
-            argumentos.add(jTextFieldNombreUsuario.getText());
-            String passText = new String(jPasswordField1.getPassword());
-            argumentos.add(passText);
-            Mensaje mensaje = new Mensaje(Comandos.LOGIN, argumentos);
-            flujoSalida.writeObject(mensaje);
-
-            Persona p = (Persona) flujoEntrada.readObject();
-            if (p == null) {
-                JOptionPane.showMessageDialog(this, "Las credenciales no son correctas\n Por favor vuelva a intentarlo.");
-            } else {
-                Menu menu = new Menu(p);
-                menu.setVisible(true);
-                dispose();
-            }
-
-        } catch (IOException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+        LinkedList<String> credenciales = new LinkedList<String>();
+        credenciales.add(jTextFieldNombreUsuario.getText());
+        String passText = new String(jPasswordField1.getPassword());
+        credenciales.add(passText);
+        Persona p;
+        p = ConectorDB.Login(credenciales);
+        if (p == null) {
+            JOptionPane.showMessageDialog(this, "Las credenciales no son correctas\n Por favor vuelva a intentarlo.");
+        }
+        //Sistema de seguridad, intentar mejorarlo.
+        else if (p.getNombre().equals("1")) {
+            JOptionPane.showMessageDialog(this, "Imposible conectar con la Base de datos\n Por favor vuelva a intentarlo.");
+        } else {
+            Menu menu = new Menu(p);
+            menu.setVisible(true);
+            dispose();
         }
     }//GEN-LAST:event_jButtonAceptarMouseClicked
-
-    private void jPasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jPasswordField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jPasswordField1ActionPerformed
-
     /**
      * @param args the command line arguments
      */

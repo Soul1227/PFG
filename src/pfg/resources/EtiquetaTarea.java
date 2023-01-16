@@ -14,11 +14,11 @@ public class EtiquetaTarea extends javax.swing.JPanel {
     public EtiquetaTarea() {
         initComponents();
     }
-    public EtiquetaTarea(String nombre, String hora, Color color) {
+    public EtiquetaTarea(String nombre, String hora, String color) {
         initComponents();
         jLabelNombreTarea.setText(nombre);
         jLabelHora.setText(hora);
-        jPanelColor.setBackground(color);
+        jPanelColor.setBackground(Color.decode(color));
     }
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

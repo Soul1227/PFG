@@ -128,8 +128,7 @@ public class Login extends javax.swing.JFrame {
         p = ConectorDB.Login(credenciales);
         if (p == null) {
             JOptionPane.showMessageDialog(this, "Las credenciales no son correctas\n Por favor vuelva a intentarlo.");
-        }
-        //Sistema de seguridad, intentar mejorarlo.
+        } //Sistema de seguridad, intentar mejorarlo.
         else if (p.getNombre().equals("1")) {
             JOptionPane.showMessageDialog(this, "Imposible conectar con la Base de datos\n Por favor vuelva a intentarlo.");
         } else {

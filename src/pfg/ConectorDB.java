@@ -8,6 +8,7 @@ import java.util.LinkedList;
 import servidorprueba.Comandos;
 import servidorprueba.Mensaje;
 import servidorprueba.Persona;
+import servidorprueba.Tarea;
 
 /**
  * Clase encargada de hacer la conexion con la base de datos y llevar a cabo las
@@ -43,7 +44,7 @@ public class ConectorDB {
         return listaPersonal;
     }
 
-    public static Persona Login(LinkedList credenciales){
+    public static Persona Login(LinkedList credenciales) {
         Persona p = new Persona("1", "1", true);
         Conectar();
         try {
@@ -58,6 +59,23 @@ public class ConectorDB {
         }
         CerrarConexion();
         return p;
+    }
+
+    public static LinkedList<Tarea> BuscarTareas() {
+        LinkedList listaTareas = new LinkedList();
+        Conectar();
+        try {
+            Mensaje mensaje = new Mensaje(Comandos.TAREAS);
+            flujoSalida.writeObject(mensaje);
+            s.setSoTimeout(3000);
+            listaTareas = (LinkedList) flujoEntrada.readObject();
+        } catch (IOException ex) {
+            ex.getMessage();
+        } catch (ClassNotFoundException ex) {
+            ex.getMessage();
+        }
+        CerrarConexion();
+        return listaTareas;
     }
 
     private static void Conectar() {

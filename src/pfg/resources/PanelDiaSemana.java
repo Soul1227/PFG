@@ -1,6 +1,5 @@
 package pfg.resources;
 
-import java.awt.Color;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -79,7 +78,7 @@ public class PanelDiaSemana extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAñadirTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirTareaActionPerformed
-        EtiquetaTarea tarea = new EtiquetaTarea("Quirofano", "16:00", Color.red);
+        EtiquetaTarea tarea = new EtiquetaTarea("Quirofano", "16:00", "#ffffff");
         tarea.setSize(this.getWidth(),HEIGHT);
         jPanel2.add(tarea);
         jPanel2.updateUI();

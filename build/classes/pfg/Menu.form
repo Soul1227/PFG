@@ -140,10 +140,13 @@
               <Layout>
                 <DimensionLayout dim="0">
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Group type="102" alignment="0" attributes="0">
+                      <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="jLabelLogo" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <Group type="103" groupAlignment="0" attributes="0">
+                              <Component id="jLabelLogo" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jButtonAñadirPT" alignment="0" min="-2" max="-2" attributes="0"/>
+                          </Group>
+                          <EmptySpace pref="379" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -152,7 +155,8 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabelLogo" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace max="32767" attributes="0"/>
+                          <EmptySpace pref="8" max="32767" attributes="0"/>
+                          <Component id="jButtonAñadirPT" min="-2" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -166,6 +170,12 @@
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
                       <Dimension value="[120, 50]"/>
                     </Property>
+                  </Properties>
+                </Component>
+                <Component class="javax.swing.JButton" name="jButtonA&#xf1;adirPT">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" resourceKey="jButtonA&#xf1;adirPT.text"/>
+                    <Property name="name" type="java.lang.String" value="jButtonA&#xf1;adirPT" noResource="true"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -209,12 +219,18 @@
                         <Property name="text" type="java.lang.String" resourceKey="jLabelHome.text"/>
                         <Property name="name" type="java.lang.String" value="jLabelHome" noResource="true"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabelHomeMouseClicked"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabelTareas">
                       <Properties>
                         <Property name="text" type="java.lang.String" resourceKey="jLabelTareas.text"/>
                         <Property name="name" type="java.lang.String" value="jLabelTareas" noResource="true"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabelTareasMouseClicked"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabelPersonal">
                       <Properties>

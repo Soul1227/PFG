@@ -1,10 +1,16 @@
 package pfg.resources;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JColorChooser;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import pfg.ConectorDB;
 import servidorprueba.Tarea;
 
@@ -31,11 +37,27 @@ public class CrearTarea extends javax.swing.JDialog {
     public CrearTarea(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
-        LinkedList<Tarea> listaTareas = ConectorDB.BuscarTareas();
+//        LinkedList<Tarea> listaTareas = ConectorDB.BuscarTareas();
+//        for (Tarea t : listaTareas) {
+//            EtiquetaTarea etiquetaTarea = new EtiquetaTarea(t.getNombre(), t.getFechaInicio() + " - " + t.getFechaFin(), t.getColor());
+//            jPanelTareasGuardadasCreacion.add(etiquetaTarea);
+//        }
+        JPanel jPanelTareasGuardadasCreacion = new JPanel();
+        Box box = Box.createVerticalBox();
+        jPanelTareasGuardadasCreacion.add(box);
+//        for (int i = 0; i < 100; i++) {
+//            jPanelTareasGuardadasCreacion.add(new JLabel("Hello, StackOverflow!\n"));
+//        }
+
+LinkedList<Tarea> listaTareas = ConectorDB.BuscarTareas();
         for (Tarea t : listaTareas) {
             EtiquetaTarea etiquetaTarea = new EtiquetaTarea(t.getNombre(), t.getFechaInicio() + " - " + t.getFechaFin(), t.getColor());
             jPanelTareasGuardadasCreacion.add(etiquetaTarea);
         }
+        jPanelTareasGuardadasCreacion.setLayout(new BoxLayout(jPanelTareasGuardadasCreacion, BoxLayout.Y_AXIS));
+        JScrollPane scroll = new JScrollPane(jPanelTareasGuardadasCreacion);
+        scroll.setPreferredSize(new Dimension(300, 300));
+        jTabbedPane1.add(scroll, "Tareas Guardadas");
     }
 
     @SuppressWarnings("unchecked")
@@ -59,8 +81,6 @@ public class CrearTarea extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jDatePicker1 = new org.jdatepicker.JDatePicker();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        jPanelTareasGuardadasCreacion = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jButtonAceptar = new javax.swing.JButton();
         jButtonCancelar = new javax.swing.JButton();
@@ -69,7 +89,6 @@ public class CrearTarea extends javax.swing.JDialog {
         setName("Form"); // NOI18N
 
         jPanel2.setName("jPanel2"); // NOI18N
-        jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(CrearTarea.class);
         jTabbedPane1.setFont(resourceMap.getFont("jTabbedPane1.font")); // NOI18N
@@ -202,23 +221,10 @@ public class CrearTarea extends javax.swing.JDialog {
                 .addComponent(jLabel7)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(59, 59, 59))
+                .addGap(54, 54, 54))
         );
 
         jTabbedPane1.addTab(resourceMap.getString("jPanelNuevaTareaCreacion.TabConstraints.tabTitle"), jPanelNuevaTareaCreacion); // NOI18N
-
-        jScrollPane1.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
-        jScrollPane1.setName("jScrollPane1"); // NOI18N
-
-        jPanelTareasGuardadasCreacion.setMaximumSize(jTabbedPane1.getMinimumSize());
-        jPanelTareasGuardadasCreacion.setMinimumSize(jTabbedPane1.getMinimumSize());
-        jPanelTareasGuardadasCreacion.setName("jPanelTareasGuardadasCreacion"); // NOI18N
-        jPanelTareasGuardadasCreacion.setPreferredSize(jTabbedPane1.getPreferredSize());
-        jScrollPane1.setViewportView(jPanelTareasGuardadasCreacion);
-
-        jTabbedPane1.addTab(resourceMap.getString("jScrollPane1.TabConstraints.tabTitle"), jScrollPane1); // NOI18N
-
-        jPanel2.add(jTabbedPane1);
 
         jPanel3.setName("jPanel3"); // NOI18N
 
@@ -230,22 +236,30 @@ public class CrearTarea extends javax.swing.JDialog {
         jButtonCancelar.setName("jButtonCancelar"); // NOI18N
         jPanel3.add(jButtonCancelar);
 
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 638, Short.MAX_VALUE)
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 629, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(0, 0, 0))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 510, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -316,8 +330,6 @@ public class CrearTarea extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanelColor;
     private javax.swing.JPanel jPanelNuevaTareaCreacion;
-    private javax.swing.JPanel jPanelTareasGuardadasCreacion;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTextField jTextFieldNombreTarea;
     // End of variables declaration//GEN-END:variables

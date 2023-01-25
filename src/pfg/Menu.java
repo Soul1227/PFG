@@ -37,6 +37,7 @@ public class Menu extends javax.swing.JFrame {
     public Menu(Persona usuario) {
         super();
         this.usuario = usuario;
+        panelTareasActivo = false;
         dias = new Date[7];
         calendar = Calendar.getInstance();
         diaActual = calendar.getTime();
@@ -105,9 +106,9 @@ public class Menu extends javax.swing.JFrame {
             jPanelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLogoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButtonAñadirPT))
+                .addGroup(jPanelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabelLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButtonAñadirPT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(379, Short.MAX_VALUE))
         );
         jPanelLogoLayout.setVerticalGroup(
@@ -199,11 +200,6 @@ public class Menu extends javax.swing.JFrame {
 
         jButtonActualizar.setText(resourceMap.getString("jButtonActualizar.text")); // NOI18N
         jButtonActualizar.setName("jButtonActualizar"); // NOI18N
-        jButtonActualizar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jButtonActualizarMouseClicked(evt);
-            }
-        });
 
         javax.swing.GroupLayout jPanelUsuarioLayout = new javax.swing.GroupLayout(jPanelUsuario);
         jPanelUsuario.setLayout(jPanelUsuarioLayout);
@@ -291,11 +287,6 @@ public class Menu extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonActualizarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonActualizarMouseClicked
-        CambiarPanel(Paneles.Semana);
-        jButtonAñadirPT.setVisible(false);
-    }//GEN-LAST:event_jButtonActualizarMouseClicked
-
     private void jLabelPersonalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPersonalMouseClicked
         CambiarPanel(Paneles.Personal);
         jButtonAñadirPT.setVisible(true);
@@ -348,6 +339,11 @@ public class Menu extends javax.swing.JFrame {
     }
 
     private void ActualizarSemana() {
+        /**
+         * Ampliar el metodo, porque ahora mismo al actualizar la semana
+         * se pone como primer dia el dia actual, y desorganiza el panel semana.
+         */
+        
         StringBuilder textoSemana = new StringBuilder();
         DateFormat df = new SimpleDateFormat("dd/MMMMM");
         textoSemana.append("Semana ");
@@ -360,6 +356,7 @@ public class Menu extends javax.swing.JFrame {
         textoSemana.append(df.format(calendar.getTime()));
         jLabelSemana.setText(textoSemana.toString());
         calendar.setTime(diaActual);
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
     }
 
     private void PrepararInterface() {

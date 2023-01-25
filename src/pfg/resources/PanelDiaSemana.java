@@ -14,7 +14,7 @@ import javax.swing.border.TitledBorder;
 public class PanelDiaSemana extends javax.swing.JPanel {
 
     public Date fecha;
-    
+
     public PanelDiaSemana() {
         initComponents();
     }
@@ -82,6 +82,7 @@ public class PanelDiaSemana extends javax.swing.JPanel {
         tarea.setSize(this.getWidth(),HEIGHT);
         jPanel2.add(tarea);
         jPanel2.updateUI();
+        
     }//GEN-LAST:event_jButtonAñadirTareaActionPerformed
 
     private void jPanel2MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jPanel2MouseWheelMoved

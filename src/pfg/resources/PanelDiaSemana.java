@@ -4,6 +4,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.swing.BorderFactory;
+import javax.swing.JDialog;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 
@@ -78,11 +79,13 @@ public class PanelDiaSemana extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAñadirTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirTareaActionPerformed
-        EtiquetaTarea tarea = new EtiquetaTarea("Quirofano", "16:00", "#ffffff");
-        tarea.setSize(this.getWidth(),HEIGHT);
-        jPanel2.add(tarea);
-        jPanel2.updateUI();
-        
+//        EtiquetaTarea tarea = new EtiquetaTarea("Quirofano", "16:00", "#ffffff");
+//        tarea.setSize(this.getWidth(),HEIGHT);
+//        jPanel2.add(tarea);
+//        jPanel2.updateUI();
+
+        JDialog nuevaTarea = new CrearTarea(null, true, this.fecha);
+        nuevaTarea.setVisible(true);
     }//GEN-LAST:event_jButtonAñadirTareaActionPerformed
 
     private void jPanel2MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jPanel2MouseWheelMoved

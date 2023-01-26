@@ -93,6 +93,7 @@ public class Menu extends javax.swing.JFrame {
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(Menu.class);
         jLabelLogo.setFont(resourceMap.getFont("jLabelLogo.font")); // NOI18N
+        jLabelLogo.setIcon(resourceMap.getIcon("jLabelLogo.icon")); // NOI18N
         jLabelLogo.setText(resourceMap.getString("jLabelLogo.text")); // NOI18N
         jLabelLogo.setName("jLabelLogo"); // NOI18N
         jLabelLogo.setPreferredSize(new java.awt.Dimension(120, 50));
@@ -106,10 +107,12 @@ public class Menu extends javax.swing.JFrame {
             jPanelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelLogoLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(jPanelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabelLogo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButtonAñadirPT, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(379, Short.MAX_VALUE))
+                .addGroup(jPanelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabelLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanelLogoLayout.createSequentialGroup()
+                        .addGap(68, 68, 68)
+                        .addComponent(jButtonAñadirPT, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(240, Short.MAX_VALUE))
         );
         jPanelLogoLayout.setVerticalGroup(
             jPanelLogoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,10 +343,10 @@ public class Menu extends javax.swing.JFrame {
 
     private void ActualizarSemana() {
         /**
-         * Ampliar el metodo, porque ahora mismo al actualizar la semana
-         * se pone como primer dia el dia actual, y desorganiza el panel semana.
+         * Ampliar el metodo, porque ahora mismo al actualizar la semana se pone
+         * como primer dia el dia actual, y desorganiza el panel semana.
          */
-        
+
         StringBuilder textoSemana = new StringBuilder();
         DateFormat df = new SimpleDateFormat("dd/MMMMM");
         textoSemana.append("Semana ");

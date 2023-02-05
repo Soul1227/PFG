@@ -265,6 +265,9 @@
                         <Property name="text" type="java.lang.String" resourceKey="jLabelFlechaDerecha.text"/>
                         <Property name="name" type="java.lang.String" value="jLabelFlechaDerecha" noResource="true"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabelFlechaDerechaMouseClicked"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabelSemana">
                       <Properties>
@@ -277,6 +280,9 @@
                         <Property name="text" type="java.lang.String" resourceKey="jLabelFlechaIzquierda.text"/>
                         <Property name="name" type="java.lang.String" value="jLabelFlechaIzquierda" noResource="true"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabelFlechaIzquierdaMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

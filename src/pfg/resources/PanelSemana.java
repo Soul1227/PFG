@@ -1,6 +1,7 @@
 package pfg.resources;
 
 import java.util.Date;
+import java.util.LinkedList;
 
 /**
  *
@@ -15,10 +16,10 @@ public class PanelSemana extends javax.swing.JPanel {
         initComponents();
     }
 
-    public PanelSemana(Date[] semana) {
+    public PanelSemana(Date[] semana , LinkedList<String> lugaresGrupo) {
         initComponents();
         for (Date d : semana) {
-            PanelDiaSemana diaSemana = new PanelDiaSemana(d);
+            PanelDiaSemana diaSemana = new PanelDiaSemana(d, lugaresGrupo);
             diaSemana.setSize(WIDTH,this.getHeight());
             diaSemana.setMaximumSize(this.getSize());
             diaSemana.setAutoscrolls(true);

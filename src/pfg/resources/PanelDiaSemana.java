@@ -3,10 +3,12 @@ package pfg.resources;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import pfg.ConectorDB;
 
 /**
  *
@@ -15,13 +17,15 @@ import javax.swing.border.TitledBorder;
 public class PanelDiaSemana extends javax.swing.JPanel {
 
     public Date fecha;
+    public LinkedList<String> listaLugares;
 
     public PanelDiaSemana() {
         initComponents();
     }
 
-    public PanelDiaSemana(Date fecha) {
+    public PanelDiaSemana(Date fecha, LinkedList<String> listaLugares) {
         this.fecha = fecha;
+        this.listaLugares = listaLugares;
         initComponents();
         DateFormat df = new SimpleDateFormat("EEEEE");
         String diaSemana = df.format(fecha.getTime());
@@ -84,7 +88,7 @@ public class PanelDiaSemana extends javax.swing.JPanel {
 //        jPanel2.add(tarea);
 //        jPanel2.updateUI();
 
-        JDialog nuevaTarea = new CrearTarea(null, true, this.fecha);
+        JDialog nuevaTarea = new CrearTarea(null, true, this.fecha, listaLugares);
         nuevaTarea.setVisible(true);
     }//GEN-LAST:event_jButtonAñadirTareaActionPerformed
 

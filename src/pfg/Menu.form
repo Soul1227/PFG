@@ -335,6 +335,9 @@
                     <Property name="text" type="java.lang.String" resourceKey="jLabelNombreUsuario.text"/>
                     <Property name="name" type="java.lang.String" value="jLabelNombreUsuario" noResource="true"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabelNombreUsuarioMouseClicked"/>
+                  </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="jButtonActualizar">
                   <Properties>

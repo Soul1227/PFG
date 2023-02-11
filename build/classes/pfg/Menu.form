@@ -250,6 +250,9 @@
                         <Property name="text" type="java.lang.String" resourceKey="jLabelCalendario.text"/>
                         <Property name="name" type="java.lang.String" value="jLabelCalendario" noResource="true"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabelCalendarioMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>

@@ -44,7 +44,7 @@ public class Menu extends javax.swing.JFrame {
         diaActual = calendar.getTime();
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         initComponents();
-        PrepararInterface();
+        PrepararInterface(usuario.isEsAdmin());
         ActualizarSemana(true);
         CambiarPanel(Paneles.Semana);
     }
@@ -159,6 +159,11 @@ public class Menu extends javax.swing.JFrame {
 
         jLabelCalendario.setText(resourceMap.getString("jLabelCalendario.text")); // NOI18N
         jLabelCalendario.setName("jLabelCalendario"); // NOI18N
+        jLabelCalendario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelCalendarioMouseClicked(evt);
+            }
+        });
         jPanelIconos.add(jLabelCalendario);
 
         jPanelSemana.setName("jPanelSemana"); // NOI18N
@@ -329,6 +334,10 @@ public class Menu extends javax.swing.JFrame {
         CambiarPanel(Paneles.Semana);
     }//GEN-LAST:event_jLabelFlechaDerechaMouseClicked
 
+    private void jLabelCalendarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCalendarioMouseClicked
+
+    }//GEN-LAST:event_jLabelCalendarioMouseClicked
+
     /**
      * @param args the command line arguments
      */
@@ -382,7 +391,12 @@ public class Menu extends javax.swing.JFrame {
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
     }
 
-    private void PrepararInterface() {
+    /**
+     * Metodo que prepara la interfaz de usuario en base a si el usuario es 
+     * administrador o no.
+     * @param isAdmin 
+     */
+    private void PrepararInterface(boolean isAdmin) {
         ImageIcon imageFDerecha = new ImageIcon(new ImageIcon(".\\iconos\\chevronright.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
         ImageIcon imageFIzquierda = new ImageIcon(new ImageIcon(".\\iconos\\chevronleft.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
         ImageIcon imageHome = new ImageIcon(new ImageIcon(".\\iconos\\home.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
@@ -397,7 +411,7 @@ public class Menu extends javax.swing.JFrame {
         jLabelCalendario.setIcon(imageCalendar);
         jLabelHome.setIcon(imageHome);
         jLabelNombreUsuario.setText(usuario.getNombre() + " " + usuario.getApellidos());
-        if (usuario.isEsAdmin()) {
+        if (isAdmin) {
             ImageIcon imagePersonal = new ImageIcon(new ImageIcon(".\\iconos\\staff.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
             ImageIcon imageTareas = new ImageIcon(new ImageIcon(".\\iconos\\tasks.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
             jLabelPersonal.setText("");
@@ -416,7 +430,7 @@ public class Menu extends javax.swing.JFrame {
             case Semana:
                 LinkedList<String> grupo = new LinkedList<>();
                 grupo.add(usuario.getGrupo());
-                panel = new PanelSemana(dias, ConectorDB.BuscarLugaresDeUsuario(grupo));
+                panel = new PanelSemana(dias, ConectorDB.BuscarLugaresDeUsuario(grupo),usuario.isEsAdmin());
                 break;
             case Tareas:
                 panel = new PanelTareas(ConectorDB.BuscarTareas());

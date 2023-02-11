@@ -17,7 +17,7 @@ public class PanelTareas extends javax.swing.JPanel {
     public PanelTareas(LinkedList<Tarea> listaTareas) {
         this.listaTareas = listaTareas;
         for(Tarea t :listaTareas){
-            EtiquetaTarea etiquetaTarea = new EtiquetaTarea(t.getNombre(),t.getFechaInicio()+" - "+t.getFechaFin() , t.getColor());
+            EtiquetaTarea etiquetaTarea = new EtiquetaTarea(t);
         this.add(etiquetaTarea);
         }
     }

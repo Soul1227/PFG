@@ -7,8 +7,10 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
 import javax.swing.JPanel;
 import pfg.Menu.Paneles;
+import pfg.resources.DetallesPersonal;
 import pfg.resources.PanelPersonal;
 import pfg.resources.PanelSemana;
 import pfg.resources.PanelTareas;
@@ -27,7 +29,7 @@ public class Menu extends javax.swing.JFrame {
     private final Date diaActual;
     private Calendar calendar;
     private final Date[] dias;
-    private final Persona usuario;
+    public static Persona usuario;
     private JPanel panel;
 
     /**
@@ -216,6 +218,11 @@ public class Menu extends javax.swing.JFrame {
 
         jLabelNombreUsuario.setText(resourceMap.getString("jLabelNombreUsuario.text")); // NOI18N
         jLabelNombreUsuario.setName("jLabelNombreUsuario"); // NOI18N
+        jLabelNombreUsuario.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabelNombreUsuarioMouseClicked(evt);
+            }
+        });
 
         jButtonActualizar.setText(resourceMap.getString("jButtonActualizar.text")); // NOI18N
         jButtonActualizar.setName("jButtonActualizar"); // NOI18N
@@ -337,6 +344,11 @@ public class Menu extends javax.swing.JFrame {
     private void jLabelCalendarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelCalendarioMouseClicked
 
     }//GEN-LAST:event_jLabelCalendarioMouseClicked
+
+    private void jLabelNombreUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelNombreUsuarioMouseClicked
+        JDialog detallesPersona = new DetallesPersonal(null, true, Menu.usuario, Menu.usuario.isEsAdmin());
+        detallesPersona.setVisible(true);
+    }//GEN-LAST:event_jLabelNombreUsuarioMouseClicked
 
     /**
      * @param args the command line arguments

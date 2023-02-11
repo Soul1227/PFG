@@ -1,6 +1,7 @@
 package pfg.resources;
 
 import java.awt.Color;
+import servidorprueba.Tarea;
 
 /**
  *
@@ -8,18 +9,23 @@ import java.awt.Color;
  */
 public class EtiquetaTarea extends javax.swing.JPanel {
 
+    private Tarea tarea;
+
     /**
      * Creates new form PanelTarea
      */
     public EtiquetaTarea() {
         initComponents();
     }
-    public EtiquetaTarea(String nombre, String hora, String color) {
+
+    public EtiquetaTarea(Tarea tarea) {
         initComponents();
-        jLabelNombreTarea.setText(nombre);
-        jLabelHora.setText(hora);
-        jPanelColor.setBackground(Color.decode(color));
+        this.tarea = tarea;
+        jLabelNombreTarea.setText(tarea.getNombre());
+        jLabelHora.setText(tarea.getHoraInicio() + ":" + tarea.getHoraFin());
+        jPanelColor.setBackground(Color.decode(tarea.getColor()));
     }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -30,6 +36,11 @@ public class EtiquetaTarea extends javax.swing.JPanel {
         jPanelColor = new javax.swing.JPanel();
 
         setName("Form"); // NOI18N
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                formMouseClicked(evt);
+            }
+        });
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(EtiquetaTarea.class);
         jLabelNombreTarea.setText(resourceMap.getString("jLabelNombreTarea.text")); // NOI18N
@@ -89,6 +100,11 @@ public class EtiquetaTarea extends javax.swing.JPanel {
                 .addGap(0, 0, 0))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
+        DetallesTarea detalles = new DetallesTarea(null, true, tarea);
+        detalles.setVisible(true);
+    }//GEN-LAST:event_formMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabelHora;

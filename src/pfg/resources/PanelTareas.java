@@ -9,20 +9,27 @@ import servidorprueba.Tarea;
  */
 public class PanelTareas extends javax.swing.JPanel {
 
-    /**
-     * Creates new form PanelTareas
-     */
+    public LinkedList<Tarea> listaTareas;
     public PanelTareas() {
         initComponents();
     }
 
     public PanelTareas(LinkedList<Tarea> listaTareas) {
-        this.setAutoscrolls(true);
+        this.listaTareas = listaTareas;
         for(Tarea t :listaTareas){
-            EtiquetaTarea etiquetaTarea = new EtiquetaTarea(t.getNombre(),t.getFechaInicio()+" - "+t.getFechaFin() , t.getColor());
+            EtiquetaTarea etiquetaTarea = new EtiquetaTarea(t);
         this.add(etiquetaTarea);
         }
     }
+
+    public LinkedList<Tarea> getListaTareas() {
+        return listaTareas;
+    }
+
+    public void setListaTareas(LinkedList<Tarea> listaTareas) {
+        this.listaTareas = listaTareas;
+    }
+    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -31,17 +38,7 @@ public class PanelTareas extends javax.swing.JPanel {
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(PanelTareas.class);
         setBackground(resourceMap.getColor("Form.background")); // NOI18N
         setName("Form"); // NOI18N
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 886, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 405, Short.MAX_VALUE)
-        );
+        setLayout(new java.awt.GridLayout());
     }// </editor-fold>//GEN-END:initComponents
 
 

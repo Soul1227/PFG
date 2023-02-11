@@ -1,6 +1,10 @@
 package pfg.resources;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
+import pfg.ConectorDB;
 
 /**
  *
@@ -15,11 +19,13 @@ public class PanelSemana extends javax.swing.JPanel {
         initComponents();
     }
 
-    public PanelSemana(Date[] semana) {
+    public PanelSemana(Date[] semana, LinkedList<String> lugaresGrupo, boolean isAdmin) {
         initComponents();
         for (Date d : semana) {
-            PanelDiaSemana diaSemana = new PanelDiaSemana(d);
-            diaSemana.setSize(WIDTH,this.getHeight());
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
+            String strDate = dateFormat.format(d);  
+            PanelDiaSemana diaSemana = new PanelDiaSemana(d, lugaresGrupo, isAdmin, ConectorDB.BuscarTareas(strDate));
+            diaSemana.setSize(WIDTH, this.getHeight());
             diaSemana.setMaximumSize(this.getSize());
             diaSemana.setAutoscrolls(true);
             this.add(diaSemana);

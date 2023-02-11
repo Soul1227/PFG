@@ -143,10 +143,13 @@
                       <Group type="102" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jLabelLogo" alignment="0" min="-2" max="-2" attributes="0"/>
-                              <Component id="jButtonAñadirPT" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Component id="jLabelLogo" min="-2" pref="259" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <EmptySpace min="-2" pref="68" max="-2" attributes="0"/>
+                                  <Component id="jButtonAñadirPT" min="-2" pref="107" max="-2" attributes="0"/>
+                              </Group>
                           </Group>
-                          <EmptySpace pref="379" max="32767" attributes="0"/>
+                          <EmptySpace pref="240" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                 </DimensionLayout>
@@ -165,6 +168,7 @@
                 <Component class="javax.swing.JLabel" name="jLabelLogo">
                   <Properties>
                     <Property name="font" type="java.awt.Font" resourceKey="jLabelLogo.font"/>
+                    <Property name="icon" type="javax.swing.Icon" resourceKey="jLabelLogo.icon"/>
                     <Property name="text" type="java.lang.String" resourceKey="jLabelLogo.text"/>
                     <Property name="name" type="java.lang.String" value="jLabelLogo" noResource="true"/>
                     <Property name="preferredSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
@@ -246,6 +250,9 @@
                         <Property name="text" type="java.lang.String" resourceKey="jLabelCalendario.text"/>
                         <Property name="name" type="java.lang.String" value="jLabelCalendario" noResource="true"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabelCalendarioMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -261,6 +268,9 @@
                         <Property name="text" type="java.lang.String" resourceKey="jLabelFlechaDerecha.text"/>
                         <Property name="name" type="java.lang.String" value="jLabelFlechaDerecha" noResource="true"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabelFlechaDerechaMouseClicked"/>
+                      </Events>
                     </Component>
                     <Component class="javax.swing.JLabel" name="jLabelSemana">
                       <Properties>
@@ -273,6 +283,9 @@
                         <Property name="text" type="java.lang.String" resourceKey="jLabelFlechaIzquierda.text"/>
                         <Property name="name" type="java.lang.String" value="jLabelFlechaIzquierda" noResource="true"/>
                       </Properties>
+                      <Events>
+                        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jLabelFlechaIzquierdaMouseClicked"/>
+                      </Events>
                     </Component>
                   </SubComponents>
                 </Container>
@@ -328,9 +341,6 @@
                     <Property name="text" type="java.lang.String" resourceKey="jButtonActualizar.text"/>
                     <Property name="name" type="java.lang.String" value="jButtonActualizar" noResource="true"/>
                   </Properties>
-                  <Events>
-                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonActualizarMouseClicked"/>
-                  </Events>
                 </Component>
               </SubComponents>
             </Container>

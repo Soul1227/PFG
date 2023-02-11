@@ -3,9 +3,12 @@ package pfg.resources;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.LinkedList;
 import javax.swing.BorderFactory;
+import javax.swing.JDialog;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import servidorprueba.Tarea;
 
 /**
  *
@@ -14,20 +17,29 @@ import javax.swing.border.TitledBorder;
 public class PanelDiaSemana extends javax.swing.JPanel {
 
     public Date fecha;
-    
+    public LinkedList<String> listaLugares;
+
     public PanelDiaSemana() {
         initComponents();
     }
 
-    public PanelDiaSemana(Date fecha) {
+    public PanelDiaSemana(Date fecha, LinkedList<String> listaLugares, boolean isAdmin, LinkedList<Tarea> listaTareas) {
         this.fecha = fecha;
+        this.listaLugares = listaLugares;
         initComponents();
+        if (!isAdmin) {
+            jButtonAñadirTarea.setVisible(false);
+        }
         DateFormat df = new SimpleDateFormat("EEEEE");
-        String diaSemana = df.format(fecha.getTime());
+    String diaSemana = df.format(fecha.getTime());
         Border borde = BorderFactory.createEtchedBorder();
         Border bordeTitulado = BorderFactory.createTitledBorder(borde, diaSemana, TitledBorder.CENTER, TitledBorder.TOP);
         this.setBorder(bordeTitulado);
         jPanel2.setSize(this.getWidth(), HEIGHT);
+        for (Tarea t : listaTareas) {
+            EtiquetaTarea etiquetaTarea = new EtiquetaTarea(t);
+            jPanel2.add(etiquetaTarea);
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -78,10 +90,8 @@ public class PanelDiaSemana extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAñadirTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirTareaActionPerformed
-        EtiquetaTarea tarea = new EtiquetaTarea("Quirofano", "16:00", "#ffffff");
-        tarea.setSize(this.getWidth(),HEIGHT);
-        jPanel2.add(tarea);
-        jPanel2.updateUI();
+        JDialog nuevaTarea = new CrearTarea(null, true, this.fecha, listaLugares);
+        nuevaTarea.setVisible(true);
     }//GEN-LAST:event_jButtonAñadirTareaActionPerformed
 
     private void jPanel2MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jPanel2MouseWheelMoved

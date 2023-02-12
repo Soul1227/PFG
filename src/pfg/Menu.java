@@ -193,6 +193,28 @@ public class Menu extends javax.swing.JFrame {
         jPanelSemana.add(jLabelFlechaIzquierda);
 
         jDatePickerMenu.setName("jDatePickerMenu"); // NOI18N
+        jDatePickerMenu.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                jDatePickerMenuFocusLost(evt);
+            }
+        });
+        jDatePickerMenu.addInputMethodListener(new java.awt.event.InputMethodListener() {
+            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
+            }
+            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
+                jDatePickerMenuInputMethodTextChanged(evt);
+            }
+        });
+        jDatePickerMenu.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jDatePickerMenuActionPerformed(evt);
+            }
+        });
+        jDatePickerMenu.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+            public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                jDatePickerMenuPropertyChange(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelMedioLayout = new javax.swing.GroupLayout(jPanelMedio);
         jPanelMedio.setLayout(jPanelMedioLayout);
@@ -376,6 +398,24 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonAñadirPTActionPerformed
 
+    private void jDatePickerMenuFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jDatePickerMenuFocusLost
+
+    }//GEN-LAST:event_jDatePickerMenuFocusLost
+
+    private void jDatePickerMenuInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jDatePickerMenuInputMethodTextChanged
+
+    }//GEN-LAST:event_jDatePickerMenuInputMethodTextChanged
+
+    private void jDatePickerMenuPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDatePickerMenuPropertyChange
+
+    }//GEN-LAST:event_jDatePickerMenuPropertyChange
+
+    private void jDatePickerMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDatePickerMenuActionPerformed
+         Calendar selectedValue = (Calendar) jDatePickerMenu.getModel().getValue();
+        ActualizarSemana(selectedValue);
+        CambiarPanel(Paneles.Semana); 
+    }//GEN-LAST:event_jDatePickerMenuActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -410,9 +450,10 @@ public class Menu extends javax.swing.JFrame {
             }
         });
     }
+
     /**
-     * 
-     * @param bool 
+     *
+     * @param bool
      */
     private void ActualizarSemana(boolean bool) {
         StringBuilder textoSemana = new StringBuilder();
@@ -430,6 +471,25 @@ public class Menu extends javax.swing.JFrame {
             calendar.setTime(diaActual);
         }
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+    }
+
+    /**
+     *
+     * @param calendar
+     */
+    private void ActualizarSemana(Calendar calendar) {
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        StringBuilder textoSemana = new StringBuilder();
+        DateFormat df = new SimpleDateFormat("dd/MMMMM");
+        textoSemana.append("Semana ");
+        textoSemana.append(df.format(calendar.getTime())).append(" - ");
+        dias[0] = calendar.getTime();
+        for (int i = 1; i <= 6; i++) {
+            calendar.add(Calendar.DATE, 1);
+            dias[i] = calendar.getTime();
+        }
+        textoSemana.append(df.format(calendar.getTime()));
+        jLabelSemana.setText(textoSemana.toString());
     }
 
     /**
@@ -463,9 +523,10 @@ public class Menu extends javax.swing.JFrame {
             jPanelIconos.remove(jLabelTareas);
         }
     }
+
     /**
-     * 
-     * @param panelTipo 
+     *
+     * @param panelTipo
      */
     private void CambiarPanel(Paneles panelTipo) {
         jPaneAbajo.removeAll();
@@ -488,9 +549,10 @@ public class Menu extends javax.swing.JFrame {
         jPaneAbajo.add(panel);
         jPaneAbajo.updateUI();
     }
+
     /**
-     * 
-     * @param fecha 
+     *
+     * @param fecha
      */
     private void TomarFechaDelDia(Date fecha) {
         DateFormat dfDia = new SimpleDateFormat("dd");

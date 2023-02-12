@@ -309,6 +309,12 @@
                   <Properties>
                     <Property name="name" type="java.lang.String" value="jDatePickerMenu" noResource="true"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="jDatePickerMenuFocusLost"/>
+                    <EventHandler event="inputMethodTextChanged" listener="java.awt.event.InputMethodListener" parameters="java.awt.event.InputMethodEvent" handler="jDatePickerMenuInputMethodTextChanged"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jDatePickerMenuActionPerformed"/>
+                    <EventHandler event="propertyChange" listener="java.beans.PropertyChangeListener" parameters="java.beans.PropertyChangeEvent" handler="jDatePickerMenuPropertyChange"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

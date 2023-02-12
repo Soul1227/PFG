@@ -22,6 +22,12 @@ public class DetallesTarea extends javax.swing.JDialog {
         initComponents();
     }
 
+    /**
+     * 
+     * @param parent
+     * @param modal
+     * @param tarea 
+     */
     public DetallesTarea(java.awt.Frame parent, boolean modal, Tarea tarea) {
         super(parent, modal);
         initComponents();
@@ -302,9 +308,9 @@ public class DetallesTarea extends javax.swing.JDialog {
                         .addComponent(jButton2))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
+                .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton4)
+                    .addComponent(jButton3))
                 .addGap(12, 12, 12))
         );
 

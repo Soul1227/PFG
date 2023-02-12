@@ -16,6 +16,10 @@ public class EtiquetaPersonal extends javax.swing.JPanel {
     public EtiquetaPersonal() {
         initComponents();
     }
+    /**
+     * 
+     * @param persona 
+     */
     public EtiquetaPersonal(Persona persona){
         initComponents();
         this.persona = persona;

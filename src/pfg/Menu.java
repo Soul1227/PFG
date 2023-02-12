@@ -10,6 +10,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import pfg.Menu.Paneles;
+import pfg.resources.CrearPersonal;
+import pfg.resources.CrearTarea;
 import pfg.resources.DetallesPersonal;
 import pfg.resources.PanelPersonal;
 import pfg.resources.PanelSemana;
@@ -103,6 +105,11 @@ public class Menu extends javax.swing.JFrame {
 
         jButtonAñadirPT.setText(resourceMap.getString("jButtonAñadirPT.text")); // NOI18N
         jButtonAñadirPT.setName("jButtonAñadirPT"); // NOI18N
+        jButtonAñadirPT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAñadirPTActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelLogoLayout = new javax.swing.GroupLayout(jPanelLogo);
         jPanelLogo.setLayout(jPanelLogoLayout);
@@ -349,6 +356,18 @@ public class Menu extends javax.swing.JFrame {
         JDialog detallesPersona = new DetallesPersonal(null, true, Menu.usuario, Menu.usuario.isEsAdmin());
         detallesPersona.setVisible(true);
     }//GEN-LAST:event_jLabelNombreUsuarioMouseClicked
+
+    private void jButtonAñadirPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirPTActionPerformed
+        if(panelTareasActivo){
+            LinkedList<String> listagrupos = new LinkedList<>();
+            listagrupos.add(usuario.getGrupo());
+            CrearTarea ventanaCrearTarea = new CrearTarea(this, true, null, ConectorDB.BuscarLugaresDeUsuario(listagrupos));
+            ventanaCrearTarea.setVisible(true);
+        }else{
+            CrearPersonal ventanaCrearPersonal = new CrearPersonal(this, true, ConectorDB.BuscarGrupos());
+            ventanaCrearPersonal.setVisible(true);
+        }
+    }//GEN-LAST:event_jButtonAñadirPTActionPerformed
 
     /**
      * @param args the command line arguments

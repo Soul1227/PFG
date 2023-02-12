@@ -181,6 +181,9 @@
                     <Property name="text" type="java.lang.String" resourceKey="jButtonA&#xf1;adirPT.text"/>
                     <Property name="name" type="java.lang.String" value="jButtonA&#xf1;adirPT" noResource="true"/>
                   </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonA&#xf1;adirPTActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>

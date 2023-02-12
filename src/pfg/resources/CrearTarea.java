@@ -15,11 +15,10 @@ import pfg.ConectorDB;
 import servidorprueba.Tarea;
 
 /**
- *
  * @author angel
  */
 public class CrearTarea extends javax.swing.JDialog {
-
+    
     public String nombreTarea;
     public Color colorTarea;
     public String horaInicio;
@@ -38,8 +37,14 @@ public class CrearTarea extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
-
-    public CrearTarea(java.awt.Frame parent, boolean modal, Date fecha, LinkedList<String> listaLugares ) {
+    /**
+     * 
+     * @param parent
+     * @param modal
+     * @param fecha
+     * @param listaLugares 
+     */
+    public CrearTarea(java.awt.Frame parent, boolean modal, Date fecha, LinkedList<String> listaLugares) {
         super(parent, modal);
         initComponents();
 
@@ -60,9 +65,14 @@ public class CrearTarea extends javax.swing.JDialog {
         for (String l : listaLugares) {
             jComboBoxLugar.addItem(l);
         }
-        TomarFechaDelDia(fecha);
+        if (fecha == null) {
+            jDatePicker1.setVisible(false);
+            jLabelFecha.setVisible(false);
+        } else {
+            TomarFechaDelDia(fecha);
+        }        
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -380,12 +390,12 @@ public class CrearTarea extends javax.swing.JDialog {
             String nombre = jTextFieldNombreTarea.getText();
             String color = String.valueOf(jPanelColor.getBackground().getRGB());
             if (jRadioButtonHora.isSelected()) {
-                String horaDesde = jComboBoxHoraDesde.getSelectedItem().toString()+":"+jComboBoxMinDesde.getSelectedItem().toString();
-                String horaHasta = jComboBoxHoraHasta.getSelectedItem().toString()+":"+jComboBoxMinHasta.getSelectedItem().toString(); 
-            }else if(jRadioButtonPrioridad.isSelected()){
+                String horaDesde = jComboBoxHoraDesde.getSelectedItem().toString() + ":" + jComboBoxMinDesde.getSelectedItem().toString();
+                String horaHasta = jComboBoxHoraHasta.getSelectedItem().toString() + ":" + jComboBoxMinHasta.getSelectedItem().toString();                
+            } else if (jRadioButtonPrioridad.isSelected()) {
                 //String prioridad = jComboBoxPrioridad.getsele
             }
-
+            
         }
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 

@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.util.Date;
 import java.util.LinkedList;
 import servidorprueba.Comandos;
 import servidorprueba.Mensaje;
@@ -111,6 +110,26 @@ public class ConectorDB {
         }
         CerrarConexion();
         return listaTareas;
+    }
+    /**
+     * Manda al servidor la orden de obtener la lista de grupos.
+     *
+     * @return Lista con las tareas. 
+     */
+    public static LinkedList<String> BuscarGrupos() {
+        LinkedList listaLugares = new LinkedList();
+        Conectar();
+        try {
+            Mensaje mensaje = new Mensaje(Comandos.GRUPOS);
+            flujoSalida.writeObject(mensaje);
+            listaLugares = (LinkedList) flujoEntrada.readObject();
+        } catch (IOException ex) {
+            ex.getMessage();
+        } catch (ClassNotFoundException ex) {
+            ex.getMessage();
+        }
+        CerrarConexion();
+        return listaLugares;
     }
 
     /**

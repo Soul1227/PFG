@@ -83,6 +83,8 @@ public class Menu extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
 
@@ -289,6 +291,14 @@ public class Menu extends javax.swing.JFrame {
         exitMenuItem.setName("exitMenuItem"); // NOI18N
         fileMenu.add(exitMenuItem);
 
+        jMenuItem1.setText(resourceMap.getString("jMenuItem1.text")); // NOI18N
+        jMenuItem1.setName("jMenuItem1"); // NOI18N
+        fileMenu.add(jMenuItem1);
+
+        jMenuItem2.setText(resourceMap.getString("jMenuItem2.text")); // NOI18N
+        jMenuItem2.setName("jMenuItem2"); // NOI18N
+        fileMenu.add(jMenuItem2);
+
         menuBar.add(fileMenu);
 
         helpMenu.setText(resourceMap.getString("helpMenu.text")); // NOI18N
@@ -359,7 +369,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void jButtonAñadirPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirPTActionPerformed
         if(panelTareasActivo){
-            LinkedList<String> listagrupos = new LinkedList<>();
+            LinkedList listagrupos = new LinkedList<>();
             listagrupos.add(usuario.getGrupo());
             CrearTarea ventanaCrearTarea = new CrearTarea(this, true, null, ConectorDB.BuscarLugaresDeUsuario(listagrupos));
             ventanaCrearTarea.setVisible(true);
@@ -459,12 +469,12 @@ public class Menu extends javax.swing.JFrame {
         jPaneAbajo.removeAll();
         switch (panelTipo) {
             case Semana:
-                LinkedList<String> grupo = new LinkedList<>();
+                LinkedList grupo = new LinkedList<>();
                 grupo.add(usuario.getGrupo());
                 panel = new PanelSemana(dias, ConectorDB.BuscarLugaresDeUsuario(grupo),usuario.isEsAdmin());
                 break;
             case Tareas:
-                panel = new PanelTareas(ConectorDB.BuscarTareas());
+                panel = new PanelTareas(ConectorDB.BuscarTareasGuardadas());
                 panelTareasActivo = true;
                 break;
             case Personal:
@@ -489,6 +499,8 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelPersonal;
     private javax.swing.JLabel jLabelSemana;
     private javax.swing.JLabel jLabelTareas;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JPanel jPaneAbajo;
     private javax.swing.JPanel jPanelArriba;
     private javax.swing.JPanel jPanelIconos;

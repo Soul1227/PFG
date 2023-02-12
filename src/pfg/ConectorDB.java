@@ -48,6 +48,29 @@ public class ConectorDB {
         return listaPersonal;
     }
 
+    /**
+     * Manda al servidor la orden de obtener la lista del personal fuera de la
+     * tarea de la que se manda la id.
+     *
+     * @param idTarea linkedlist con la id de la tarea.
+     * @return
+     */
+    public static LinkedList BuscarPersonalFueraDeTarea(LinkedList idTarea) {
+        LinkedList listaPersonal = new LinkedList();
+        Conectar();
+        try {
+            Mensaje mensaje = new Mensaje(Comandos.PERSONALFUERADETAREA, idTarea);
+            flujoSalida.writeObject(mensaje);
+            listaPersonal = (LinkedList) flujoEntrada.readObject();
+        } catch (IOException ex) {
+            ex.getMessage();
+        } catch (ClassNotFoundException ex) {
+            ex.getMessage();
+        }
+        CerrarConexion();
+        return listaPersonal;
+    }
+
     public static void CrearTarea() {
         Conectar();
 
@@ -92,11 +115,11 @@ public class ConectorDB {
     }
 
     /**
-     * Manda al servidor la orden de obtener la lista de tareas.
+     * Manda al servidor la orden de obtener la lista de tareas guardadas.
      *
      * @return Lista con las tareas.
      */
-    public static LinkedList<Tarea> BuscarTareas() {
+    public static LinkedList<Tarea> BuscarTareasGuardadas() {
         LinkedList listaTareas = new LinkedList();
         Conectar();
         try {
@@ -111,10 +134,11 @@ public class ConectorDB {
         CerrarConexion();
         return listaTareas;
     }
+
     /**
      * Manda al servidor la orden de obtener la lista de grupos.
      *
-     * @return Lista con las tareas. 
+     * @return Lista con las tareas.
      */
     public static LinkedList<String> BuscarGrupos() {
         LinkedList listaLugares = new LinkedList();

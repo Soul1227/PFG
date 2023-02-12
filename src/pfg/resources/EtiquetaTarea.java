@@ -18,6 +18,10 @@ public class EtiquetaTarea extends javax.swing.JPanel {
         initComponents();
     }
 
+    /**
+     * 
+     * @param tarea 
+     */
     public EtiquetaTarea(Tarea tarea) {
         initComponents();
         this.tarea = tarea;

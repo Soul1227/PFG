@@ -396,6 +396,11 @@ public class CrearTarea extends javax.swing.JDialog {
                 //String prioridad = jComboBoxPrioridad.getsele
             }
             
+            
+            
+            Date selectedDate = (Date) jDatePicker1.getModel().getValue();
+            System.out.print(selectedDate);
+            
         }
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 

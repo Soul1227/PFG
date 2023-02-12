@@ -73,7 +73,6 @@ public class ConectorDB {
 
     public static void CrearTarea() {
         Conectar();
-
     }
 
     public static LinkedList BuscarLugaresDeUsuario(LinkedList grupo) {

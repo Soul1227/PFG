@@ -19,7 +19,7 @@ public class PanelPersonal extends javax.swing.JPanel {
     public PanelPersonal(LinkedList<Persona> listaPersonal) {
         this.setAutoscrolls(true);
         for (Persona p : listaPersonal) {
-            EtiquetaPersonal etiquetaPersona = new EtiquetaPersonal(p);
+            EtiquetaPersonal etiquetaPersona = new EtiquetaPersonal(p,false);
             this.add(etiquetaPersona);
         }
     }

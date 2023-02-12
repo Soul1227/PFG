@@ -50,7 +50,7 @@ public class CrearTarea extends javax.swing.JDialog {
 
         //Creacion de panel e introduccion de las tareas guardadas.
         JPanel jPanelTareasGuardadasCreacion = new JPanel();
-        LinkedList<Tarea> listaTareas = ConectorDB.BuscarTareas();
+        LinkedList<Tarea> listaTareas = ConectorDB.BuscarTareasGuardadas();
         for (Tarea t : listaTareas) {
             EtiquetaTarea etiquetaTarea = new EtiquetaTarea(t);
             jPanelTareasGuardadasCreacion.add(etiquetaTarea);

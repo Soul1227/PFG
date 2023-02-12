@@ -1,8 +1,11 @@
 package pfg.resources;
 
 import java.awt.Color;
+import java.util.LinkedList;
 import javax.swing.DefaultListModel;
 import javax.swing.JColorChooser;
+import pfg.ConectorDB;
+import pfg.Menu;
 import servidorprueba.Persona;
 import servidorprueba.Tarea;
 
@@ -13,9 +16,12 @@ import servidorprueba.Tarea;
 public class DetallesTarea extends javax.swing.JDialog {
 
     public Color colorTarea;
+    private int idTarea;
 
     /**
-     * Creates new form DetallesTarea
+     * 
+     * @param parent
+     * @param modal 
      */
     public DetallesTarea(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -31,6 +37,7 @@ public class DetallesTarea extends javax.swing.JDialog {
     public DetallesTarea(java.awt.Frame parent, boolean modal, Tarea tarea) {
         super(parent, modal);
         initComponents();
+        this.idTarea = tarea.getId();
         jTextFieldNombreTarea.setText(tarea.getNombre());
         jPanelColor.setBackground(Color.decode(tarea.getColor()));
         if ("0".equals(tarea.getPrioridad())) {
@@ -77,10 +84,10 @@ public class DetallesTarea extends javax.swing.JDialog {
         jRadioButtonHora = new javax.swing.JRadioButton();
         jRadioButtonPrioridad = new javax.swing.JRadioButton();
         jLabelPersonal = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jButtonAñadirPersonal = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
-        jButton2 = new javax.swing.JButton();
+        jButtonEliminarPersonal = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
 
@@ -180,8 +187,13 @@ public class DetallesTarea extends javax.swing.JDialog {
         jLabelPersonal.setText(resourceMap.getString("jLabelPersonal.text")); // NOI18N
         jLabelPersonal.setName("jLabelPersonal"); // NOI18N
 
-        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
-        jButton1.setName("jButton1"); // NOI18N
+        jButtonAñadirPersonal.setText(resourceMap.getString("jButtonAñadirPersonal.text")); // NOI18N
+        jButtonAñadirPersonal.setName("jButtonAñadirPersonal"); // NOI18N
+        jButtonAñadirPersonal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonAñadirPersonalActionPerformed(evt);
+            }
+        });
 
         jScrollPane2.setName("jScrollPane2"); // NOI18N
 
@@ -193,8 +205,8 @@ public class DetallesTarea extends javax.swing.JDialog {
         jList1.setName("jList1"); // NOI18N
         jScrollPane2.setViewportView(jList1);
 
-        jButton2.setText(resourceMap.getString("jButton2.text")); // NOI18N
-        jButton2.setName("jButton2"); // NOI18N
+        jButtonEliminarPersonal.setText(resourceMap.getString("jButtonEliminarPersonal.text")); // NOI18N
+        jButtonEliminarPersonal.setName("jButtonEliminarPersonal"); // NOI18N
 
         jButton3.setText(resourceMap.getString("jButton3.text")); // NOI18N
         jButton3.setName("jButton3"); // NOI18N
@@ -240,8 +252,8 @@ public class DetallesTarea extends javax.swing.JDialog {
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addComponent(jButtonEliminarPersonal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButtonAñadirPersonal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelNuevaTareaCreacionLayout.createSequentialGroup()
                             .addComponent(jLabelNombre)
@@ -303,9 +315,9 @@ public class DetallesTarea extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(jButtonAñadirPersonal)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2))
+                        .addComponent(jButtonEliminarPersonal))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -358,6 +370,14 @@ public class DetallesTarea extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButtonAñadirPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirPersonalActionPerformed
+        LinkedList argumentos = new LinkedList();
+        argumentos.add(idTarea);
+        argumentos.add(Menu.usuario.getGrupo());
+        AñadirPersonaATarea ventanaAñadirPersonal = new AñadirPersonaATarea(null, true, ConectorDB.BuscarPersonalFueraDeTarea(argumentos));
+        ventanaAñadirPersonal.setVisible(true);
+    }//GEN-LAST:event_jButtonAñadirPersonalActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -402,10 +422,10 @@ public class DetallesTarea extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButtonAñadirPersonal;
+    private javax.swing.JButton jButtonEliminarPersonal;
     private javax.swing.JComboBox<String> jComboBoxHoraDesde;
     private javax.swing.JComboBox<String> jComboBoxHoraHasta;
     private javax.swing.JComboBox<String> jComboBoxLugar;

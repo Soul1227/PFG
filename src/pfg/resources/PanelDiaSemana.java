@@ -31,7 +31,7 @@ public class PanelDiaSemana extends javax.swing.JPanel {
             jButtonAñadirTarea.setVisible(false);
         }
         DateFormat df = new SimpleDateFormat("EEEEE");
-    String diaSemana = df.format(fecha.getTime());
+        String diaSemana = df.format(fecha.getTime());
         Border borde = BorderFactory.createEtchedBorder();
         Border bordeTitulado = BorderFactory.createTitledBorder(borde, diaSemana, TitledBorder.CENTER, TitledBorder.TOP);
         this.setBorder(bordeTitulado);

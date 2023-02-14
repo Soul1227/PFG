@@ -73,7 +73,7 @@ public class DetallesTarea extends javax.swing.JDialog {
             jComboBoxLugar.setEditable(false);
             jComboBoxPrioridad.setEditable(false);
         }
-
+       jLabelEditador.setText(tarea.getEditadoPor());
     }
 
     @SuppressWarnings("unchecked")
@@ -106,6 +106,8 @@ public class DetallesTarea extends javax.swing.JDialog {
         jButtonEliminarPersonal = new javax.swing.JButton();
         jButtonActualizarTarea = new javax.swing.JButton();
         jButtonEliminarTarea = new javax.swing.JButton();
+        jLabelEditadoPor = new javax.swing.JLabel();
+        jLabelEditador = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -226,6 +228,11 @@ public class DetallesTarea extends javax.swing.JDialog {
 
         jButtonActualizarTarea.setText(resourceMap.getString("jButtonActualizarTarea.text")); // NOI18N
         jButtonActualizarTarea.setName("jButtonActualizarTarea"); // NOI18N
+        jButtonActualizarTarea.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonActualizarTareaActionPerformed(evt);
+            }
+        });
 
         jButtonEliminarTarea.setText(resourceMap.getString("jButtonEliminarTarea.text")); // NOI18N
         jButtonEliminarTarea.setName("jButtonEliminarTarea"); // NOI18N
@@ -235,6 +242,12 @@ public class DetallesTarea extends javax.swing.JDialog {
             }
         });
 
+        jLabelEditadoPor.setText(resourceMap.getString("jLabelEditadoPor.text")); // NOI18N
+        jLabelEditadoPor.setName("jLabelEditadoPor"); // NOI18N
+
+        jLabelEditador.setText(resourceMap.getString("jLabelEditador.text")); // NOI18N
+        jLabelEditador.setName("jLabelEditador"); // NOI18N
+
         javax.swing.GroupLayout jPanelNuevaTareaCreacionLayout = new javax.swing.GroupLayout(jPanelNuevaTareaCreacion);
         jPanelNuevaTareaCreacion.setLayout(jPanelNuevaTareaCreacionLayout);
         jPanelNuevaTareaCreacionLayout.setHorizontalGroup(
@@ -243,56 +256,65 @@ public class DetallesTarea extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
-                        .addComponent(jLabelColor, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jPanelColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
+                                .addComponent(jLabelColor, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jPanelColor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
+                                .addComponent(jLabelHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBoxHoraHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelHasta2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBoxMinHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
+                                .addComponent(jLabelLugar)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jComboBoxLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabelPersonal)
+                            .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
+                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButtonEliminarPersonal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jButtonAñadirPersonal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                            .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelNuevaTareaCreacionLayout.createSequentialGroup()
+                                    .addComponent(jLabelNombre)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(jTextFieldNombreTarea))
+                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelNuevaTareaCreacionLayout.createSequentialGroup()
+                                    .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
+                                            .addComponent(jLabelDesde)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jComboBoxHoraDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jLabelDesde2)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(jComboBoxMinDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
+                                            .addGap(6, 6, 6)
+                                            .addComponent(jRadioButtonHora)))
+                                    .addGap(18, 18, 18)
+                                    .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(jRadioButtonPrioridad)
+                                        .addComponent(jComboBoxPrioridad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                        .addContainerGap(9, Short.MAX_VALUE))
                     .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
-                        .addComponent(jLabelHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxHoraHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelHasta2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxMinHasta, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
-                        .addComponent(jLabelLugar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBoxLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jLabelPersonal)
-                    .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
-                        .addGap(5, 5, 5)
-                        .addComponent(jButtonActualizarTarea)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButtonEliminarTarea))
-                    .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButtonEliminarPersonal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jButtonAñadirPersonal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                    .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelNuevaTareaCreacionLayout.createSequentialGroup()
-                            .addComponent(jLabelNombre)
-                            .addGap(18, 18, 18)
-                            .addComponent(jTextFieldNombreTarea))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelNuevaTareaCreacionLayout.createSequentialGroup()
-                            .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
-                                    .addComponent(jLabelDesde)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jComboBoxHoraDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jLabelDesde2)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                    .addComponent(jComboBoxMinDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
-                                    .addGap(6, 6, 6)
-                                    .addComponent(jRadioButtonHora)))
-                            .addGap(18, 18, 18)
-                            .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jRadioButtonPrioridad)
-                                .addComponent(jComboBoxPrioridad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(jButtonActualizarTarea)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButtonEliminarTarea))
+                            .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
+                                .addComponent(jLabelEditadoPor)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelEditador)))
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         jPanelNuevaTareaCreacionLayout.setVerticalGroup(
             jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -326,7 +348,7 @@ public class DetallesTarea extends javax.swing.JDialog {
                 .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jComboBoxLugar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabelLugar))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabelPersonal)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -336,21 +358,25 @@ public class DetallesTarea extends javax.swing.JDialog {
                         .addComponent(jButtonEliminarPersonal))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButtonEliminarTarea)
-                    .addComponent(jButtonActualizarTarea))
-                .addGap(12, 12, 12))
+                .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabelEditadoPor)
+                    .addComponent(jLabelEditador))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonActualizarTarea)
+                    .addComponent(jButtonEliminarTarea))
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelNuevaTareaCreacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jPanelNuevaTareaCreacion, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelNuevaTareaCreacion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelNuevaTareaCreacion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -397,6 +423,10 @@ public class DetallesTarea extends javax.swing.JDialog {
         AñadirPersonaATarea ventanaAñadirPersonal = new AñadirPersonaATarea(null, true, ConectorDB.BuscarPersonalFueraDeTarea(argumentos));
         ventanaAñadirPersonal.setVisible(true);
     }//GEN-LAST:event_jButtonAñadirPersonalActionPerformed
+
+    private void jButtonActualizarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarTareaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonActualizarTareaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -455,6 +485,8 @@ public class DetallesTarea extends javax.swing.JDialog {
     private javax.swing.JLabel jLabelColor;
     private javax.swing.JLabel jLabelDesde;
     private javax.swing.JLabel jLabelDesde2;
+    private javax.swing.JLabel jLabelEditadoPor;
+    private javax.swing.JLabel jLabelEditador;
     private javax.swing.JLabel jLabelHasta;
     private javax.swing.JLabel jLabelHasta2;
     private javax.swing.JLabel jLabelLugar;

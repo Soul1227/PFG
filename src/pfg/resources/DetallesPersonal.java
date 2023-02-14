@@ -28,7 +28,7 @@ public class DetallesPersonal extends javax.swing.JDialog {
         
         jTextFieldNombre.setText(persona.getNombre());
         jTextFieldApellidos.setText(persona.getApellidos());
-        jTextFieldEditadoPor.setText(persona.getEditadoPor());
+        jLabelEditador.setText(persona.getEditadoPor());
         jTextFieldEmail.setText(persona.getEmail());
         jTextFieldNombreUsuario.setText(persona.getNombreUsuario());
         jTextFieldPass.setText(persona.getPass());
@@ -37,7 +37,6 @@ public class DetallesPersonal extends javax.swing.JDialog {
         if(!esAdmin){
             jTextFieldNombre.setEditable(false);
             jTextFieldApellidos.setEditable(false);
-            jTextFieldEditadoPor.setEditable(false);
             jTextFieldNombreUsuario.setEditable(false);
         }
     }
@@ -59,8 +58,8 @@ public class DetallesPersonal extends javax.swing.JDialog {
         jTextFieldTelefonos = new javax.swing.JTextField();
         jTextFieldNombreUsuario = new javax.swing.JTextField();
         jTextFieldPass = new javax.swing.JTextField();
-        jTextFieldEditadoPor = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        jLabelEditador = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -105,9 +104,6 @@ public class DetallesPersonal extends javax.swing.JDialog {
         jTextFieldPass.setText(resourceMap.getString("jTextFieldPass.text")); // NOI18N
         jTextFieldPass.setName("jTextFieldPass"); // NOI18N
 
-        jTextFieldEditadoPor.setText(resourceMap.getString("jTextFieldEditadoPor.text")); // NOI18N
-        jTextFieldEditadoPor.setName("jTextFieldEditadoPor"); // NOI18N
-
         jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
         jButton1.setName("jButton1"); // NOI18N
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -115,6 +111,9 @@ public class DetallesPersonal extends javax.swing.JDialog {
                 jButton1ActionPerformed(evt);
             }
         });
+
+        jLabelEditador.setText(resourceMap.getString("jLabelEditador.text")); // NOI18N
+        jLabelEditador.setName("jLabelEditador"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -150,7 +149,7 @@ public class DetallesPersonal extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel7)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jTextFieldEditadoPor)))
+                        .addComponent(jLabelEditador)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -184,10 +183,10 @@ public class DetallesPersonal extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jTextFieldPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addGap(10, 10, 10)
+                .addGap(14, 14, 14)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
-                    .addComponent(jTextFieldEditadoPor, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jLabelEditador))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton1)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -251,8 +250,8 @@ public class DetallesPersonal extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabelEditador;
     private javax.swing.JTextField jTextFieldApellidos;
-    private javax.swing.JTextField jTextFieldEditadoPor;
     private javax.swing.JTextField jTextFieldEmail;
     private javax.swing.JTextField jTextFieldNombre;
     private javax.swing.JTextField jTextFieldNombreUsuario;

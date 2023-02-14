@@ -19,9 +19,9 @@ public class DetallesTarea extends javax.swing.JDialog {
     private int idTarea;
 
     /**
-     * 
+     *
      * @param parent
-     * @param modal 
+     * @param modal
      */
     public DetallesTarea(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -29,10 +29,10 @@ public class DetallesTarea extends javax.swing.JDialog {
     }
 
     /**
-     * 
+     *
      * @param parent
      * @param modal
-     * @param tarea 
+     * @param tarea
      */
     public DetallesTarea(java.awt.Frame parent, boolean modal, Tarea tarea) {
         super(parent, modal);
@@ -56,8 +56,24 @@ public class DetallesTarea extends javax.swing.JDialog {
         DefaultListModel demoList = new DefaultListModel();
         for (Persona p : tarea.getEmpleadosEnTarea()) {
             demoList.addElement(p.getNombre() + " " + p.getApellidos());
-        }       
+        }
         jList1.setModel(demoList);
+        if (!Menu.usuario.isEsAdmin()) {
+            jButtonAñadirPersonal.setVisible(false);
+            jButtonEliminarPersonal.setVisible(false);
+            jButtonActualizarTarea.setVisible(false);
+            jButtonEliminarTarea.setVisible(false);
+
+            jTextFieldNombreTarea.setEditable(false);
+            jComboBoxHoraDesde.setEditable(false);
+            jComboBoxHoraHasta.setEditable(false);
+            jComboBoxMinDesde.setEditable(false);
+            jComboBoxMinHasta.setEditable(false);
+
+            jComboBoxLugar.setEditable(false);
+            jComboBoxPrioridad.setEditable(false);
+        }
+
     }
 
     @SuppressWarnings("unchecked")
@@ -88,8 +104,8 @@ public class DetallesTarea extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList<>();
         jButtonEliminarPersonal = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        jButtonActualizarTarea = new javax.swing.JButton();
+        jButtonEliminarTarea = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -208,14 +224,14 @@ public class DetallesTarea extends javax.swing.JDialog {
         jButtonEliminarPersonal.setText(resourceMap.getString("jButtonEliminarPersonal.text")); // NOI18N
         jButtonEliminarPersonal.setName("jButtonEliminarPersonal"); // NOI18N
 
-        jButton3.setText(resourceMap.getString("jButton3.text")); // NOI18N
-        jButton3.setName("jButton3"); // NOI18N
+        jButtonActualizarTarea.setText(resourceMap.getString("jButtonActualizarTarea.text")); // NOI18N
+        jButtonActualizarTarea.setName("jButtonActualizarTarea"); // NOI18N
 
-        jButton4.setText(resourceMap.getString("jButton4.text")); // NOI18N
-        jButton4.setName("jButton4"); // NOI18N
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        jButtonEliminarTarea.setText(resourceMap.getString("jButtonEliminarTarea.text")); // NOI18N
+        jButtonEliminarTarea.setName("jButtonEliminarTarea"); // NOI18N
+        jButtonEliminarTarea.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                jButtonEliminarTareaActionPerformed(evt);
             }
         });
 
@@ -245,9 +261,9 @@ public class DetallesTarea extends javax.swing.JDialog {
                     .addComponent(jLabelPersonal)
                     .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
                         .addGap(5, 5, 5)
-                        .addComponent(jButton3)
+                        .addComponent(jButtonActualizarTarea)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton4))
+                        .addComponent(jButtonEliminarTarea))
                     .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -321,8 +337,8 @@ public class DetallesTarea extends javax.swing.JDialog {
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton4)
-                    .addComponent(jButton3))
+                    .addComponent(jButtonEliminarTarea)
+                    .addComponent(jButtonActualizarTarea))
                 .addGap(12, 12, 12))
         );
 
@@ -341,9 +357,13 @@ public class DetallesTarea extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jPanelColorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelColorMouseClicked
-        Color color = JColorChooser.showDialog(null, "Elige un color", Color.WHITE);
-        colorTarea = color;
-        jPanelColor.setBackground(color);
+        if (!Menu.usuario.isEsAdmin()) {
+            evt.consume();
+        } else {
+            Color color = JColorChooser.showDialog(null, "Elige un color", Color.WHITE);
+            colorTarea = color;
+            jPanelColor.setBackground(color);
+        }
     }//GEN-LAST:event_jPanelColorMouseClicked
 
     private void jComboBoxLugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxLugarActionPerformed
@@ -366,9 +386,9 @@ public class DetallesTarea extends javax.swing.JDialog {
         jComboBoxPrioridad.setEnabled(true);
     }//GEN-LAST:event_jRadioButtonPrioridadMouseClicked
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void jButtonEliminarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarTareaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_jButtonEliminarTareaActionPerformed
 
     private void jButtonAñadirPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirPersonalActionPerformed
         LinkedList argumentos = new LinkedList();
@@ -422,10 +442,10 @@ public class DetallesTarea extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButtonActualizarTarea;
     private javax.swing.JButton jButtonAñadirPersonal;
     private javax.swing.JButton jButtonEliminarPersonal;
+    private javax.swing.JButton jButtonEliminarTarea;
     private javax.swing.JComboBox<String> jComboBoxHoraDesde;
     private javax.swing.JComboBox<String> jComboBoxHoraHasta;
     private javax.swing.JComboBox<String> jComboBoxLugar;

@@ -26,7 +26,11 @@ public class EtiquetaTarea extends javax.swing.JPanel {
         initComponents();
         this.tarea = tarea;
         jLabelNombreTarea.setText(tarea.getNombre());
-        jLabelHora.setText(tarea.getHoraInicio() + ":" + tarea.getHoraFin());
+        if(!tarea.getHoraInicio().equals("null")){
+            jLabelHora.setText(tarea.getHoraInicio() + ":" + tarea.getHoraFin());
+        }else{
+            jLabelHora.setText("prioridad: Alta");
+        }
         jPanelColor.setBackground(Color.decode(tarea.getColor()));
     }
 
@@ -86,7 +90,7 @@ public class EtiquetaTarea extends javax.swing.JPanel {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabelNombreTarea)
                             .addComponent(jLabelHora))
-                        .addGap(0, 102, Short.MAX_VALUE)))
+                        .addGap(0, 98, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(

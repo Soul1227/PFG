@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import pfg.Menu.Paneles;
+import pfg.resources.CrearEliminarGrupo;
 import pfg.resources.CrearPersonal;
 import pfg.resources.CrearTarea;
 import pfg.resources.DetallesPersonal;
@@ -82,9 +83,9 @@ public class Menu extends javax.swing.JFrame {
         jPaneAbajo = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
-        javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItemGrupos = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
+        javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
 
@@ -309,18 +310,23 @@ public class Menu extends javax.swing.JFrame {
         fileMenu.setText(resourceMap.getString("fileMenu.text")); // NOI18N
         fileMenu.setName("fileMenu"); // NOI18N
 
-        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getActionMap(Menu.class, this);
-        exitMenuItem.setAction(actionMap.get("quit")); // NOI18N
-        exitMenuItem.setName("exitMenuItem"); // NOI18N
-        fileMenu.add(exitMenuItem);
-
-        jMenuItem1.setText(resourceMap.getString("jMenuItem1.text")); // NOI18N
-        jMenuItem1.setName("jMenuItem1"); // NOI18N
-        fileMenu.add(jMenuItem1);
+        jMenuItemGrupos.setText(resourceMap.getString("jMenuItemGrupos.text")); // NOI18N
+        jMenuItemGrupos.setName("jMenuItemGrupos"); // NOI18N
+        jMenuItemGrupos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemGruposActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItemGrupos);
 
         jMenuItem2.setText(resourceMap.getString("jMenuItem2.text")); // NOI18N
         jMenuItem2.setName("jMenuItem2"); // NOI18N
         fileMenu.add(jMenuItem2);
+
+        javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getActionMap(Menu.class, this);
+        exitMenuItem.setAction(actionMap.get("quit")); // NOI18N
+        exitMenuItem.setName("exitMenuItem"); // NOI18N
+        fileMenu.add(exitMenuItem);
 
         menuBar.add(fileMenu);
 
@@ -415,6 +421,11 @@ public class Menu extends javax.swing.JFrame {
         ActualizarSemana(selectedValue);
         CambiarPanel(Paneles.Semana); 
     }//GEN-LAST:event_jDatePickerMenuActionPerformed
+
+    private void jMenuItemGruposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGruposActionPerformed
+        CrearEliminarGrupo grupos = new CrearEliminarGrupo(this, true);
+        grupos.setVisible(true);
+    }//GEN-LAST:event_jMenuItemGruposActionPerformed
 
     /**
      * @param args the command line arguments
@@ -579,8 +590,8 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelPersonal;
     private javax.swing.JLabel jLabelSemana;
     private javax.swing.JLabel jLabelTareas;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItemGrupos;
     private javax.swing.JPanel jPaneAbajo;
     private javax.swing.JPanel jPanelArriba;
     private javax.swing.JPanel jPanelIconos;

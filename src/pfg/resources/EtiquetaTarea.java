@@ -1,8 +1,6 @@
 package pfg.resources;
 
 import java.awt.Color;
-import javax.swing.JLabel;
-import servidorprueba.Persona;
 import servidorprueba.Tarea;
 
 /**

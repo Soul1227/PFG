@@ -10,6 +10,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import pfg.Menu.Paneles;
+import pfg.resources.CrearAgregarLugar;
 import pfg.resources.CrearEliminarGrupo;
 import pfg.resources.CrearPersonal;
 import pfg.resources.CrearTarea;
@@ -72,14 +73,13 @@ public class Menu extends javax.swing.JFrame {
         jLabelHome = new javax.swing.JLabel();
         jLabelTareas = new javax.swing.JLabel();
         jLabelPersonal = new javax.swing.JLabel();
+        jDatePickerMenu1 = new org.jdatepicker.JDatePicker();
         jPanelSemana = new javax.swing.JPanel();
         jLabelFlechaDerecha = new javax.swing.JLabel();
         jLabelSemana = new javax.swing.JLabel();
         jLabelFlechaIzquierda = new javax.swing.JLabel();
-        jDatePickerMenu = new org.jdatepicker.JDatePicker();
         jPanelUsuario = new javax.swing.JPanel();
         jLabelNombreUsuario = new javax.swing.JLabel();
-        jButtonActualizar = new javax.swing.JButton();
         jPaneAbajo = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
@@ -169,6 +169,13 @@ public class Menu extends javax.swing.JFrame {
         });
         jPanelIconos.add(jLabelPersonal);
 
+        jDatePickerMenu1.setName("jDatePickerMenu1"); // NOI18N
+        jDatePickerMenu1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jDatePickerMenu1ActionPerformed(evt);
+            }
+        });
+
         jPanelSemana.setName("jPanelSemana"); // NOI18N
 
         jLabelFlechaDerecha.setText(resourceMap.getString("jLabelFlechaDerecha.text")); // NOI18N
@@ -193,54 +200,33 @@ public class Menu extends javax.swing.JFrame {
         });
         jPanelSemana.add(jLabelFlechaIzquierda);
 
-        jDatePickerMenu.setName("jDatePickerMenu"); // NOI18N
-        jDatePickerMenu.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jDatePickerMenuFocusLost(evt);
-            }
-        });
-        jDatePickerMenu.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                jDatePickerMenuInputMethodTextChanged(evt);
-            }
-        });
-        jDatePickerMenu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jDatePickerMenuActionPerformed(evt);
-            }
-        });
-        jDatePickerMenu.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jDatePickerMenuPropertyChange(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanelMedioLayout = new javax.swing.GroupLayout(jPanelMedio);
         jPanelMedio.setLayout(jPanelMedioLayout);
         jPanelMedioLayout.setHorizontalGroup(
             jPanelMedioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelIconos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addGroup(jPanelMedioLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanelMedioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanelSemana, javax.swing.GroupLayout.DEFAULT_SIZE, 493, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMedioLayout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jDatePickerMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanelIconos, javax.swing.GroupLayout.PREFERRED_SIZE, 202, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanelMedioLayout.createSequentialGroup()
+                .addContainerGap(108, Short.MAX_VALUE)
+                .addComponent(jPanelSemana, javax.swing.GroupLayout.PREFERRED_SIZE, 272, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(108, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMedioLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jDatePickerMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, 137, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanelMedioLayout.setVerticalGroup(
             jPanelMedioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelMedioLayout.createSequentialGroup()
+            .addGroup(jPanelMedioLayout.createSequentialGroup()
+                .addContainerGap()
                 .addComponent(jPanelIconos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jDatePickerMenu, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jDatePickerMenu1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanelSemana, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap(18, Short.MAX_VALUE))
         );
 
         jPanelArriba.add(jPanelMedio);
@@ -257,30 +243,20 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        jButtonActualizar.setText(resourceMap.getString("jButtonActualizar.text")); // NOI18N
-        jButtonActualizar.setName("jButtonActualizar"); // NOI18N
-
         javax.swing.GroupLayout jPanelUsuarioLayout = new javax.swing.GroupLayout(jPanelUsuario);
         jPanelUsuario.setLayout(jPanelUsuarioLayout);
         jPanelUsuarioLayout.setHorizontalGroup(
             jPanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUsuarioLayout.createSequentialGroup()
                 .addGap(0, 410, Short.MAX_VALUE)
-                .addGroup(jPanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelUsuarioLayout.createSequentialGroup()
-                        .addComponent(jButtonActualizar)
-                        .addGap(2, 2, 2))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUsuarioLayout.createSequentialGroup()
-                        .addComponent(jLabelNombreUsuario)
-                        .addContainerGap())))
+                .addComponent(jLabelNombreUsuario)
+                .addContainerGap())
         );
         jPanelUsuarioLayout.setVerticalGroup(
             jPanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelUsuarioLayout.createSequentialGroup()
                 .addComponent(jLabelNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonActualizar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         jPanelArriba.add(jPanelUsuario);
@@ -321,6 +297,11 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuItem2.setText(resourceMap.getString("jMenuItem2.text")); // NOI18N
         jMenuItem2.setName("jMenuItem2"); // NOI18N
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         fileMenu.add(jMenuItem2);
 
         javax.swing.ActionMap actionMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getActionMap(Menu.class, this);
@@ -404,28 +385,25 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonAñadirPTActionPerformed
 
-    private void jDatePickerMenuFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jDatePickerMenuFocusLost
-
-    }//GEN-LAST:event_jDatePickerMenuFocusLost
-
-    private void jDatePickerMenuInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jDatePickerMenuInputMethodTextChanged
-
-    }//GEN-LAST:event_jDatePickerMenuInputMethodTextChanged
-
-    private void jDatePickerMenuPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDatePickerMenuPropertyChange
-
-    }//GEN-LAST:event_jDatePickerMenuPropertyChange
-
-    private void jDatePickerMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDatePickerMenuActionPerformed
-         Calendar selectedValue = (Calendar) jDatePickerMenu.getModel().getValue();
-        ActualizarSemana(selectedValue);
-        CambiarPanel(Paneles.Semana); 
-    }//GEN-LAST:event_jDatePickerMenuActionPerformed
-
     private void jMenuItemGruposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGruposActionPerformed
         CrearEliminarGrupo grupos = new CrearEliminarGrupo(this, true);
         grupos.setVisible(true);
     }//GEN-LAST:event_jMenuItemGruposActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        CrearAgregarLugar lugares = new CrearAgregarLugar(this, true);
+        lugares.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jDatePickerMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDatePicker1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jDatePicker1ActionPerformed
+
+    private void jDatePickerMenu1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDatePickerMenu1ActionPerformed
+        Calendar selectedValue = (Calendar) jDatePickerMenu1.getModel().getValue();
+        ActualizarSemana(selectedValue);
+        CambiarPanel(Paneles.Semana);
+    }//GEN-LAST:event_jDatePickerMenu1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -572,16 +550,15 @@ public class Menu extends javax.swing.JFrame {
         int dia = Integer.valueOf(dfDia.format(fecha));
         int mes = Integer.valueOf(dfMes.format(fecha)) - 1;
         int ano = Integer.valueOf(dfAno.format(fecha));
-        jDatePickerMenu.getModel().setDay(dia);
-        jDatePickerMenu.getModel().setMonth(mes);
-        jDatePickerMenu.getModel().setYear(ano);
-        jDatePickerMenu.getModel().setSelected(true);
+        jDatePickerMenu1.getModel().setDay(dia);
+        jDatePickerMenu1.getModel().setMonth(mes);
+        jDatePickerMenu1.getModel().setYear(ano);
+        jDatePickerMenu1.getModel().setSelected(true);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonActualizar;
     private javax.swing.JButton jButtonAñadirPT;
-    private org.jdatepicker.JDatePicker jDatePickerMenu;
+    private org.jdatepicker.JDatePicker jDatePickerMenu1;
     private javax.swing.JLabel jLabelFlechaDerecha;
     private javax.swing.JLabel jLabelFlechaIzquierda;
     private javax.swing.JLabel jLabelHome;

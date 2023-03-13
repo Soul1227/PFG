@@ -6,6 +6,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.LinkedList;
 import servidorprueba.Comandos;
+import servidorprueba.Grupo;
+import servidorprueba.Lugar;
 import servidorprueba.Mensaje;
 import servidorprueba.Persona;
 import servidorprueba.Tarea;
@@ -32,11 +34,11 @@ public class ConectorDB {
      *
      * @return lista con el personal
      */
-    public static LinkedList BuscarPersonal() {
+    public static LinkedList BuscarPersonal(int num_grupo) {
         LinkedList listaPersonal = new LinkedList();
         Conectar();
         try {
-            Mensaje mensaje = new Mensaje(Comandos.PERSONAL);
+            Mensaje mensaje = new Mensaje(Comandos.PERSONAL, num_grupo);
             flujoSalida.writeObject(mensaje);
             listaPersonal = (LinkedList) flujoEntrada.readObject();
         } catch (IOException ex) {
@@ -75,13 +77,13 @@ public class ConectorDB {
         Conectar();
     }
 
-    public static LinkedList BuscarLugaresDeUsuario(LinkedList grupo) {
-        LinkedList listalugares = new LinkedList();
+    public static LinkedList<Lugar> BuscarLugaresDeUsuario(LinkedList grupo) {
+        LinkedList<Lugar> listalugares = new LinkedList();
         Conectar();
         try {
             Mensaje mensaje = new Mensaje(Comandos.LUGARES, grupo);
             flujoSalida.writeObject(mensaje);
-            listalugares = (LinkedList) flujoEntrada.readObject();
+            listalugares = (LinkedList<Lugar>) flujoEntrada.readObject();
         } catch (IOException ex) {
             ex.getMessage();
         } catch (ClassNotFoundException ex) {
@@ -139,7 +141,7 @@ public class ConectorDB {
      *
      * @return Lista con las tareas.
      */
-    public static LinkedList<String> BuscarGrupos() {
+    public static LinkedList<Grupo> BuscarGrupos() {
         LinkedList listaLugares = new LinkedList();
         Conectar();
         try {

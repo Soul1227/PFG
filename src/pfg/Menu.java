@@ -193,26 +193,9 @@ public class Menu extends javax.swing.JFrame {
         jPanelSemana.add(jLabelFlechaIzquierda);
 
         jDatePickerMenu.setName("jDatePickerMenu"); // NOI18N
-        jDatePickerMenu.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jDatePickerMenuFocusLost(evt);
-            }
-        });
-        jDatePickerMenu.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                jDatePickerMenuInputMethodTextChanged(evt);
-            }
-        });
         jDatePickerMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jDatePickerMenuActionPerformed(evt);
-            }
-        });
-        jDatePickerMenu.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jDatePickerMenuPropertyChange(evt);
             }
         });
 
@@ -398,18 +381,6 @@ public class Menu extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButtonAñadirPTActionPerformed
 
-    private void jDatePickerMenuFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jDatePickerMenuFocusLost
-
-    }//GEN-LAST:event_jDatePickerMenuFocusLost
-
-    private void jDatePickerMenuInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jDatePickerMenuInputMethodTextChanged
-
-    }//GEN-LAST:event_jDatePickerMenuInputMethodTextChanged
-
-    private void jDatePickerMenuPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDatePickerMenuPropertyChange
-
-    }//GEN-LAST:event_jDatePickerMenuPropertyChange
-
     private void jDatePickerMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDatePickerMenuActionPerformed
          Calendar selectedValue = (Calendar) jDatePickerMenu.getModel().getValue();
         ActualizarSemana(selectedValue);
@@ -541,7 +512,7 @@ public class Menu extends javax.swing.JFrame {
                 panelTareasActivo = true;
                 break;
             case Personal:
-                panel = new PanelPersonal(ConectorDB.BuscarPersonal());
+                panel = new PanelPersonal(ConectorDB.BuscarPersonal(usuario.getGrupo()));
                 panelTareasActivo = false;
                 break;
         }

@@ -1,6 +1,7 @@
 package pfg.resources;
 
 import java.util.LinkedList;
+import servidorprueba.Grupo;
 
 /**
  *
@@ -9,26 +10,30 @@ import java.util.LinkedList;
 public class CrearPersonal extends javax.swing.JDialog {
 
     /**
-     * Creates new form CrearPersonal
+     *
+     * @param parent
+     * @param modal
      */
     public CrearPersonal(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
+
     /**
-     * 
+     *
      * @param parent
      * @param modal
-     * @param listagrupos 
+     * @param listagrupos
      */
-    public CrearPersonal(java.awt.Frame parent, boolean modal, LinkedList<String> listagrupos) {
+    public CrearPersonal(java.awt.Frame parent, boolean modal, LinkedList<Grupo> listagrupos) {
         super(parent, modal);
         initComponents();
-        jComboBox1.setEnabled(false);
+        
         jCheckBox1.setSelected(false);
-        for(String s :listagrupos){
-            jComboBox1.addItem(s);
+        for (Grupo g : listagrupos) {
+            jComboBox1.addItem(g.getGrupoNombre());
         }
+        //jComboBox1.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -187,9 +192,9 @@ public class CrearPersonal extends javax.swing.JDialog {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        if(jCheckBox1.isSelected()){
+        if (jCheckBox1.isSelected()) {
             jComboBox1.setEnabled(true);
-        }else{
+        } else {
             jComboBox1.setEnabled(false);
         }
     }//GEN-LAST:event_jCheckBox1ActionPerformed
@@ -223,6 +228,7 @@ public class CrearPersonal extends javax.swing.JDialog {
 
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 CrearPersonal dialog = new CrearPersonal(new javax.swing.JFrame(), true);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {

@@ -1,13 +1,19 @@
 package pfg.resources;
 
 import java.util.LinkedList;
+import pfg.ConectorDB;
+import pfg.Menu;
 import servidorprueba.Grupo;
+import servidorprueba.Persona;
 
 /**
  *
  * @author angel
  */
 public class CrearPersonal extends javax.swing.JDialog {
+
+    private int grupo;
+    private LinkedList<Grupo> listagrupos;
 
     /**
      *
@@ -28,12 +34,12 @@ public class CrearPersonal extends javax.swing.JDialog {
     public CrearPersonal(java.awt.Frame parent, boolean modal, LinkedList<Grupo> listagrupos) {
         super(parent, modal);
         initComponents();
-        
+        this.listagrupos = listagrupos;
         jCheckBox1.setSelected(false);
         for (Grupo g : listagrupos) {
-            jComboBox1.addItem(g.getGrupoNombre());
+            jComboBoxGrupos.addItem(g.getGrupoNombre());
         }
-        //jComboBox1.setEnabled(false);
+        jComboBoxGrupos.setEnabled(false);
     }
 
     @SuppressWarnings("unchecked")
@@ -52,9 +58,9 @@ public class CrearPersonal extends javax.swing.JDialog {
         jTextFieldNombreUsuario = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jTextFieldPass = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jButtonCrear = new javax.swing.JButton();
         jCheckBox1 = new javax.swing.JCheckBox();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        jComboBoxGrupos = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -89,11 +95,11 @@ public class CrearPersonal extends javax.swing.JDialog {
 
         jTextFieldPass.setName("jTextFieldPass"); // NOI18N
 
-        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
-        jButton1.setName("jButton1"); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonCrear.setText(resourceMap.getString("jButtonCrear.text")); // NOI18N
+        jButtonCrear.setName("jButtonCrear"); // NOI18N
+        jButtonCrear.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonCrearActionPerformed(evt);
             }
         });
 
@@ -105,7 +111,7 @@ public class CrearPersonal extends javax.swing.JDialog {
             }
         });
 
-        jComboBox1.setName("jComboBox1"); // NOI18N
+        jComboBoxGrupos.setName("jComboBoxGrupos"); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -144,9 +150,9 @@ public class CrearPersonal extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jCheckBox1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jComboBoxGrupos, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(jButtonCrear)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -179,23 +185,27 @@ public class CrearPersonal extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jCheckBox1)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1))
+                    .addComponent(jComboBoxGrupos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButtonCrear))
                 .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButtonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearActionPerformed
+        LinkedList<Persona> ListaPersona = new LinkedList<>();
+        ListaPersona.add(TomaDatosDeLosCampos());
+        ConectorDB.CrearEmpleado(ListaPersona);
+        super.rootPane.updateUI();
+        dispose();  
+    }//GEN-LAST:event_jButtonCrearActionPerformed
 
     private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
         if (jCheckBox1.isSelected()) {
-            jComboBox1.setEnabled(true);
+            jComboBoxGrupos.setEnabled(true);
         } else {
-            jComboBox1.setEnabled(false);
+            jComboBoxGrupos.setEnabled(false);
         }
     }//GEN-LAST:event_jCheckBox1ActionPerformed
 
@@ -242,10 +252,47 @@ public class CrearPersonal extends javax.swing.JDialog {
         });
     }
 
+    /**
+     *
+     * @return Perosna
+     */
+    private Persona TomaDatosDeLosCampos() {
+        if (jCheckBox1.isSelected()) {
+            for (Grupo g : listagrupos) {
+                if (jComboBoxGrupos.getSelectedItem().toString().equals(g.getGrupoNombre())) {
+                    setGrupo(g.getGrupoId());
+                }
+            }
+        } else {
+            grupo = Menu.usuario.getGrupo();
+        }
+        Persona p = new Persona(jTextFieldNombre.getText(), jTextFieldApellidos.getText(), jTextFieldNombreUsuario.getText(),
+                jTextFieldPass.getText(), jTextFieldEmail.getText(), jTextFieldTelefonos.getText(), jCheckBox1.isSelected(),
+                grupo, Menu.usuario.getNombre());
+        return p;
+    }
+
+    public int getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(int grupo) {
+        this.grupo = grupo;
+    }
+
+    public LinkedList<Grupo> getListagrupos() {
+        return listagrupos;
+    }
+
+    public void setListagrupos(LinkedList<Grupo> listagrupos) {
+        this.listagrupos = listagrupos;
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonCrear;
     private javax.swing.JCheckBox jCheckBox1;
-    private javax.swing.JComboBox<String> jComboBox1;
+    private javax.swing.JComboBox<String> jComboBoxGrupos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -259,4 +306,5 @@ public class CrearPersonal extends javax.swing.JDialog {
     private javax.swing.JTextField jTextFieldPass;
     private javax.swing.JTextField jTextFieldTelefonos;
     // End of variables declaration//GEN-END:variables
+
 }

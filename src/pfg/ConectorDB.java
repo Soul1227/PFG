@@ -38,7 +38,7 @@ public class ConectorDB {
         LinkedList listaPersonal = new LinkedList();
         Conectar();
         try {
-            Mensaje mensaje = new Mensaje(Comandos.PERSONAL, num_grupo);
+            Mensaje mensaje = new Mensaje(Comandos.BUSCARMIEMBROSDELGRUPO, num_grupo);
             flujoSalida.writeObject(mensaje);
             listaPersonal = (LinkedList) flujoEntrada.readObject();
         } catch (IOException ex) {
@@ -61,7 +61,7 @@ public class ConectorDB {
         LinkedList listaPersonal = new LinkedList();
         Conectar();
         try {
-            Mensaje mensaje = new Mensaje(Comandos.PERSONALFUERADETAREA, idTarea);
+            Mensaje mensaje = new Mensaje(Comandos.USUARIOSFUERADETAREA, idTarea);
             flujoSalida.writeObject(mensaje);
             listaPersonal = (LinkedList) flujoEntrada.readObject();
         } catch (IOException ex) {
@@ -75,6 +75,21 @@ public class ConectorDB {
 
     public static void CrearTarea() {
         Conectar();
+    }
+
+    /**
+     * Manda las los datos para la creacion de un nuevo usuario en la base de datos
+     * @param datosNuevoEmpleado LinkedList con un objeto Persona.
+     */
+    public static void CrearEmpleado(LinkedList<Persona> datosNuevoEmpleado) {
+        Conectar();
+        try {
+            Mensaje mensaje = new Mensaje(Comandos.CREARUSUARIO, datosNuevoEmpleado);
+            flujoSalida.writeObject(mensaje);
+        } catch (IOException ex) {
+            ex.getMessage();
+            CerrarConexion();
+        }
     }
 
     public static LinkedList<Lugar> BuscarLugaresDeUsuario(LinkedList grupo) {
@@ -170,7 +185,7 @@ public class ConectorDB {
         dia.add(fecha);
         Conectar();
         try {
-            Mensaje mensaje = new Mensaje(Comandos.TAREASDIA, dia);
+            Mensaje mensaje = new Mensaje(Comandos.TAREASDELDIA, dia);
             flujoSalida.writeObject(mensaje);
             listaTareas = (LinkedList) flujoEntrada.readObject();
         } catch (IOException ex) {

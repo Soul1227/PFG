@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import pfg.ConectorDB;
+import servidorprueba.Lugar;
 
 /**
  *
@@ -19,7 +20,7 @@ public class PanelSemana extends javax.swing.JPanel {
         initComponents();
     }
 
-    public PanelSemana(Date[] semana, LinkedList<String> lugaresGrupo, boolean isAdmin) {
+    public PanelSemana(Date[] semana, LinkedList<Lugar> lugaresGrupo, boolean isAdmin) {
         initComponents();
         for (Date d : semana) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  

@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import pfg.ConectorDB;
+import servidorprueba.Lugar;
 import servidorprueba.Tarea;
 
 /**
@@ -44,7 +45,7 @@ public class CrearTarea extends javax.swing.JDialog {
      * @param fecha
      * @param listaLugares 
      */
-    public CrearTarea(java.awt.Frame parent, boolean modal, Date fecha, LinkedList<String> listaLugares) {
+    public CrearTarea(java.awt.Frame parent, boolean modal, Date fecha, LinkedList<Lugar> listaLugares) {
         super(parent, modal);
         initComponents();
 
@@ -62,8 +63,9 @@ public class CrearTarea extends javax.swing.JDialog {
         jTabbedPane1.add(scroll, "Tareas Guardadas");
 
         //Se rellena el combo box con los lugares que pertenecen al grupo.
-        for (String l : listaLugares) {
-            jComboBoxLugar.addItem(l);
+        for (Lugar l : listaLugares) {
+            String nombreLugar = l.getNombre();
+            jComboBoxLugar.addItem(nombreLugar);
         }
         if (fecha == null) {
             jDatePicker1.setVisible(false);

@@ -8,6 +8,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
+import servidorprueba.Lugar;
 import servidorprueba.Tarea;
 
 /**
@@ -17,13 +18,13 @@ import servidorprueba.Tarea;
 public class PanelDiaSemana extends javax.swing.JPanel {
 
     public Date fecha;
-    public LinkedList<String> listaLugares;
+    public LinkedList<Lugar> listaLugares;
 
     public PanelDiaSemana() {
         initComponents();
     }
 
-    public PanelDiaSemana(Date fecha, LinkedList<String> listaLugares, boolean isAdmin, LinkedList<Tarea> listaTareas) {
+    public PanelDiaSemana(Date fecha, LinkedList<Lugar> listaLugares, boolean isAdmin, LinkedList<Tarea> listaTareas) {
         this.fecha = fecha;
         this.listaLugares = listaLugares;
         initComponents();

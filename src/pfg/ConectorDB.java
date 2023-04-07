@@ -80,16 +80,19 @@ public class ConectorDB {
     /**
      * Manda las los datos para la creacion de un nuevo usuario en la base de datos
      * @param datosNuevoEmpleado LinkedList con un objeto Persona.
+     * @return 
      */
-    public static void CrearEmpleado(LinkedList<Persona> datosNuevoEmpleado) {
+    public static Persona CrearEmpleado(LinkedList<Persona> datosNuevoEmpleado) {
         Conectar();
         try {
             Mensaje mensaje = new Mensaje(Comandos.CREARUSUARIO, datosNuevoEmpleado);
             flujoSalida.writeObject(mensaje);
-        } catch (IOException ex) {
+            return (Persona) flujoEntrada.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
             ex.getMessage();
             CerrarConexion();
         }
+        return null;
     }
 
     public static LinkedList<Lugar> BuscarLugaresDeUsuario(LinkedList grupo) {

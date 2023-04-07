@@ -12,12 +12,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import pfg.Menu.Paneles;
-import pfg.resources.VentanaCrearPersonal;
+import pfg.Dialogs.VentanaCrearPersonal;
 import pfg.Dialogs.CrearTarea;
-import pfg.resources.DetallesPersonal;
-import pfg.resources.paneles.PanelPersonal;
-import pfg.resources.paneles.PanelSemana;
-import pfg.resources.paneles.PanelTareas;
+import pfg.Dialogs.DetallesPersonal;
+import pfg.paneles.PanelPersonal;
+import pfg.paneles.PanelSemana;
+import pfg.paneles.PanelTareas;
 import servidorprueba.Persona;
 
 /**

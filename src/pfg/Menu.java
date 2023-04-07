@@ -1,6 +1,8 @@
 package pfg;
 
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -10,12 +12,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import pfg.Menu.Paneles;
-import pfg.resources.CrearPersonal;
-import pfg.resources.CrearTarea;
+import pfg.resources.VentanaCrearPersonal;
+import pfg.Dialogs.CrearTarea;
 import pfg.resources.DetallesPersonal;
-import pfg.resources.PanelPersonal;
-import pfg.resources.PanelSemana;
-import pfg.resources.PanelTareas;
+import pfg.resources.paneles.PanelPersonal;
+import pfg.resources.paneles.PanelSemana;
+import pfg.resources.paneles.PanelTareas;
 import servidorprueba.Persona;
 
 /**
@@ -26,7 +28,7 @@ public class Menu extends javax.swing.JFrame {
     public enum Paneles {
         Tareas, Personal, Semana
     };
-    private boolean panelTareasActivo;
+    private Paneles panelActivo;
     private final Date diaActual;
     private Calendar calendar;
     private final Date[] dias;
@@ -34,14 +36,14 @@ public class Menu extends javax.swing.JFrame {
     private JPanel panel;
 
     /**
-     * Creates new form Menu
+     * Crea un nuevo Menu.
      *
      * @param usuario Usuario que ha logeado.
      */
     public Menu(Persona usuario) {
         super();
-        this.usuario = usuario;
-        panelTareasActivo = false;
+        Menu.usuario = usuario;
+        panelActivo = Paneles.Semana;
         dias = new Date[7];
         calendar = Calendar.getInstance();
         diaActual = calendar.getTime();
@@ -267,6 +269,7 @@ public class Menu extends javax.swing.JFrame {
 
         jPanelArriba.add(jPanelUsuario);
 
+        jPaneAbajo.setMaximumSize(getSize());
         jPaneAbajo.setName("jPaneAbajo"); // NOI18N
         jPaneAbajo.setPreferredSize(new java.awt.Dimension(500, 500));
         jPaneAbajo.setLayout(new java.awt.BorderLayout());
@@ -275,15 +278,15 @@ public class Menu extends javax.swing.JFrame {
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelArriba, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1517, Short.MAX_VALUE)
-            .addComponent(jPaneAbajo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelArriba, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPaneAbajo, javax.swing.GroupLayout.DEFAULT_SIZE, 1517, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                 .addComponent(jPanelArriba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPaneAbajo, javax.swing.GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE)
+                .addComponent(jPaneAbajo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -356,12 +359,14 @@ public class Menu extends javax.swing.JFrame {
         calendar.add(Calendar.WEEK_OF_YEAR, 1);
         ActualizarSemana(false);
         CambiarPanel(Paneles.Semana);
+        jButtonAñadirPT.setVisible(false);
     }//GEN-LAST:event_jLabelFlechaIzquierdaMouseClicked
 
     private void jLabelFlechaDerechaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelFlechaDerechaMouseClicked
         calendar.add(Calendar.WEEK_OF_YEAR, -1);
         ActualizarSemana(false);
         CambiarPanel(Paneles.Semana);
+        jButtonAñadirPT.setVisible(false);
     }//GEN-LAST:event_jLabelFlechaDerechaMouseClicked
 
     private void jLabelNombreUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelNombreUsuarioMouseClicked
@@ -370,21 +375,32 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelNombreUsuarioMouseClicked
 
     private void jButtonAñadirPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirPTActionPerformed
-        if (panelTareasActivo) {
+        if (panelActivo == Paneles.Tareas) {
             LinkedList listagrupos = new LinkedList<>();
             listagrupos.add(usuario.getGrupo());
             CrearTarea ventanaCrearTarea = new CrearTarea(this, true, null, ConectorDB.BuscarLugaresDeUsuario(listagrupos));
+            ventanaCrearTarea.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    CambiarPanel(panelActivo);
+                }
+            });
             ventanaCrearTarea.setVisible(true);
-        } else {
-            CrearPersonal ventanaCrearPersonal = new CrearPersonal(this, true, ConectorDB.BuscarGrupos());
-            ventanaCrearPersonal.setVisible(true);
+        } else if (panelActivo == Paneles.Personal) {
+            VentanaCrearPersonal ventanaCrearPersonal = new VentanaCrearPersonal(this, true, ConectorDB.BuscarGrupos());
+            ventanaCrearPersonal.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    CambiarPanel(panelActivo);
+                }
+            });
         }
     }//GEN-LAST:event_jButtonAñadirPTActionPerformed
 
     private void jDatePickerMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDatePickerMenuActionPerformed
-         Calendar selectedValue = (Calendar) jDatePickerMenu.getModel().getValue();
+        Calendar selectedValue = (Calendar) jDatePickerMenu.getModel().getValue();
         ActualizarSemana(selectedValue);
-        CambiarPanel(Paneles.Semana); 
+        CambiarPanel(Paneles.Semana);
     }//GEN-LAST:event_jDatePickerMenuActionPerformed
 
     /**
@@ -473,7 +489,6 @@ public class Menu extends javax.swing.JFrame {
         ImageIcon imageFDerecha = new ImageIcon(new ImageIcon(".\\iconos\\chevronright.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
         ImageIcon imageFIzquierda = new ImageIcon(new ImageIcon(".\\iconos\\chevronleft.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
         ImageIcon imageHome = new ImageIcon(new ImageIcon(".\\iconos\\home.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-//        ImageIcon imageCalendar = new ImageIcon(new ImageIcon(".\\iconos\\calendar.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
         jLabelFlechaDerecha.setIcon(imageFIzquierda);
         jLabelFlechaIzquierda.setIcon(imageFDerecha);
         jLabelFlechaDerecha.setText("");
@@ -496,29 +511,59 @@ public class Menu extends javax.swing.JFrame {
     }
 
     /**
+     * Cambia el panel activo en el frame principal según el tipo de panel
+     * especificado.
      *
-     * @param panelTipo
+     * @param panelTipo El tipo de panel a activar.
      */
-    private void CambiarPanel(Paneles panelTipo) {
+    public void CambiarPanel(Paneles panelTipo) {
         jPaneAbajo.removeAll();
         switch (panelTipo) {
             case Semana:
-                LinkedList grupo = new LinkedList<>();
-                grupo.add(usuario.getGrupo());
-                panel = new PanelSemana(dias, ConectorDB.BuscarLugaresDeUsuario(grupo), usuario.isEsAdmin());
+                panel = CrearPanelSemana();
                 break;
             case Tareas:
-                panel = new PanelTareas(ConectorDB.BuscarTareasGuardadas());
-                panelTareasActivo = true;
+                panel = CrearPanelTareas();
                 break;
             case Personal:
-                panel = new PanelPersonal(ConectorDB.BuscarPersonal(usuario.getGrupo()));
-                panelTareasActivo = false;
+                panel = CrearPanelPersonal();
                 break;
         }
         panel.setSize(jPaneAbajo.getWidth(), jPaneAbajo.getHeight());
         jPaneAbajo.add(panel);
         jPaneAbajo.updateUI();
+    }
+
+    /**
+     * Crea y devuelve un nuevo PanelPersonal.
+     *
+     * @return Un nuevo PanelPersonal.
+     */
+    private PanelPersonal CrearPanelPersonal() {
+        panelActivo = Paneles.Personal;
+        return new PanelPersonal(ConectorDB.BuscarPersonal(usuario.getGrupo()));
+    }
+
+    /**
+     * Crea y devuelve un nuevo PanelTareas.
+     *
+     * @return Un nuevo PanelTareas.
+     */
+    private PanelTareas CrearPanelTareas() {
+        panelActivo = Paneles.Tareas;
+        return new PanelTareas(ConectorDB.BuscarTareasGuardadas());
+    }
+
+    /**
+     * Crea y devuelve un nuevo PanelSemana.
+     *
+     * @return Un nuevo PanelSemana.
+     */
+    private PanelSemana CrearPanelSemana() {
+        LinkedList grupo = new LinkedList<>();
+        grupo.add(usuario.getGrupo());
+        panelActivo = Paneles.Semana;
+        return new PanelSemana(dias, ConectorDB.BuscarLugaresDeUsuario(grupo), usuario.isEsAdmin());
     }
 
     /**
@@ -562,5 +607,4 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
-
 }

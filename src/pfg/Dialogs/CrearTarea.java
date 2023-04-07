@@ -12,7 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import pfg.ConectorDB;
-import pfg.resources.EtiquetaTarea;
+import pfg.paneles.EtiquetaTarea;
 import servidorprueba.Lugar;
 import servidorprueba.Tarea;
 

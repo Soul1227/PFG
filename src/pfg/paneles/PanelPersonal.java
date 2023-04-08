@@ -1,6 +1,7 @@
 package pfg.paneles;
 
 import java.util.LinkedList;
+import pfg.Menu;
 import servidorprueba.Persona;
 
 /**
@@ -8,7 +9,6 @@ import servidorprueba.Persona;
  * @author angel
  */
 public class PanelPersonal extends javax.swing.JPanel {
-
     /**
      * Creates new form PanelPersonal
      */
@@ -16,10 +16,10 @@ public class PanelPersonal extends javax.swing.JPanel {
         initComponents();
     }
 
-    public PanelPersonal(LinkedList<Persona> listaPersonal) {
+    public PanelPersonal(LinkedList<Persona> listaPersonal, Menu menu) {
         this.setAutoscrolls(true);
         for (Persona p : listaPersonal) {
-            EtiquetaPersonal etiquetaPersona = new EtiquetaPersonal(p,false);
+            EtiquetaPersonal etiquetaPersona = new EtiquetaPersonal(p, false, menu);
             this.add(etiquetaPersona);
         }
     }

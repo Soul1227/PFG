@@ -268,7 +268,7 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
     }
 
     /**
-     *
+     *  Recorre los campos, crea y devuelve un objeto persona dentro de una lista.
      * @return LinkedList<Persona>
      */
     private LinkedList<Persona> TomaDatosDeLosCampos() {

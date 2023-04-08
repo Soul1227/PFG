@@ -32,6 +32,7 @@ public class ConectorDB {
     /**
      * Manda al servidor la orden de obtener la lista del personal.
      *
+     * @param num_grupo
      * @return lista con el personal
      */
     public static LinkedList BuscarPersonal(int num_grupo) {
@@ -41,9 +42,7 @@ public class ConectorDB {
             Mensaje mensaje = new Mensaje(Comandos.BUSCARMIEMBROSDELGRUPO, num_grupo);
             flujoSalida.writeObject(mensaje);
             listaPersonal = (LinkedList) flujoEntrada.readObject();
-        } catch (IOException ex) {
-            ex.getMessage();
-        } catch (ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             ex.getMessage();
         }
         CerrarConexion();
@@ -64,9 +63,7 @@ public class ConectorDB {
             Mensaje mensaje = new Mensaje(Comandos.USUARIOSFUERADETAREA, idTarea);
             flujoSalida.writeObject(mensaje);
             listaPersonal = (LinkedList) flujoEntrada.readObject();
-        } catch (IOException ex) {
-            ex.getMessage();
-        } catch (ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             ex.getMessage();
         }
         CerrarConexion();
@@ -78,9 +75,11 @@ public class ConectorDB {
     }
 
     /**
-     * Manda las los datos para la creacion de un nuevo usuario en la base de datos
+     * Manda las los datos para la creacion de un nuevo usuario en la base de
+     * datos
+     *
      * @param datosNuevoEmpleado LinkedList con un objeto Persona.
-     * @return 
+     * @return
      */
     public static Persona CrearEmpleado(LinkedList<Persona> datosNuevoEmpleado) {
         Conectar();
@@ -99,12 +98,10 @@ public class ConectorDB {
         LinkedList<Lugar> listalugares = new LinkedList();
         Conectar();
         try {
-            Mensaje mensaje = new Mensaje(Comandos.LUGARES, grupo);
+            Mensaje mensaje = new Mensaje(Comandos.BUSCARLUGARES, grupo);
             flujoSalida.writeObject(mensaje);
             listalugares = (LinkedList<Lugar>) flujoEntrada.readObject();
-        } catch (IOException ex) {
-            ex.getMessage();
-        } catch (ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             ex.getMessage();
         }
         CerrarConexion();
@@ -124,9 +121,7 @@ public class ConectorDB {
             Mensaje mensaje = new Mensaje(Comandos.LOGIN, credenciales);
             flujoSalida.writeObject(mensaje);
             p = (Persona) flujoEntrada.readObject();
-        } catch (IOException ex) {
-            ex.getMessage();
-        } catch (ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             ex.getMessage();
         }
         CerrarConexion();
@@ -145,9 +140,7 @@ public class ConectorDB {
             Mensaje mensaje = new Mensaje(Comandos.TAREASGUARDADAS);
             flujoSalida.writeObject(mensaje);
             listaTareas = (LinkedList) flujoEntrada.readObject();
-        } catch (IOException ex) {
-            ex.getMessage();
-        } catch (ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             ex.getMessage();
         }
         CerrarConexion();
@@ -163,12 +156,10 @@ public class ConectorDB {
         LinkedList listaLugares = new LinkedList();
         Conectar();
         try {
-            Mensaje mensaje = new Mensaje(Comandos.GRUPOS);
+            Mensaje mensaje = new Mensaje(Comandos.BUSCARGRUPOS);
             flujoSalida.writeObject(mensaje);
             listaLugares = (LinkedList) flujoEntrada.readObject();
-        } catch (IOException ex) {
-            ex.getMessage();
-        } catch (ClassNotFoundException ex) {
+        } catch (IOException | ClassNotFoundException ex) {
             ex.getMessage();
         }
         CerrarConexion();
@@ -191,13 +182,43 @@ public class ConectorDB {
             Mensaje mensaje = new Mensaje(Comandos.TAREASDELDIA, dia);
             flujoSalida.writeObject(mensaje);
             listaTareas = (LinkedList) flujoEntrada.readObject();
-        } catch (IOException ex) {
-            ex.getMessage();
-        } catch (ClassNotFoundException ex) {
-            ex.getMessage();
+        } catch (IOException | ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
         }
         CerrarConexion();
         return listaTareas;
+    }
+
+    public static boolean ActualizarPersonal(Persona persona) {
+        LinkedList listapersona = new LinkedList();
+        listapersona.add(persona);
+        boolean actualizado = false;
+        Conectar();
+        try {
+            Mensaje mensaje = new Mensaje(Comandos.ACTUALIZARPERSONAL, listapersona);
+            flujoSalida.writeObject(mensaje);
+            actualizado = flujoEntrada.readBoolean();
+        } catch (IOException  ex) {
+            System.err.println(ex.getMessage());
+            CerrarConexion();
+        }
+        CerrarConexion();
+        return actualizado;
+    }
+    
+    public static boolean EliminarPersonal(Persona persona){
+        LinkedList listapersona = new LinkedList();
+        listapersona.add(persona);
+        boolean eliminado = false;
+        Conectar();
+        try{
+            Mensaje mensaje = new Mensaje(Comandos.ELIMINARPERSONAL, listapersona);
+            flujoSalida.writeObject(mensaje);
+            eliminado = flujoEntrada.readBoolean();
+        }catch(IOException ex){
+            System.err.println(ex.getMessage());
+        }
+        return eliminado;
     }
 
     /**

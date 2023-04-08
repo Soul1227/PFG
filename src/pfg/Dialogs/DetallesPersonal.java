@@ -1,5 +1,10 @@
 package pfg.Dialogs;
 
+import java.util.concurrent.ExecutionException;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
+import pfg.ConectorDB;
+import pfg.Menu;
 import servidorprueba.Persona;
 
 /**
@@ -8,24 +13,30 @@ import servidorprueba.Persona;
  */
 public class DetallesPersonal extends javax.swing.JDialog {
 
+    private Persona persona;
+
     /**
      * Creates new form DetallesPersonal
+     *
+     * @param parent
+     * @param modal
      */
     public DetallesPersonal(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
     }
+
     /**
-     * 
+     *
      * @param parent
      * @param modal
      * @param persona
-     * @param esAdmin 
+     * @param esAdmin
      */
     public DetallesPersonal(java.awt.Frame parent, boolean modal, Persona persona, boolean esAdmin) {
         super(parent, modal);
         initComponents();
-        
+        this.persona = persona;
         jTextFieldNombre.setText(persona.getNombre());
         jTextFieldApellidos.setText(persona.getApellidos());
         jLabelEditador.setText(persona.getEditadoPor());
@@ -33,11 +44,19 @@ public class DetallesPersonal extends javax.swing.JDialog {
         jTextFieldNombreUsuario.setText(persona.getNombreUsuario());
         jTextFieldPass.setText(persona.getPass());
         jTextFieldTelefonos.setText(persona.getTelefono());
-        
-        if(!esAdmin){
-            jTextFieldNombre.setEditable(false);
-            jTextFieldApellidos.setEditable(false);
-            jTextFieldNombreUsuario.setEditable(false);
+        jTextFieldNombre.setEditable(false);
+        jTextFieldApellidos.setEditable(false);
+        jTextFieldNombreUsuario.setEditable(false);
+        jTextFieldEmail.setEditable(false);
+        jTextFieldTelefonos.setEditable(false);
+        jTextFieldPass.setEditable(false);
+        if (esAdmin || persona == Menu.usuario) {
+            jTextFieldNombre.setEditable(true);
+            jTextFieldApellidos.setEditable(true);
+            jTextFieldNombreUsuario.setEditable(true);
+            jTextFieldEmail.setEditable(true);
+            jTextFieldTelefonos.setEditable(true);
+            jTextFieldPass.setEditable(true);
         }
     }
 
@@ -58,8 +77,9 @@ public class DetallesPersonal extends javax.swing.JDialog {
         jTextFieldTelefonos = new javax.swing.JTextField();
         jTextFieldNombreUsuario = new javax.swing.JTextField();
         jTextFieldPass = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        jButtonActualizarPersonal = new javax.swing.JButton();
         jLabelEditador = new javax.swing.JLabel();
+        jButtonEliminarPersonal = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -104,16 +124,24 @@ public class DetallesPersonal extends javax.swing.JDialog {
         jTextFieldPass.setText(resourceMap.getString("jTextFieldPass.text")); // NOI18N
         jTextFieldPass.setName("jTextFieldPass"); // NOI18N
 
-        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
-        jButton1.setName("jButton1"); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonActualizarPersonal.setText(resourceMap.getString("jButtonActualizarPersonal.text")); // NOI18N
+        jButtonActualizarPersonal.setName("jButtonActualizarPersonal"); // NOI18N
+        jButtonActualizarPersonal.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonActualizarPersonalActionPerformed(evt);
             }
         });
 
         jLabelEditador.setText(resourceMap.getString("jLabelEditador.text")); // NOI18N
         jLabelEditador.setName("jLabelEditador"); // NOI18N
+
+        jButtonEliminarPersonal.setText(resourceMap.getString("jButtonEliminarPersonal.text")); // NOI18N
+        jButtonEliminarPersonal.setName("jButtonEliminarPersonal"); // NOI18N
+        jButtonEliminarPersonal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarPersonalActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -147,13 +175,15 @@ public class DetallesPersonal extends javax.swing.JDialog {
                         .addGap(32, 32, 32)
                         .addComponent(jTextFieldPass))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel7)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabelEditador)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel7)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(jLabelEditador))
+                            .addComponent(jButtonEliminarPersonal, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jButtonActualizarPersonal)
+                        .addGap(47, 47, 47)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -188,16 +218,65 @@ public class DetallesPersonal extends javax.swing.JDialog {
                     .addComponent(jLabel7)
                     .addComponent(jLabelEditador))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButtonActualizarPersonal)
+                    .addComponent(jButtonEliminarPersonal))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void jButtonActualizarPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarPersonalActionPerformed
+        RellenarPersona();
+        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                return ConectorDB.ActualizarPersonal(persona);
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    if (get()) {
+                        dispose();
+                    } else {
+                        JOptionPane.showConfirmDialog(rootPane, "No se pudo conectar con la base de datos\nintentelo mas tarde");
+                    }
+                } catch (ExecutionException ex) {
+                    System.err.println(ex.getMessage());
+                } catch (InterruptedException ex) {
+                    System.err.println(ex.getMessage());
+                }
+            }
+        };
+        worker.execute();
+    }//GEN-LAST:event_jButtonActualizarPersonalActionPerformed
+
+    private void jButtonEliminarPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarPersonalActionPerformed
+        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                return ConectorDB.EliminarPersonal(persona);
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    if (get()) {
+                        dispose();
+                    } else {
+                        JOptionPane.showConfirmDialog(rootPane, "No se pudo conectar con la base de datos\nintentelo mas tarde");
+                    }
+                } catch (ExecutionException ex) {
+                    System.err.println(ex.getMessage());
+                } catch (InterruptedException ex) {
+                    System.err.println(ex.getMessage());
+                }
+            }
+        };
+        worker.execute();
+    }//GEN-LAST:event_jButtonEliminarPersonalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -242,7 +321,8 @@ public class DetallesPersonal extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonActualizarPersonal;
+    private javax.swing.JButton jButtonEliminarPersonal;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -258,4 +338,17 @@ public class DetallesPersonal extends javax.swing.JDialog {
     private javax.swing.JTextField jTextFieldPass;
     private javax.swing.JTextField jTextFieldTelefonos;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * Rellena el objeto Persona con los datos actuales en los campos.
+     */
+    private void RellenarPersona() {
+        persona.setNombre(jTextFieldNombre.getText());
+        persona.setApellidos(jTextFieldApellidos.getText());
+        persona.setNombreUsuario(jTextFieldNombreUsuario.getText());
+        persona.setEmail(jTextFieldEmail.getText());
+        persona.setEditadoPor(Menu.usuario.getNombre() + " " + Menu.usuario.getApellidos());
+        persona.setPass(jTextFieldPass.getText());
+        persona.setTelefono(jTextFieldTelefonos.getText());
+    }
 }

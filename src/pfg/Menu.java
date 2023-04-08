@@ -394,6 +394,7 @@ public class Menu extends javax.swing.JFrame {
                     CambiarPanel(panelActivo);
                 }
             });
+            ventanaCrearPersonal.setVisible(true);
         }
     }//GEN-LAST:event_jButtonAñadirPTActionPerformed
 
@@ -541,7 +542,7 @@ public class Menu extends javax.swing.JFrame {
      */
     private PanelPersonal CrearPanelPersonal() {
         panelActivo = Paneles.Personal;
-        return new PanelPersonal(ConectorDB.BuscarPersonal(usuario.getGrupo()));
+        return new PanelPersonal(ConectorDB.BuscarPersonal(usuario.getGrupo()), this);
     }
 
     /**

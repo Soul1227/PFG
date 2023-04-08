@@ -1,5 +1,7 @@
 package pfg.paneles;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import pfg.Dialogs.DetallesPersonal;
 import javax.swing.JDialog;
 import pfg.Menu;
@@ -12,7 +14,8 @@ import servidorprueba.Persona;
 public class EtiquetaPersonal extends javax.swing.JPanel {
 
     private Persona persona;
-    private boolean seleccionable;
+    private boolean chequeable;
+    private Menu menu;
 
     /**
      * Creates new form PanelPersonal
@@ -33,14 +36,27 @@ public class EtiquetaPersonal extends javax.swing.JPanel {
         jLabelEmail.setText(persona.getEmail());
     }
 
-    public EtiquetaPersonal(Persona persona, boolean seleccionable) {
+    public EtiquetaPersonal(Persona persona, boolean chequeable) {
         initComponents();
         this.persona = persona;
+        this.chequeable = chequeable;
         jLabelNombreUsuario.setText(persona.getNombre() + " " + persona.getApellidos());
         jLabelTelefono.setText(persona.getTelefono());
         jLabelEmail.setText(persona.getEmail());
-        this.seleccionable = seleccionable;
-        if (!seleccionable) {
+        if (!chequeable) {
+            jCheckBox1.setVisible(false);
+        }
+    }
+
+    public EtiquetaPersonal(Persona persona, boolean chequeable, Menu menu) {
+        initComponents();
+        this.persona = persona;
+        this.menu = menu;
+        this.chequeable = chequeable;
+        jLabelNombreUsuario.setText(persona.getNombre() + " " + persona.getApellidos());
+        jLabelTelefono.setText(persona.getTelefono());
+        jLabelEmail.setText(persona.getEmail());
+        if (!chequeable) {
             jCheckBox1.setVisible(false);
         }
     }
@@ -126,10 +142,16 @@ public class EtiquetaPersonal extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
-        if (seleccionable) {
+        if (chequeable) {
             jCheckBox1.setSelected(!jCheckBox1.isSelected());
         } else {
             JDialog detallesPersona = new DetallesPersonal(null, true, persona, Menu.usuario.isEsAdmin());
+            detallesPersona.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    menu.CambiarPanel(Menu.Paneles.Personal);
+                }
+            });
             detallesPersona.setVisible(true);
         }
     }//GEN-LAST:event_formMousePressed

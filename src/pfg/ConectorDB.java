@@ -70,8 +70,17 @@ public class ConectorDB {
         return listaPersonal;
     }
 
-    public static void CrearTarea() {
+    public static Boolean CrearTarea(Tarea tarea) {
         Conectar();
+        try{
+            Mensaje mensaje = new Mensaje(Comandos.CREARTAREA, tarea);
+            flujoSalida.writeObject(mensaje);
+            return flujoEntrada.readBoolean();
+        }catch(IOException ex){
+            System.err.print(ex.getMessage());
+        }
+        CerrarConexion();
+        return false;
     }
 
     /**
@@ -94,7 +103,7 @@ public class ConectorDB {
         return null;
     }
 
-    public static LinkedList<Lugar> BuscarLugaresDeUsuario(LinkedList grupo) {
+    public static LinkedList<Lugar> BuscarLugaresDeUsuario(int grupo) {
         LinkedList<Lugar> listalugares = new LinkedList();
         Conectar();
         try {
@@ -102,7 +111,7 @@ public class ConectorDB {
             flujoSalida.writeObject(mensaje);
             listalugares = (LinkedList<Lugar>) flujoEntrada.readObject();
         } catch (IOException | ClassNotFoundException ex) {
-            ex.getMessage();
+            System.err.println(ex.getMessage());
         }
         CerrarConexion();
         return listalugares;

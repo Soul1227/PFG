@@ -5,9 +5,10 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
@@ -28,7 +29,7 @@ public class Menu extends javax.swing.JFrame {
     public enum Paneles {
         Tareas, Personal, Semana
     };
-    private Paneles panelActivo;
+    public Paneles panelActivo;
     private final Date diaActual;
     private Calendar calendar;
     private final Date[] dias;
@@ -376,9 +377,7 @@ public class Menu extends javax.swing.JFrame {
 
     private void jButtonAñadirPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirPTActionPerformed
         if (panelActivo == Paneles.Tareas) {
-            LinkedList listagrupos = new LinkedList<>();
-            listagrupos.add(usuario.getGrupo());
-            CrearTarea ventanaCrearTarea = new CrearTarea(this, true, null, ConectorDB.BuscarLugaresDeUsuario(listagrupos));
+            CrearTarea ventanaCrearTarea = new CrearTarea(this, true, null, ConectorDB.BuscarLugaresDeUsuario(usuario.getGrupo()));
             ventanaCrearTarea.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
@@ -484,7 +483,7 @@ public class Menu extends javax.swing.JFrame {
      * Metodo que prepara la interfaz de usuario en base a si el usuario es
      * administrador o no.
      *
-     * @param isAdmin
+     * @param isAdmin Booleano que designa si el usuario es admin o no.
      */
     private void PrepararInterface(boolean isAdmin) {
         ImageIcon imageFDerecha = new ImageIcon(new ImageIcon(".\\iconos\\chevronright.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
@@ -561,28 +560,26 @@ public class Menu extends javax.swing.JFrame {
      * @return Un nuevo PanelSemana.
      */
     private PanelSemana CrearPanelSemana() {
-        LinkedList grupo = new LinkedList<>();
-        grupo.add(usuario.getGrupo());
         panelActivo = Paneles.Semana;
-        return new PanelSemana(dias, ConectorDB.BuscarLugaresDeUsuario(grupo), usuario.isEsAdmin());
+        return new PanelSemana(dias, ConectorDB.BuscarLugaresDeUsuario(usuario.getGrupo()), usuario.isEsAdmin(),this);
     }
 
     /**
+     * Toma una fecha y la utiliza para seleccionar esa fecha en el componente
+     * jDatePickerMenu.
      *
-     * @param fecha
+     * @param fecha la fecha que se va a seleccionar en el jDatePickerMenu. Debe
+     * ser un objeto java.util.Date.
      */
     private void TomarFechaDelDia(Date fecha) {
-        DateFormat dfDia = new SimpleDateFormat("dd");
-        DateFormat dfMes = new SimpleDateFormat("MM");
-        DateFormat dfAno = new SimpleDateFormat("yyyy");
-        int dia = Integer.valueOf(dfDia.format(fecha));
-        int mes = Integer.valueOf(dfMes.format(fecha)) - 1;
-        int ano = Integer.valueOf(dfAno.format(fecha));
-        jDatePickerMenu.getModel().setDay(dia);
-        jDatePickerMenu.getModel().setMonth(mes);
-        jDatePickerMenu.getModel().setYear(ano);
+        LocalDate localDate = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int dia = localDate.getDayOfMonth();
+        int mes = localDate.getMonthValue() - 1;
+        int ano = localDate.getYear();
+        jDatePickerMenu.getModel().setDate(ano, mes, dia);
         jDatePickerMenu.getModel().setSelected(true);
     }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonActualizar;

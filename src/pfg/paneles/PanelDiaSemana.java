@@ -1,5 +1,7 @@
 package pfg.paneles;
 
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -9,6 +11,7 @@ import javax.swing.JDialog;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
 import pfg.Dialogs.CrearTarea;
+import pfg.Menu;
 import servidorprueba.Lugar;
 import servidorprueba.Tarea;
 
@@ -20,13 +23,26 @@ public class PanelDiaSemana extends javax.swing.JPanel {
 
     public Date fecha;
     public LinkedList<Lugar> listaLugares;
+    public Menu menu;
 
+    /**
+     *
+     */
     public PanelDiaSemana() {
         initComponents();
     }
 
-    public PanelDiaSemana(Date fecha, LinkedList<Lugar> listaLugares, boolean isAdmin, LinkedList<Tarea> listaTareas) {
+    /**
+     *
+     * @param fecha
+     * @param listaLugares
+     * @param isAdmin
+     * @param listaTareas
+     * @param menu
+     */
+    public PanelDiaSemana(Date fecha, LinkedList<Lugar> listaLugares, boolean isAdmin, LinkedList<Tarea> listaTareas, Menu menu) {
         this.fecha = fecha;
+        this.menu = menu;
         this.listaLugares = listaLugares;
         initComponents();
         if (!isAdmin) {
@@ -93,6 +109,12 @@ public class PanelDiaSemana extends javax.swing.JPanel {
 
     private void jButtonAñadirTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirTareaActionPerformed
         JDialog nuevaTarea = new CrearTarea(null, true, this.fecha, listaLugares);
+        nuevaTarea.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                menu.CambiarPanel(Menu.Paneles.Semana);
+            }
+        });
         nuevaTarea.setVisible(true);
     }//GEN-LAST:event_jButtonAñadirTareaActionPerformed
 

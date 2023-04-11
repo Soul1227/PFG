@@ -5,6 +5,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import pfg.ConectorDB;
+import pfg.Menu;
 import servidorprueba.Lugar;
 
 /**
@@ -12,7 +13,7 @@ import servidorprueba.Lugar;
  * @author angel
  */
 public class PanelSemana extends javax.swing.JPanel {
-
+    
     /**
      * Creates new form PanelSemana
      */
@@ -20,12 +21,12 @@ public class PanelSemana extends javax.swing.JPanel {
         initComponents();
     }
 
-    public PanelSemana(Date[] semana, LinkedList<Lugar> lugaresGrupo, boolean isAdmin) {
+    public PanelSemana(Date[] semana, LinkedList<Lugar> lugaresGrupo, boolean isAdmin, Menu menu) {
         initComponents();
         for (Date d : semana) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
             String strDate = dateFormat.format(d);  
-            PanelDiaSemana diaSemana = new PanelDiaSemana(d, lugaresGrupo, isAdmin, ConectorDB.BuscarTareas(strDate));
+            PanelDiaSemana diaSemana = new PanelDiaSemana(d, lugaresGrupo, isAdmin, ConectorDB.BuscarTareas(strDate),menu);
             diaSemana.setSize(WIDTH, this.getHeight());
             diaSemana.setMaximumSize(this.getSize());
             diaSemana.setAutoscrolls(true);

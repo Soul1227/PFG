@@ -2,16 +2,20 @@ package pfg.Dialogs;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.LinkedList;
+import java.util.concurrent.ExecutionException;
 import javax.swing.BoxLayout;
 import javax.swing.JColorChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingWorker;
 import pfg.ConectorDB;
+import pfg.Menu;
 import pfg.paneles.EtiquetaTarea;
 import servidorprueba.Lugar;
 import servidorprueba.Tarea;
@@ -20,7 +24,7 @@ import servidorprueba.Tarea;
  * @author angel
  */
 public class CrearTarea extends javax.swing.JDialog {
-    
+
     public String nombreTarea;
     public Color colorTarea;
     public String horaInicio;
@@ -39,12 +43,13 @@ public class CrearTarea extends javax.swing.JDialog {
         super(parent, modal);
         initComponents();
     }
+
     /**
-     * 
+     *
      * @param parent
      * @param modal
      * @param fecha
-     * @param listaLugares 
+     * @param listaLugares
      */
     public CrearTarea(java.awt.Frame parent, boolean modal, Date fecha, LinkedList<Lugar> listaLugares) {
         super(parent, modal);
@@ -73,9 +78,9 @@ public class CrearTarea extends javax.swing.JDialog {
             jLabelFecha.setVisible(false);
         } else {
             TomarFechaDelDia(fecha);
-        }        
+        }
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -391,19 +396,70 @@ public class CrearTarea extends javax.swing.JDialog {
         } else {
             //tomar los valores del formulario.
             String nombre = jTextFieldNombreTarea.getText();
-            String color = String.valueOf(jPanelColor.getBackground().getRGB());
-            if (jRadioButtonHora.isSelected()) {
-                String horaDesde = jComboBoxHoraDesde.getSelectedItem().toString() + ":" + jComboBoxMinDesde.getSelectedItem().toString();
-                String horaHasta = jComboBoxHoraHasta.getSelectedItem().toString() + ":" + jComboBoxMinHasta.getSelectedItem().toString();                
-            } else if (jRadioButtonPrioridad.isSelected()) {
-                //String prioridad = jComboBoxPrioridad.getsele
+            Color backgroundcolor = jPanelColor.getBackground();
+            String color = String.format("#%06x", backgroundcolor.getRGB() & 0xFFFFFF);
+            String horaDesde = jComboBoxHoraDesde.getSelectedItem().toString() + ":" + jComboBoxMinDesde.getSelectedItem().toString();
+            String horaHasta = jComboBoxHoraHasta.getSelectedItem().toString() + ":" + jComboBoxMinHasta.getSelectedItem().toString();
+            String lugar = jComboBoxLugar.getSelectedItem().toString();
+            String prioridad = jComboBoxPrioridad.getSelectedItem().toString();
+            Date date;
+            if (jDatePicker1.isEnabled()) {
+                java.util.Calendar calendar = (java.util.Calendar) jDatePicker1.getModel().getValue();
+                if (calendar != null) {
+                    date = new java.sql.Date(calendar.getTime().getTime());
+                } else {
+                    date = null;
+                }
+            } else {
+                date = null;
             }
-            
-            
-            
-            Date selectedDate = (Date) jDatePicker1.getModel().getValue();
-            System.out.print(selectedDate);
-            
+            if (jRadioButtonHora.isSelected() && ComprobarHoras(horaDesde, horaHasta)) {
+                jButtonAceptar.setEnabled(false);
+                SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+                    @Override
+                    protected Boolean doInBackground() throws Exception {
+                        Tarea tarea = new Tarea(nombre, color, (java.sql.Date) date, lugar, null, true, Menu.usuario.getGrupo(), null, horaDesde, horaHasta, Menu.usuario.getNombre() + " " + Menu.usuario.getApellidos());
+                        return ConectorDB.CrearTarea(tarea);
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            if (get()) {
+                                dispose();
+                            } else {
+                                JOptionPane.showMessageDialog(rootPane, "no se pudo conectar con la base de datos\nintentelo más tarde.");
+                            }
+                        } catch (ExecutionException | InterruptedException ex) {
+                            System.err.println(ex.getMessage());
+                        }
+                    }
+                };
+                worker.execute();
+            } else if (jRadioButtonPrioridad.isSelected()) {
+                jButtonAceptar.setEnabled(false);
+                SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+                    @Override
+                    protected Boolean doInBackground() throws Exception {
+                        Tarea tarea = new Tarea(nombre, color, (java.sql.Date) date, lugar, prioridad, true, Menu.usuario.getGrupo(), null, null, null, Menu.usuario.getNombre() + " " + Menu.usuario.getApellidos());
+                        return ConectorDB.CrearTarea(tarea);
+                    }
+
+                    @Override
+                    protected void done() {
+                        try {
+                            if (get()) {
+                                dispose();
+                            } else {
+                                JOptionPane.showMessageDialog(rootPane, "no se pudo conectar con la base de datos\nintentelo más tarde.");
+                            }
+                        } catch (ExecutionException | InterruptedException ex) {
+                            System.err.println(ex.getMessage());
+                        }
+                    }
+                };
+                worker.execute();
+            }
         }
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 
@@ -493,5 +549,17 @@ public class CrearTarea extends javax.swing.JDialog {
         jDatePicker1.getModel().setMonth(mes);
         jDatePicker1.getModel().setYear(ano);
         jDatePicker1.getModel().setSelected(true);
+    }
+
+    /**
+     *
+     * @param desde
+     * @param hasta
+     * @return
+     */
+    private boolean ComprobarHoras(String desde, String hasta) {
+        Time time1 = Time.valueOf(desde + ":00");
+        Time time2 = Time.valueOf(hasta + ":00");
+        return time1.before(time2);
     }
 }

@@ -1,6 +1,6 @@
 package pfg.paneles;
 
-import pfg.Dialogs.DetallesTarea;
+import pfg.Dialogs.VentanaDetallesTarea;
 import java.awt.Color;
 import servidorprueba.Tarea;
 
@@ -111,7 +111,7 @@ public class EtiquetaTarea extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        DetallesTarea detalles = new DetallesTarea(null, true, tarea);
+        VentanaDetallesTarea detalles = new VentanaDetallesTarea(null, true, tarea);
         detalles.setVisible(true);
     }//GEN-LAST:event_formMouseClicked
 

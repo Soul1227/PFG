@@ -14,8 +14,8 @@ import javax.swing.JDialog;
 import javax.swing.JPanel;
 import pfg.Menu.Paneles;
 import pfg.Dialogs.VentanaCrearPersonal;
-import pfg.Dialogs.CrearTarea;
-import pfg.Dialogs.DetallesPersonal;
+import pfg.Dialogs.VentanaCrearTarea;
+import pfg.Dialogs.VentanaDetallesPersonal;
 import pfg.paneles.PanelPersonal;
 import pfg.paneles.PanelSemana;
 import pfg.paneles.PanelTareas;
@@ -371,13 +371,13 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelFlechaDerechaMouseClicked
 
     private void jLabelNombreUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelNombreUsuarioMouseClicked
-        JDialog detallesPersona = new DetallesPersonal(null, true, Menu.usuario, Menu.usuario.isEsAdmin());
+        JDialog detallesPersona = new VentanaDetallesPersonal(null, true, Menu.usuario, Menu.usuario.isEsAdmin());
         detallesPersona.setVisible(true);
     }//GEN-LAST:event_jLabelNombreUsuarioMouseClicked
 
     private void jButtonAñadirPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirPTActionPerformed
         if (panelActivo == Paneles.Tareas) {
-            CrearTarea ventanaCrearTarea = new CrearTarea(this, true, null, ConectorDB.BuscarLugaresDeUsuario(usuario.getGrupo()));
+            VentanaCrearTarea ventanaCrearTarea = new VentanaCrearTarea(this, true, null, ConectorDB.BuscarLugaresDeUsuario(usuario.getGrupo()));
             ventanaCrearTarea.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {

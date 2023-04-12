@@ -72,11 +72,11 @@ public class ConectorDB {
 
     public static Boolean CrearTarea(Tarea tarea) {
         Conectar();
-        try{
+        try {
             Mensaje mensaje = new Mensaje(Comandos.CREARTAREA, tarea);
             flujoSalida.writeObject(mensaje);
             return flujoEntrada.readBoolean();
-        }catch(IOException ex){
+        } catch (IOException ex) {
             System.err.print(ex.getMessage());
         }
         CerrarConexion();
@@ -197,6 +197,18 @@ public class ConectorDB {
         CerrarConexion();
         return listaTareas;
     }
+    public static Tarea BuscarTareaPorId(Tarea tarea) {
+        Conectar();
+        try {
+            Mensaje mensaje = new Mensaje(Comandos.BUSCARTAREAPORID, tarea);
+            flujoSalida.writeObject(mensaje);
+            return (Tarea) flujoEntrada.readObject();
+        } catch (IOException | ClassNotFoundException ex) {
+            System.out.println(ex.getMessage());
+        }
+        CerrarConexion();
+        return null;
+    }
 
     public static boolean ActualizarPersonal(Persona persona) {
         LinkedList listapersona = new LinkedList();
@@ -207,27 +219,39 @@ public class ConectorDB {
             Mensaje mensaje = new Mensaje(Comandos.ACTUALIZARPERSONAL, listapersona);
             flujoSalida.writeObject(mensaje);
             actualizado = flujoEntrada.readBoolean();
-        } catch (IOException  ex) {
+        } catch (IOException ex) {
             System.err.println(ex.getMessage());
             CerrarConexion();
         }
         CerrarConexion();
         return actualizado;
     }
-    
-    public static boolean EliminarPersonal(Persona persona){
+
+    public static boolean EliminarPersonal(Persona persona) {
         LinkedList listapersona = new LinkedList();
         listapersona.add(persona);
         boolean eliminado = false;
         Conectar();
-        try{
+        try {
             Mensaje mensaje = new Mensaje(Comandos.ELIMINARPERSONAL, listapersona);
             flujoSalida.writeObject(mensaje);
             eliminado = flujoEntrada.readBoolean();
-        }catch(IOException ex){
+        } catch (IOException ex) {
             System.err.println(ex.getMessage());
         }
         return eliminado;
+    }
+    public static boolean AñadirPersonalATarea(Persona persona, Tarea tarea){
+        boolean añadido = false;
+        Conectar();
+        try{
+            Mensaje mensaje = new Mensaje(Comandos.AÑADIRPERSONALATAREA, persona, tarea);
+            flujoSalida.writeObject(mensaje);
+            añadido = flujoEntrada.readBoolean();
+        }catch(IOException ex){
+            System.err.println(ex.getMessage());
+        }
+        return añadido;
     }
 
     /**

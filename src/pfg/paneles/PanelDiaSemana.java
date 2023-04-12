@@ -10,7 +10,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JDialog;
 import javax.swing.border.Border;
 import javax.swing.border.TitledBorder;
-import pfg.Dialogs.CrearTarea;
+import pfg.Dialogs.VentanaCrearTarea;
 import pfg.Menu;
 import servidorprueba.Lugar;
 import servidorprueba.Tarea;
@@ -108,7 +108,7 @@ public class PanelDiaSemana extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonAñadirTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirTareaActionPerformed
-        JDialog nuevaTarea = new CrearTarea(null, true, this.fecha, listaLugares);
+        JDialog nuevaTarea = new VentanaCrearTarea(null, true, this.fecha, listaLugares);
         nuevaTarea.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {

@@ -54,8 +54,8 @@ public class PanelDiaSemana extends javax.swing.JPanel {
         Border bordeTitulado = BorderFactory.createTitledBorder(borde, diaSemana, TitledBorder.CENTER, TitledBorder.TOP);
         this.setBorder(bordeTitulado);
         jPanel2.setSize(this.getWidth(), HEIGHT);
-        for (Tarea t : listaTareas) {
-            EtiquetaTarea etiquetaTarea = new EtiquetaTarea(t);
+        for (Tarea tarea : listaTareas) {
+            EtiquetaTarea etiquetaTarea = new EtiquetaTarea(tarea);
             jPanel2.add(etiquetaTarea);
         }
     }

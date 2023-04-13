@@ -4,8 +4,12 @@ import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.util.LinkedList;
+import java.util.List;
+import java.util.concurrent.ExecutionException;
 import javax.swing.DefaultListModel;
 import javax.swing.JColorChooser;
+import javax.swing.JOptionPane;
+import javax.swing.SwingWorker;
 import pfg.ConectorDB;
 import pfg.Menu;
 import servidorprueba.Persona;
@@ -19,6 +23,7 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
 
     public Color colorTarea;
     private Tarea tarea;
+    private DefaultListModel<String> demoList;
 
     /**
      *
@@ -190,6 +195,11 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
 
         jButtonEliminarPersonal.setText(resourceMap.getString("jButtonEliminarPersonal.text")); // NOI18N
         jButtonEliminarPersonal.setName("jButtonEliminarPersonal"); // NOI18N
+        jButtonEliminarPersonal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarPersonalActionPerformed(evt);
+            }
+        });
 
         jButtonActualizarTarea.setText(resourceMap.getString("jButtonActualizarTarea.text")); // NOI18N
         jButtonActualizarTarea.setName("jButtonActualizarTarea"); // NOI18N
@@ -374,7 +384,7 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
     }//GEN-LAST:event_jRadioButtonPrioridadMouseClicked
 
     private void jButtonEliminarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarTareaActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jButtonEliminarTareaActionPerformed
 
     private void jButtonAñadirPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirPersonalActionPerformed
@@ -382,8 +392,13 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonAñadirPersonalActionPerformed
 
     private void jButtonActualizarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarTareaActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_jButtonActualizarTareaActionPerformed
+
+    private void jButtonEliminarPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarPersonalActionPerformed
+        EliminarPersonarlDeTarea(ConfirmarEliminarPersonal());
+        llenarDetallesTarea(tarea);
+    }//GEN-LAST:event_jButtonEliminarPersonalActionPerformed
 
     /**
      * @param args the command line arguments
@@ -452,10 +467,10 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
             jRadioButtonPrioridad.setSelected(true);
             jComboBoxPrioridad.setSelectedItem(tarea.getPrioridad());
         }
-        DefaultListModel<String> demoList = new DefaultListModel<>();
-        for (Persona p : tarea.getEmpleadosEnTarea()) {
+        demoList = new DefaultListModel<>();
+        tarea.getEmpleadosEnTarea().forEach((p) -> {
             demoList.addElement(p.getNombre() + " " + p.getApellidos());
-        }
+        });
         jListEmpleadosEnTarea.setModel(demoList);
         jLabelEditador.setText(tarea.getEditadoPor());
     }
@@ -494,6 +509,55 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
         ventanaAñadirPersonal.setVisible(true);
     }
 
+    /**
+     * Muestra una ventana para que el usuario decida si quiere eliminar al
+     * personal seleccionado de la tarea o no.
+     *
+     * @return true o false.
+     */
+    public boolean ConfirmarEliminarPersonal() {
+        int choice = JOptionPane.showConfirmDialog(rootPane, "¿Eliminar al personal seleccionado de la tarea?");
+        if (choice == JOptionPane.YES_OPTION) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     *
+     */
+    private void EliminarPersonarlDeTarea(Boolean eliminar) {
+        if (eliminar) {
+            List<String> selectedValues = jListEmpleadosEnTarea.getSelectedValuesList();
+            selectedValues.forEach((String value) -> {
+                tarea.getEmpleadosEnTarea().forEach((Persona persona) -> {
+                    String nombreEmpleado = persona.getNombre() + " " + persona.getApellidos();
+                    if (nombreEmpleado.equals(value)) {
+                        tarea.getEmpleadosEnTarea().remove(persona);
+                        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+                            @Override
+                            protected Boolean doInBackground() throws Exception {
+                                return ConectorDB.EliminarPersonalDeTarea(persona, tarea);
+                            }
+
+                            @Override
+                            protected void done() {
+                                try {
+                                    if (get()) {
+                                    }
+                                } catch (ExecutionException | InterruptedException ex) {
+                                    System.err.println(ex.getMessage());
+                                }
+                            }
+                        };
+                        worker.execute();
+                    }
+                });
+            });
+        }
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButtonActualizarTarea;
@@ -524,4 +588,5 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextFieldNombreTarea;
     // End of variables declaration//GEN-END:variables
+
 }

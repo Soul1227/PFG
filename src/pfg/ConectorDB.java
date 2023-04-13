@@ -26,6 +26,9 @@ public class ConectorDB {
     private static ObjectOutputStream flujoSalida;
     private static Socket s;
 
+    /**
+     * Constructor sin parametros.
+     */
     public ConectorDB() {
     }
 
@@ -197,6 +200,7 @@ public class ConectorDB {
         CerrarConexion();
         return listaTareas;
     }
+
     public static Tarea BuscarTareaPorId(Tarea tarea) {
         Conectar();
         try {
@@ -241,17 +245,37 @@ public class ConectorDB {
         }
         return eliminado;
     }
-    public static boolean AñadirPersonalATarea(Persona persona, Tarea tarea){
+
+    public static boolean AñadirPersonalATarea(Persona persona, Tarea tarea) {
         boolean añadido = false;
         Conectar();
-        try{
+        try {
             Mensaje mensaje = new Mensaje(Comandos.AÑADIRPERSONALATAREA, persona, tarea);
             flujoSalida.writeObject(mensaje);
             añadido = flujoEntrada.readBoolean();
-        }catch(IOException ex){
+        } catch (IOException ex) {
             System.err.println(ex.getMessage());
         }
         return añadido;
+    }
+/**
+ * 
+ * @param persona
+ * @param tarea
+ * @return 
+ */
+    public static boolean EliminarPersonalDeTarea(Persona persona, Tarea tarea) {
+        boolean eliminado = false;
+        Conectar();
+        try {
+            Mensaje mensaje = new Mensaje(Comandos.ELIMINARPERSONALDETAREA, persona, tarea);
+            flujoSalida.writeObject(mensaje);
+            eliminado = flujoEntrada.readBoolean();
+            return eliminado; 
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return eliminado;
     }
 
     /**

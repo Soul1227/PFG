@@ -11,12 +11,16 @@ import servidorprueba.Prioridad;
  */
 public class Maper {
 
+    int grupoUsuario;
     private HashMap<String, Integer> mapaPrioridades;
     private HashMap<String, Integer> mapaLugares;
     private LinkedList<Prioridad> listaPrioridades;
     private LinkedList<Lugar> listaLugares;
 
-    public Maper() {
+    public Maper(int grupoUsuario) {
+        this.grupoUsuario = grupoUsuario;
+        listaLugares = ConectorDB.BuscarLugaresDeUsuario(grupoUsuario);
+        listaPrioridades = ConectorDB.BuscarPrioridades();
     }
 
     public HashMap getMapaPrioridades() {

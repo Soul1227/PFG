@@ -45,7 +45,7 @@ public class Menu extends javax.swing.JFrame {
     public Menu(Persona usuario) {
         super();
         Menu.usuario = usuario;
-        maper = new Maper();
+        maper = new Maper(usuario.getGrupo());
         panelActivo = Paneles.Semana;
         dias = new Date[7];
         calendar = Calendar.getInstance();

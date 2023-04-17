@@ -400,8 +400,10 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
             String color = String.format("#%06x", backgroundcolor.getRGB() & 0xFFFFFF);
             String horaDesde = jComboBoxHoraDesde.getSelectedItem().toString() + ":" + jComboBoxMinDesde.getSelectedItem().toString();
             String horaHasta = jComboBoxHoraHasta.getSelectedItem().toString() + ":" + jComboBoxMinHasta.getSelectedItem().toString();
-            String lugar = jComboBoxLugar.getSelectedItem().toString();
-            String prioridad = jComboBoxPrioridad.getSelectedItem().toString();
+            String lugarSeleccionado = jComboBoxLugar.getSelectedItem().toString();
+            int lugarId = (int) Menu.maper.getMapaLugares().get(lugarSeleccionado);
+            String prioridadSeleccionada = jComboBoxPrioridad.getSelectedItem().toString();
+            int PrioridadId = (int) Menu.maper.getMapaPrioridades().get(prioridadSeleccionada);
             Date date;
             boolean guardada;
             if (jDatePicker1.isEnabled()) {
@@ -421,7 +423,7 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
                 SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
                     @Override
                     protected Boolean doInBackground() throws Exception {
-                        Tarea tarea = new Tarea(nombre, color, (java.sql.Date) date, lugar, null, guardada, Menu.usuario.getGrupo(), null, horaDesde, horaHasta, Menu.usuario.getNombre() + " " + Menu.usuario.getApellidos());
+                        Tarea tarea = new Tarea(nombre, color, (java.sql.Date) date, lugarId, 0, guardada, Menu.usuario.getGrupo(), null, horaDesde, horaHasta, Menu.usuario.getNombre() + " " + Menu.usuario.getApellidos());
                         return ConectorDB.CrearTarea(tarea);
                     }
 
@@ -444,7 +446,7 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
                 SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
                     @Override
                     protected Boolean doInBackground() throws Exception {
-                        Tarea tarea = new Tarea(nombre, color, (java.sql.Date) date, lugar, prioridad, guardada, Menu.usuario.getGrupo(), null, null, null, Menu.usuario.getNombre() + " " + Menu.usuario.getApellidos());
+                        Tarea tarea = new Tarea(nombre, color, (java.sql.Date) date, lugarId, PrioridadId, guardada, Menu.usuario.getGrupo(), null, null, null, Menu.usuario.getNombre() + " " + Menu.usuario.getApellidos());
                         return ConectorDB.CrearTarea(tarea);
                     }
 

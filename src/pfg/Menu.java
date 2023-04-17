@@ -34,6 +34,7 @@ public class Menu extends javax.swing.JFrame {
     private Calendar calendar;
     private final Date[] dias;
     public static Persona usuario;
+    public static Maper maper;
     private JPanel panel;
 
     /**
@@ -44,6 +45,7 @@ public class Menu extends javax.swing.JFrame {
     public Menu(Persona usuario) {
         super();
         Menu.usuario = usuario;
+        maper = new Maper();
         panelActivo = Paneles.Semana;
         dias = new Date[7];
         calendar = Calendar.getInstance();

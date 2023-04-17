@@ -453,7 +453,7 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
     private void llenarDetallesTarea(Tarea tarea) {
         jTextFieldNombreTarea.setText(tarea.getNombre());
         jPanelColor.setBackground(Color.decode(tarea.getColor()));
-        if (tarea.getPrioridad() == null) {
+        if (tarea.getPrioridad() == 0) {
             jRadioButtonHora.setSelected(true);
             String horaDesde = tarea.getHoraInicio().substring(0, 2);
             String minDesde = tarea.getHoraInicio().substring(2);

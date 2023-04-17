@@ -25,7 +25,9 @@ public class PanelSemana extends javax.swing.JPanel {
         initComponents();
         for (Date d : semana) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
-            String strDate = dateFormat.format(d);  
+            String strDate = dateFormat.format(d); 
+            Menu.maper.setListaLugares(lugaresGrupo);
+            Menu.maper.CrearMapaLugares(lugaresGrupo);
             PanelDiaSemana diaSemana = new PanelDiaSemana(d, lugaresGrupo, isAdmin, ConectorDB.BuscarTareas(strDate),menu);
             diaSemana.setSize(WIDTH, this.getHeight());
             diaSemana.setMaximumSize(this.getSize());

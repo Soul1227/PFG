@@ -145,7 +145,6 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
         jLabelHasta.setText(resourceMap.getString("jLabelHasta.text")); // NOI18N
         jLabelHasta.setName("jLabelHasta"); // NOI18N
 
-        jComboBoxPrioridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "baja", "media", "alta" }));
         jComboBoxPrioridad.setName("jComboBoxPrioridad"); // NOI18N
 
         jLabelLugar.setText(resourceMap.getString("jLabelLugar.text")); // NOI18N
@@ -274,9 +273,9 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
                                             .addGap(6, 6, 6)
                                             .addComponent(jRadioButtonHora)))
                                     .addGap(18, 18, 18)
-                                    .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jRadioButtonPrioridad)
-                                        .addComponent(jComboBoxPrioridad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(jRadioButtonPrioridad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addComponent(jComboBoxPrioridad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
                         .addContainerGap(9, Short.MAX_VALUE))
                     .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
                         .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

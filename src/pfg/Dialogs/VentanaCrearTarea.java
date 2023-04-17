@@ -18,6 +18,7 @@ import pfg.ConectorDB;
 import pfg.Menu;
 import pfg.paneles.EtiquetaTarea;
 import servidorprueba.Lugar;
+import servidorprueba.Prioridad;
 import servidorprueba.Tarea;
 
 /**
@@ -68,6 +69,9 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
         //Se añade el nuevo panel al tabpanel.
         jTabbedPane1.add(scroll, "Tareas Guardadas");
 
+        RellenarPrioridades(ConectorDB.BuscarPrioridades());
+
+        Menu.maper.setMapaLugares(Menu.maper.CrearMapaLugares(listaLugares));
         //Se rellena el combo box con los lugares que pertenecen al grupo.
         for (Lugar l : listaLugares) {
             String nombreLugar = l.getNombre();
@@ -184,7 +188,6 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
 
         jDatePicker1.setName("jDatePicker1"); // NOI18N
 
-        jComboBoxPrioridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "baja", "media", "alta" }));
         jComboBoxPrioridad.setName("jComboBoxPrioridad"); // NOI18N
 
         jLabelLugar.setText(resourceMap.getString("jLabelLugar.text")); // NOI18N
@@ -258,10 +261,10 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(jComboBoxLugar, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jComboBoxPrioridad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jRadioButtonPrioridad))))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jRadioButtonPrioridad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jComboBoxPrioridad, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
         jPanelNuevaTareaCreacionLayout.setVerticalGroup(
             jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,7 +316,7 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)
+            .addComponent(jTabbedPane1)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -568,4 +571,13 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
         Time time2 = Time.valueOf(hasta + ":00");
         return time1.before(time2);
     }
+
+    private void RellenarPrioridades(LinkedList<Prioridad> listaPrioridades) {
+        Menu.maper.setListaPrioridades(listaPrioridades);
+        Menu.maper.setMapaPrioridades(Menu.maper.CrearMapaPrioridades(listaPrioridades));
+        listaPrioridades.forEach((p)->{
+            jComboBoxPrioridad.addItem(p.getNombre());
+        });
+    }
+
 }

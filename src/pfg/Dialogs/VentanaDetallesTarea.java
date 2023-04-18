@@ -12,7 +12,9 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import pfg.ConectorDB;
 import pfg.Menu;
+import servidorprueba.Lugar;
 import servidorprueba.Persona;
+import servidorprueba.Prioridad;
 import servidorprueba.Tarea;
 
 /**
@@ -47,8 +49,8 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
         super(parentFrame, isModal);
         initComponents();
         this.tarea = tarea;
-        llenarDetallesTarea(tarea);
-        configurarComponentesUI();
+        ConfigurarComponentesUI();
+        RellenarDetallesTarea(tarea);
     }
 
     @SuppressWarnings("unchecked")
@@ -145,13 +147,11 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
         jLabelHasta.setText(resourceMap.getString("jLabelHasta.text")); // NOI18N
         jLabelHasta.setName("jLabelHasta"); // NOI18N
 
-        jComboBoxPrioridad.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "baja", "media", "alta" }));
         jComboBoxPrioridad.setName("jComboBoxPrioridad"); // NOI18N
 
         jLabelLugar.setText(resourceMap.getString("jLabelLugar.text")); // NOI18N
         jLabelLugar.setName("jLabelLugar"); // NOI18N
 
-        jComboBoxLugar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "H. San Carlos", "H. Puerta tierra" }));
         jComboBoxLugar.setName("jComboBoxLugar"); // NOI18N
 
         buttonGroup1.add(jRadioButtonHora);
@@ -231,6 +231,33 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
+                        .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelNuevaTareaCreacionLayout.createSequentialGroup()
+                                .addComponent(jLabelNombre)
+                                .addGap(18, 18, 18)
+                                .addComponent(jTextFieldNombreTarea, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelNuevaTareaCreacionLayout.createSequentialGroup()
+                                .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
+                                        .addComponent(jLabelDesde)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jComboBoxHoraDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jLabelDesde2)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                        .addComponent(jComboBoxMinDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
+                                        .addGap(6, 6, 6)
+                                        .addComponent(jRadioButtonHora)))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jRadioButtonPrioridad, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
+                                        .addComponent(jComboBoxPrioridad, javax.swing.GroupLayout.PREFERRED_SIZE, 76, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(0, 0, Short.MAX_VALUE)))))
+                        .addGap(1, 1, 1))
+                    .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
                         .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
                                 .addComponent(jLabelColor, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -255,31 +282,6 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
                                 .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(jButtonEliminarPersonal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addComponent(jButtonAñadirPersonal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                            .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelNuevaTareaCreacionLayout.createSequentialGroup()
-                                    .addComponent(jLabelNombre)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(jTextFieldNombreTarea))
-                                .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanelNuevaTareaCreacionLayout.createSequentialGroup()
-                                    .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
-                                            .addComponent(jLabelDesde)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jComboBoxHoraDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jLabelDesde2)
-                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                            .addComponent(jComboBoxMinDesde, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
-                                            .addGap(6, 6, 6)
-                                            .addComponent(jRadioButtonHora)))
-                                    .addGap(18, 18, 18)
-                                    .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jRadioButtonPrioridad)
-                                        .addComponent(jComboBoxPrioridad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                        .addContainerGap(9, Short.MAX_VALUE))
-                    .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
-                        .addGroup(jPanelNuevaTareaCreacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanelNuevaTareaCreacionLayout.createSequentialGroup()
                                 .addGap(6, 6, 6)
                                 .addComponent(jButtonActualizarTarea)
@@ -397,7 +399,7 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
 
     private void jButtonEliminarPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarPersonalActionPerformed
         EliminarPersonarlDeTarea(ConfirmarEliminarPersonal());
-        llenarDetallesTarea(tarea);
+        RellenarDetallesTarea(tarea);
     }//GEN-LAST:event_jButtonEliminarPersonalActionPerformed
 
     /**
@@ -450,22 +452,16 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
      *
      * @param tarea La tarea que se mostrará en el diálogo.
      */
-    private void llenarDetallesTarea(Tarea tarea) {
+    private void RellenarDetallesTarea(Tarea tarea) {
         jTextFieldNombreTarea.setText(tarea.getNombre());
         jPanelColor.setBackground(Color.decode(tarea.getColor()));
-        if (tarea.getPrioridad() == null) {
+        RellenarComboBoxPrioridad(ConectorDB.BuscarPrioridades());
+        RellenarComboBoxLugares(ConectorDB.BuscarLugaresDeUsuario(Menu.usuario.getGrupo()));
+        if (tarea.getPrioridad() == 0) {
             jRadioButtonHora.setSelected(true);
-            String horaDesde = tarea.getHoraInicio().substring(0, 2);
-            String minDesde = tarea.getHoraInicio().substring(2);
-            jComboBoxHoraDesde.setSelectedItem(horaDesde);
-            jComboBoxMinDesde.setSelectedItem(minDesde);
-            String horaHasta = tarea.getHoraFin().substring(0, 2);
-            String minHasta = tarea.getHoraFin().substring(2);
-            jComboBoxHoraHasta.setSelectedItem(horaHasta);
-            jComboBoxMinHasta.setSelectedItem(minHasta);
+            RellenarHora(tarea.getHoraInicio(), tarea.getHoraFin());
         } else {
             jRadioButtonPrioridad.setSelected(true);
-            jComboBoxPrioridad.setSelectedItem(tarea.getPrioridad());
         }
         demoList = new DefaultListModel<>();
         tarea.getEmpleadosEnTarea().forEach((p) -> {
@@ -476,11 +472,10 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
     }
 
     /**
-     *
      * Configura los componentes de la interfaz de usuario, incluyendo la
      * desactivación de la edición si el usuario no es un administrador.
      */
-    private void configurarComponentesUI() {
+    private void ConfigurarComponentesUI() {
         boolean esAdmin = Menu.usuario.isEsAdmin();
         jButtonAñadirPersonal.setVisible(esAdmin);
         jButtonEliminarPersonal.setVisible(esAdmin);
@@ -495,6 +490,9 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
         jComboBoxPrioridad.setEditable(esAdmin);
     }
 
+    /**
+     *
+     */
     private void CearVentanaAñadirPersonalATarea() {
         LinkedList argumentos = new LinkedList();
         argumentos.add(tarea.getId());
@@ -503,7 +501,7 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
         ventanaAñadirPersonal.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
-                llenarDetallesTarea(tarea);
+                RellenarDetallesTarea(tarea);
             }
         });
         ventanaAñadirPersonal.setVisible(true);
@@ -556,6 +554,64 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
                 });
             });
         }
+    }
+
+    /**
+     * Rellena el ComboBox Prioridades y asigna como selecteditem aquel que
+     * corresponda con la prioridad de la tarea.
+     *
+     * @param BuscarPrioridades lista de prioridades obtenida de la base de
+     * datos
+     */
+    private void RellenarComboBoxPrioridad(LinkedList<Prioridad> BuscarPrioridades) {
+        //Rellenar el combo box
+        Menu.maper.ActualizarMapaPrioridades(BuscarPrioridades);
+        BuscarPrioridades.forEach((prioridad) -> {
+            jComboBoxPrioridad.addItem(prioridad.getNombre());
+        });
+        //Asignar el item prioridad de la tarea en el combo box
+        if (tarea.getPrioridad() != 0) {
+            BuscarPrioridades.forEach((prioridad) -> {
+                if (prioridad.getId() == tarea.getPrioridad()) {
+                    jComboBoxPrioridad.setSelectedItem(prioridad.getNombre());
+                }
+            });
+        }
+    }
+
+    /**
+     * Rellena los ComboBox de hora desde y hasta.
+     *
+     * @param horaInicio de la tarea.
+     * @param horaFin de la tarea.
+     */
+    private void RellenarHora(String horaInicio, String horaFin) {
+        String horaDesde = horaInicio.substring(0, 2);
+        String minDesde = horaInicio.substring(2);
+        jComboBoxHoraDesde.setSelectedItem(horaDesde);
+        jComboBoxMinDesde.setSelectedItem(minDesde);
+        String horaHasta = horaFin.substring(0, 2);
+        String minHasta = horaFin.substring(2);
+        jComboBoxHoraHasta.setSelectedItem(horaHasta);
+        jComboBoxMinHasta.setSelectedItem(minHasta);
+    }
+
+    /**
+     *
+     * @param BuscarLugaresDeUsuario
+     */
+    private void RellenarComboBoxLugares(LinkedList<Lugar> BuscarLugaresDeUsuario) {
+        //Rellena el combobox
+        Menu.maper.ActualizarMapaLugares(BuscarLugaresDeUsuario);
+        BuscarLugaresDeUsuario.forEach((lugar) -> {
+            jComboBoxLugar.addItem(lugar.getNombre());
+        });
+        // Asigna el lugar de la tarea en el combobox.
+        BuscarLugaresDeUsuario.forEach((lugar) -> {
+            if (lugar.getId() == tarea.getLugar()) {
+                jComboBoxLugar.setSelectedItem(lugar.getNombre());
+            }
+        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

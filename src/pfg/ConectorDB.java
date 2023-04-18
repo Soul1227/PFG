@@ -10,6 +10,7 @@ import servidorprueba.Grupo;
 import servidorprueba.Lugar;
 import servidorprueba.Mensaje;
 import servidorprueba.Persona;
+import servidorprueba.Prioridad;
 import servidorprueba.Tarea;
 
 /**
@@ -118,6 +119,19 @@ public class ConectorDB {
         }
         CerrarConexion();
         return listalugares;
+    }
+    
+    public static LinkedList<Prioridad> BuscarPrioridades(){
+        LinkedList<Prioridad> listaPrioridades = new LinkedList<>();
+        Conectar();
+        try{
+            Mensaje mensaje = new Mensaje(Comandos.BUSCARPRIORIDAD);
+            flujoSalida.writeObject(mensaje);
+            listaPrioridades = (LinkedList<Prioridad>)flujoEntrada.readObject();
+        }catch(ClassNotFoundException | IOException ex){
+            System.err.println(ex.getMessage());
+        }
+        return listaPrioridades;
     }
 
     /**

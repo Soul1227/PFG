@@ -69,8 +69,8 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
         //Se añade el nuevo panel al tabpanel.
         jTabbedPane1.add(scroll, "Tareas Guardadas");
 
+        
         RellenarPrioridades(ConectorDB.BuscarPrioridades());
-
         Menu.maper.setMapaLugares(Menu.maper.CrearMapaLugares(listaLugares));
         //Se rellena el combo box con los lugares que pertenecen al grupo.
         for (Lugar l : listaLugares) {
@@ -194,11 +194,6 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
         jLabelLugar.setName("jLabelLugar"); // NOI18N
 
         jComboBoxLugar.setName("jComboBoxLugar"); // NOI18N
-        jComboBoxLugar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jComboBoxLugarActionPerformed(evt);
-            }
-        });
 
         buttonGroup1.add(jRadioButtonHora);
         jRadioButtonHora.setText(resourceMap.getString("jRadioButtonHora.text")); // NOI18N
@@ -372,10 +367,6 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
     private void jButtonCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonCancelarMouseClicked
         dispose();
     }//GEN-LAST:event_jButtonCancelarMouseClicked
-
-    private void jComboBoxLugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBoxLugarActionPerformed
-
-    }//GEN-LAST:event_jComboBoxLugarActionPerformed
 
     private void jRadioButtonHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonHoraActionPerformed
         jComboBoxHoraDesde.setEnabled(true);
@@ -572,9 +563,13 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
         return time1.before(time2);
     }
 
+    /**
+     * 
+     * @param listaPrioridades 
+     */
     private void RellenarPrioridades(LinkedList<Prioridad> listaPrioridades) {
         Menu.maper.setListaPrioridades(listaPrioridades);
-        Menu.maper.setMapaPrioridades(Menu.maper.CrearMapaPrioridades(listaPrioridades));
+        Menu.maper.ActualizarMapaPrioridades(listaPrioridades);
         listaPrioridades.forEach((p)->{
             jComboBoxPrioridad.addItem(p.getNombre());
         });

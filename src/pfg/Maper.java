@@ -86,4 +86,18 @@ public class Maper {
         });
         return mapaPrioridadesActualizado;
     }
+    /**
+     * 
+     * @param listaPrioridades 
+     */
+    public void ActualizarMapaPrioridades(LinkedList<Prioridad> listaPrioridades){
+        setMapaPrioridades(CrearMapaPrioridades(listaPrioridades));
+    }
+    /**
+     * 
+     * @param listaLugares 
+     */
+    public void ActualizarMapaLugares(LinkedList<Lugar> listaLugares){
+        setMapaLugares(CrearMapaLugares(listaLugares));
+    }
 }

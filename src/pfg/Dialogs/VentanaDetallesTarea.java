@@ -12,6 +12,7 @@ import javax.swing.JOptionPane;
 import javax.swing.SwingWorker;
 import pfg.ConectorDB;
 import pfg.Menu;
+import servidorprueba.Lugar;
 import servidorprueba.Persona;
 import servidorprueba.Prioridad;
 import servidorprueba.Tarea;
@@ -151,7 +152,6 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
         jLabelLugar.setText(resourceMap.getString("jLabelLugar.text")); // NOI18N
         jLabelLugar.setName("jLabelLugar"); // NOI18N
 
-        jComboBoxLugar.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "H. San Carlos", "H. Puerta tierra" }));
         jComboBoxLugar.setName("jComboBoxLugar"); // NOI18N
 
         buttonGroup1.add(jRadioButtonHora);
@@ -456,19 +456,12 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
         jTextFieldNombreTarea.setText(tarea.getNombre());
         jPanelColor.setBackground(Color.decode(tarea.getColor()));
         RellenarComboBoxPrioridad(ConectorDB.BuscarPrioridades());
+        RellenarComboBoxLugares(ConectorDB.BuscarLugaresDeUsuario(Menu.usuario.getGrupo()));
         if (tarea.getPrioridad() == 0) {
             jRadioButtonHora.setSelected(true);
-            String horaDesde = tarea.getHoraInicio().substring(0, 2);
-            String minDesde = tarea.getHoraInicio().substring(2);
-            jComboBoxHoraDesde.setSelectedItem(horaDesde);
-            jComboBoxMinDesde.setSelectedItem(minDesde);
-            String horaHasta = tarea.getHoraFin().substring(0, 2);
-            String minHasta = tarea.getHoraFin().substring(2);
-            jComboBoxHoraHasta.setSelectedItem(horaHasta);
-            jComboBoxMinHasta.setSelectedItem(minHasta);
+            RellenarHora(tarea.getHoraInicio(), tarea.getHoraFin());
         } else {
             jRadioButtonPrioridad.setSelected(true);
-
         }
         demoList = new DefaultListModel<>();
         tarea.getEmpleadosEnTarea().forEach((p) -> {
@@ -563,6 +556,64 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Rellena el ComboBox Prioridades y asigna como selecteditem aquel que
+     * corresponda con la prioridad de la tarea.
+     *
+     * @param BuscarPrioridades lista de prioridades obtenida de la base de
+     * datos
+     */
+    private void RellenarComboBoxPrioridad(LinkedList<Prioridad> BuscarPrioridades) {
+        //Rellenar el combo box
+        Menu.maper.ActualizarMapaPrioridades(BuscarPrioridades);
+        BuscarPrioridades.forEach((prioridad) -> {
+            jComboBoxPrioridad.addItem(prioridad.getNombre());
+        });
+        //Asignar el item prioridad de la tarea en el combo box
+        if (tarea.getPrioridad() != 0) {
+            BuscarPrioridades.forEach((prioridad) -> {
+                if (prioridad.getId() == tarea.getPrioridad()) {
+                    jComboBoxPrioridad.setSelectedItem(prioridad.getNombre());
+                }
+            });
+        }
+    }
+
+    /**
+     * Rellena los ComboBox de hora desde y hasta.
+     *
+     * @param horaInicio de la tarea.
+     * @param horaFin de la tarea.
+     */
+    private void RellenarHora(String horaInicio, String horaFin) {
+        String horaDesde = horaInicio.substring(0, 2);
+        String minDesde = horaInicio.substring(2);
+        jComboBoxHoraDesde.setSelectedItem(horaDesde);
+        jComboBoxMinDesde.setSelectedItem(minDesde);
+        String horaHasta = horaFin.substring(0, 2);
+        String minHasta = horaFin.substring(2);
+        jComboBoxHoraHasta.setSelectedItem(horaHasta);
+        jComboBoxMinHasta.setSelectedItem(minHasta);
+    }
+
+    /**
+     *
+     * @param BuscarLugaresDeUsuario
+     */
+    private void RellenarComboBoxLugares(LinkedList<Lugar> BuscarLugaresDeUsuario) {
+        //Rellena el combobox
+        Menu.maper.ActualizarMapaLugares(BuscarLugaresDeUsuario);
+        BuscarLugaresDeUsuario.forEach((lugar) -> {
+            jComboBoxLugar.addItem(lugar.getNombre());
+        });
+        // Asigna el lugar de la tarea en el combobox.
+        BuscarLugaresDeUsuario.forEach((lugar) -> {
+            if (lugar.getId() == tarea.getLugar()) {
+                jComboBoxLugar.setSelectedItem(lugar.getNombre());
+            }
+        });
+    }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton jButtonActualizarTarea;
@@ -594,26 +645,4 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
     private javax.swing.JTextField jTextFieldNombreTarea;
     // End of variables declaration//GEN-END:variables
 
-    /**
-     * Rellena el ComboBox Prioridades y asigna como selecteditem aquel que
-     * corresponda con la prioridad de la tarea.
-     *
-     * @param BuscarPrioridades lista de prioridades obtenida de la base de
-     * datos
-     */
-    private void RellenarComboBoxPrioridad(LinkedList<Prioridad> BuscarPrioridades) {
-        //Rellenar el combo box
-        Menu.maper.ActualizarMapaPrioridades(BuscarPrioridades);
-        BuscarPrioridades.forEach((prioridad) -> {
-            jComboBoxPrioridad.addItem(prioridad.getNombre());
-        });
-        //Asignar el item prioridad de la tarea en el combo box
-        if (tarea.getPrioridad() != 0) {
-            BuscarPrioridades.forEach((prioridad) -> {
-                if (prioridad.getId() == tarea.getPrioridad()) {
-                    jComboBoxPrioridad.setSelectedItem(prioridad.getNombre());
-                }
-            });
-        }
-    }
 }

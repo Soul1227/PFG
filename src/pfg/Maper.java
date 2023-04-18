@@ -91,6 +91,7 @@ public class Maper {
      * @param listaPrioridades 
      */
     public void ActualizarMapaPrioridades(LinkedList<Prioridad> listaPrioridades){
+        setListaPrioridades(listaPrioridades);
         setMapaPrioridades(CrearMapaPrioridades(listaPrioridades));
     }
     /**
@@ -98,6 +99,7 @@ public class Maper {
      * @param listaLugares 
      */
     public void ActualizarMapaLugares(LinkedList<Lugar> listaLugares){
+        setListaLugares(listaLugares);
         setMapaLugares(CrearMapaLugares(listaLugares));
     }
 }

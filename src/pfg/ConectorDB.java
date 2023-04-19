@@ -321,6 +321,23 @@ public class ConectorDB {
         }
         return eliminado;
     }
+    /**
+     * 
+     * @param tarea
+     * @return 
+     */
+    public static boolean EliminarTarea(Tarea tarea){
+        boolean eliminado = false;
+        Conectar();
+        try{
+            Mensaje mensaje = new Mensaje(Comandos.ELIMINARTAREA, tarea);
+            flujoSalida.writeObject(mensaje);
+            eliminado = flujoEntrada.readBoolean();
+        }catch(IOException ex){
+            System.err.println(ex.getMessage());
+        }
+        return eliminado;
+    }
 
     /**
      * Abre la conexion con el servidor.

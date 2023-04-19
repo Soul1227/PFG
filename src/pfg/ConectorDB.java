@@ -120,15 +120,15 @@ public class ConectorDB {
         CerrarConexion();
         return listalugares;
     }
-    
-    public static LinkedList<Prioridad> BuscarPrioridades(){
+
+    public static LinkedList<Prioridad> BuscarPrioridades() {
         LinkedList<Prioridad> listaPrioridades = new LinkedList<>();
         Conectar();
-        try{
+        try {
             Mensaje mensaje = new Mensaje(Comandos.BUSCARPRIORIDAD);
             flujoSalida.writeObject(mensaje);
-            listaPrioridades = (LinkedList<Prioridad>)flujoEntrada.readObject();
-        }catch(ClassNotFoundException | IOException ex){
+            listaPrioridades = (LinkedList<Prioridad>) flujoEntrada.readObject();
+        } catch (ClassNotFoundException | IOException ex) {
             System.err.println(ex.getMessage());
         }
         return listaPrioridades;
@@ -245,6 +245,11 @@ public class ConectorDB {
         return actualizado;
     }
 
+    /**
+     *
+     * @param persona
+     * @return
+     */
     public static boolean EliminarPersonal(Persona persona) {
         LinkedList listapersona = new LinkedList();
         listapersona.add(persona);
@@ -260,6 +265,30 @@ public class ConectorDB {
         return eliminado;
     }
 
+    /**
+     *
+     * @param tarea
+     * @return
+     */
+    public static boolean ActualizarTarea(Tarea tarea) {
+        Conectar();
+        boolean actualizada = false;
+        try {
+            Mensaje mensaje = new Mensaje(Comandos.ACTUALIZARTAREA, tarea);
+            flujoSalida.writeObject(mensaje);
+            actualizada = flujoEntrada.readBoolean();
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return actualizada;
+    }
+
+    /**
+     *
+     * @param persona
+     * @param tarea
+     * @return
+     */
     public static boolean AñadirPersonalATarea(Persona persona, Tarea tarea) {
         boolean añadido = false;
         Conectar();
@@ -272,12 +301,13 @@ public class ConectorDB {
         }
         return añadido;
     }
-/**
- * 
- * @param persona
- * @param tarea
- * @return 
- */
+
+    /**
+     *
+     * @param persona
+     * @param tarea
+     * @return
+     */
     public static boolean EliminarPersonalDeTarea(Persona persona, Tarea tarea) {
         boolean eliminado = false;
         Conectar();
@@ -285,7 +315,7 @@ public class ConectorDB {
             Mensaje mensaje = new Mensaje(Comandos.ELIMINARPERSONALDETAREA, persona, tarea);
             flujoSalida.writeObject(mensaje);
             eliminado = flujoEntrada.readBoolean();
-            return eliminado; 
+            return eliminado;
         } catch (IOException ex) {
             System.err.println(ex.getMessage());
         }

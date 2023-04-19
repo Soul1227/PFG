@@ -23,12 +23,24 @@ import servidorprueba.Tarea;
  */
 public class VentanaDetallesTarea extends javax.swing.JDialog {
 
-    public Color colorTarea;
     private Tarea tarea;
+    private String nombreTarea;
+    public Color colorTarea;
+    private String StringColor;
+    private String horaInicio;
+    private String horaFin;
+    private String horaDesde;
+    private String minDesde;
+    private String horaHasta;
+    private String minHasta;
+    private int prioridad;
+    private int lugar;
+    private LinkedList<Persona> listaPersonal;
+    private String editadoPor;
+
     private DefaultListModel<String> demoList;
 
     /**
-     *
      * @param parent
      * @param modal
      */
@@ -394,7 +406,7 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
     }//GEN-LAST:event_jButtonAñadirPersonalActionPerformed
 
     private void jButtonActualizarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarTareaActionPerformed
-
+        ActualizarTarea();
     }//GEN-LAST:event_jButtonActualizarTareaActionPerformed
 
     private void jButtonEliminarPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarPersonalActionPerformed
@@ -446,7 +458,6 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
     }
 
     /**
-     *
      * Llena los componentes de la interfaz de usuario con los detalles de la
      * tarea dada.
      *
@@ -586,12 +597,12 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
      * @param horaFin de la tarea.
      */
     private void RellenarHora(String horaInicio, String horaFin) {
-        String horaDesde = horaInicio.substring(0, 2);
-        String minDesde = horaInicio.substring(2);
+        horaDesde = horaInicio.substring(0, 2);
+        minDesde = horaInicio.substring(3);
         jComboBoxHoraDesde.setSelectedItem(horaDesde);
         jComboBoxMinDesde.setSelectedItem(minDesde);
-        String horaHasta = horaFin.substring(0, 2);
-        String minHasta = horaFin.substring(2);
+        horaHasta = horaFin.substring(0, 2);
+        minHasta = horaFin.substring(3);
         jComboBoxHoraHasta.setSelectedItem(horaHasta);
         jComboBoxMinHasta.setSelectedItem(minHasta);
     }
@@ -612,6 +623,27 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
                 jComboBoxLugar.setSelectedItem(lugar.getNombre());
             }
         });
+    }
+
+    /**
+     * Tomas los valores de la ventana "VentanaDetallesTarea" para actualizar la
+     * tarea en la base de datos.
+     */
+    private void ActualizarTarea() {
+        setNombreTarea(jTextFieldNombreTarea.getText());
+        setStringColor(colorTarea);
+        if (jRadioButtonPrioridad.isSelected()) {
+            setHoraInicio(null);
+            setHoraFin(null);
+            setPrioridad(getValorPrioridad());
+        } else {
+            prioridad = 0;
+            CrearHoras();
+        }
+        setLugar(getValorLugar());
+        setEditadoPor(Menu.usuario.getNombre() + " " + Menu.usuario.getApellidos());
+        Tarea tareaActualizada = new Tarea(tarea.getId(), nombreTarea, StringColor, tarea.getFecha(), lugar, prioridad,tarea.isGuardada(), tarea.getGrupo(), tarea.getEmpleadosEnTarea(), horaInicio, horaFin, editadoPor);
+        ConectorDB.ActualizarTarea(tareaActualizada);    
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -644,5 +676,139 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTextField jTextFieldNombreTarea;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     *
+     * @return
+     */
+    private int getValorLugar() {
+        return (int) Menu.maper.getMapaLugares().get(jComboBoxLugar.getSelectedItem().toString());
+    }
+
+    /**
+     *
+     * @return
+     */
+    private int getValorPrioridad() {
+        return (int) Menu.maper.getMapaPrioridades().get(jComboBoxPrioridad.getSelectedItem().toString());
+    }
+
+    public Tarea getTarea() {
+        return tarea;
+    }
+
+    public void setTarea(Tarea tarea) {
+        this.tarea = tarea;
+    }
+
+    public String getHoraInicio() {
+        return horaInicio;
+    }
+
+    public void setHoraInicio(String horaInicio) {
+        this.horaInicio = horaInicio;
+    }
+
+    public String getHoraFin() {
+        return horaFin;
+    }
+
+    public void setHoraFin(String horaFin) {
+        this.horaFin = horaFin;
+    }
+
+    public String getNombreTarea() {
+        return nombreTarea;
+    }
+
+    public void setNombreTarea(String nombreTarea) {
+        this.nombreTarea = nombreTarea;
+    }
+
+    public String getStringColor() {
+        return StringColor;
+    }
+
+    public void setStringColor(Color colorTarea) {
+        if(colorTarea==null){
+            this.StringColor = tarea.getColor();
+        }else{
+            this.StringColor = String.format("#%06x", colorTarea.getRGB() & 0xFFFFFF);
+        }  
+    }
+
+    public String getHoraDesde() {
+        return horaDesde;
+    }
+
+    public void setHoraDesde(String horaDesde) {
+        this.horaDesde = horaDesde;
+    }
+
+    public String getMinDesde() {
+        return minDesde;
+    }
+
+    public void setMinDesde(String minDesde) {
+        this.minDesde = minDesde;
+    }
+
+    public String getHoraHasta() {
+        return horaHasta;
+    }
+
+    public void setHoraHasta(String horaHasta) {
+        this.horaHasta = horaHasta;
+    }
+
+    public String getMinHasta() {
+        return minHasta;
+    }
+
+    public void setMinHasta(String minHasta) {
+        this.minHasta = minHasta;
+    }
+
+    public int getPrioridad() {
+        return prioridad;
+    }
+
+    public void setPrioridad(int prioridad) {
+        this.prioridad = prioridad;
+    }
+
+    public int getLugar() {
+        return lugar;
+    }
+
+    public void setLugar(int lugar) {
+        this.lugar = lugar;
+    }
+
+    public LinkedList<Persona> getListaPersonal() {
+        return listaPersonal;
+    }
+
+    public void setListaPersonal(LinkedList<Persona> listaPersonal) {
+        this.listaPersonal = listaPersonal;
+    }
+
+    public String getEditadoPor() {
+        return editadoPor;
+    }
+
+    public void setEditadoPor(String editadoPor) {
+        this.editadoPor = editadoPor;
+    }
+
+    private void CrearHoras() {
+        setHoraDesde(jComboBoxHoraDesde.getSelectedItem().toString());
+        setMinDesde(jComboBoxMinDesde.getSelectedItem().toString());
+        setHoraHasta(jComboBoxHoraHasta.getSelectedItem().toString());
+        setMinHasta(jComboBoxMinHasta.getSelectedItem().toString());
+
+        setHoraInicio(getHoraDesde() + ":" + getMinDesde());
+        setHoraFin(getHoraHasta() + ":" + getMinHasta());
+    }
 
 }

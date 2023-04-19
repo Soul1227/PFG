@@ -29,7 +29,7 @@ public class Menu extends javax.swing.JFrame {
     public enum Paneles {
         Tareas, Personal, Semana
     };
-    public Paneles panelActivo;
+    private Paneles panelActivo;
     private final Date diaActual;
     private Calendar calendar;
     private final Date[] dias;
@@ -553,7 +553,7 @@ public class Menu extends javax.swing.JFrame {
      */
     private PanelTareas CrearPanelTareas() {
         panelActivo = Paneles.Tareas;
-        return new PanelTareas(ConectorDB.BuscarTareasGuardadas());
+        return new PanelTareas(ConectorDB.BuscarTareasGuardadas(), this);
     }
 
     /**
@@ -580,6 +580,14 @@ public class Menu extends javax.swing.JFrame {
         int ano = localDate.getYear();
         jDatePickerMenu.getModel().setDate(ano, mes, dia);
         jDatePickerMenu.getModel().setSelected(true);
+    }
+
+    public Paneles getPanelActivo() {
+        return panelActivo;
+    }
+
+    public void setPanelActivo(Paneles panelActivo) {
+        this.panelActivo = panelActivo;
     }
 
 

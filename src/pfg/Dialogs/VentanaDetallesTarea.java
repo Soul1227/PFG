@@ -398,7 +398,7 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
     }//GEN-LAST:event_jRadioButtonPrioridadMouseClicked
 
     private void jButtonEliminarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarTareaActionPerformed
-
+        EliminarTarea();
     }//GEN-LAST:event_jButtonEliminarTareaActionPerformed
 
     private void jButtonAñadirPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirPersonalActionPerformed
@@ -809,6 +809,15 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
 
         setHoraInicio(getHoraDesde() + ":" + getMinDesde());
         setHoraFin(getHoraHasta() + ":" + getMinHasta());
+    }
+
+    private void EliminarTarea() {
+        if(!tarea.getEmpleadosEnTarea().isEmpty()){
+            tarea.getEmpleadosEnTarea().forEach((empleado)->{
+                ConectorDB.EliminarPersonalDeTarea(empleado, tarea);
+            });
+        }
+        ConectorDB.EliminarTarea(tarea);
     }
 
 }

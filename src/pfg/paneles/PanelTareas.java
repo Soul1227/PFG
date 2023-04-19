@@ -1,6 +1,7 @@
 package pfg.paneles;
 
 import java.util.LinkedList;
+import pfg.Menu;
 import servidorprueba.Tarea;
 
 /**
@@ -9,16 +10,25 @@ import servidorprueba.Tarea;
  */
 public class PanelTareas extends javax.swing.JPanel {
 
+    private Menu menu;
+
     public LinkedList<Tarea> listaTareas;
+
     public PanelTareas() {
         initComponents();
     }
 
-    public PanelTareas(LinkedList<Tarea> listaTareas) {
+    /**
+     * 
+     * @param listaTareas
+     * @param menu 
+     */
+    public PanelTareas(LinkedList<Tarea> listaTareas, Menu menu) {
         this.listaTareas = listaTareas;
-        for(Tarea t :listaTareas){
-            EtiquetaTarea etiquetaTarea = new EtiquetaTarea(t);
-        this.add(etiquetaTarea);
+        this.menu = menu;
+        for (Tarea t : listaTareas) {
+            EtiquetaTarea etiquetaTarea = new EtiquetaTarea(t, menu);
+            this.add(etiquetaTarea);
         }
     }
 
@@ -29,7 +39,6 @@ public class PanelTareas extends javax.swing.JPanel {
     public void setListaTareas(LinkedList<Tarea> listaTareas) {
         this.listaTareas = listaTareas;
     }
-    
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents

@@ -2,6 +2,8 @@ package pfg.paneles;
 
 import pfg.Dialogs.VentanaDetallesTarea;
 import java.awt.Color;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import pfg.Maper;
 import pfg.Menu;
 import servidorprueba.Prioridad;
@@ -15,6 +17,7 @@ public class EtiquetaTarea extends javax.swing.JPanel {
 
     private Tarea tarea;
     private Maper maper;
+    private Menu menu;
 
     /**
      * Creates new form PanelTarea
@@ -24,21 +27,46 @@ public class EtiquetaTarea extends javax.swing.JPanel {
     }
 
     /**
-     * 
-     * @param tarea 
+     *
+     * @param tarea
      */
     public EtiquetaTarea(Tarea tarea) {
         initComponents();
         this.tarea = tarea;
         this.maper = Menu.maper;
+        this.menu = null;
         maper.setMapaPrioridades(maper.CrearMapaPrioridades(maper.getListaPrioridades()));
         jLabelNombreTarea.setText(tarea.getNombre());
-        if(tarea.getHoraInicio()!=null){
+        if (tarea.getHoraInicio() != null) {
             jLabelHora.setText(tarea.getHoraInicio() + ":" + tarea.getHoraFin());
-        }else{
-            for(Prioridad p : maper.getListaPrioridades()){
-                if(p.getId()==tarea.getPrioridad()){
-                   jLabelHora.setText("Prioridad: "+p.getNombre()); 
+        } else {
+            for (Prioridad p : maper.getListaPrioridades()) {
+                if (p.getId() == tarea.getPrioridad()) {
+                    jLabelHora.setText("Prioridad: " + p.getNombre());
+                }
+            }
+        }
+        jPanelColor.setBackground(Color.decode(tarea.getColor()));
+    }
+
+    /**
+     *
+     * @param tarea
+     * @param menu
+     */
+    public EtiquetaTarea(Tarea tarea, Menu menu) {
+        initComponents();
+        this.tarea = tarea;
+        this.maper = Menu.maper;
+        this.menu = menu;
+        maper.setMapaPrioridades(maper.CrearMapaPrioridades(maper.getListaPrioridades()));
+        jLabelNombreTarea.setText(tarea.getNombre());
+        if (tarea.getHoraInicio() != null) {
+            jLabelHora.setText(tarea.getHoraInicio() + ":" + tarea.getHoraFin());
+        } else {
+            for (Prioridad p : maper.getListaPrioridades()) {
+                if (p.getId() == tarea.getPrioridad()) {
+                    jLabelHora.setText("Prioridad: " + p.getNombre());
                 }
             }
         }
@@ -109,8 +137,18 @@ public class EtiquetaTarea extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void formMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseClicked
-        VentanaDetallesTarea detalles = new VentanaDetallesTarea(null, true, tarea);
-        detalles.setVisible(true);
+        if (menu == null) {
+
+        } else {
+            VentanaDetallesTarea detalles = new VentanaDetallesTarea(null, true, tarea);
+            detalles.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    menu.CambiarPanel(menu.getPanelActivo());
+                }
+            });
+            detalles.setVisible(true);
+        }
     }//GEN-LAST:event_formMouseClicked
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

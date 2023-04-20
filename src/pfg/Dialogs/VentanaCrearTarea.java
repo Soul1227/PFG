@@ -25,6 +25,11 @@ import servidorprueba.Prioridad;
 import servidorprueba.Tarea;
 
 /**
+ * Ventana para crear una nueva tarea. La ventana contiene diferentes campos que
+ * el usuario debe completar para crear una nueva tarea. Además, muestra tareas
+ * previamente guardadas para que el usuario pueda seleccionarlas y utilizarlas
+ * como base para crear una nueva tarea.
+ *
  * @author angel
  */
 public class VentanaCrearTarea extends javax.swing.JDialog {
@@ -36,14 +41,14 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
     public String horaFinal;
     public Date fecha;
     public String editadoPor;
-    public SimpleDateFormat model;
+    public SimpleDateFormat dateFormat;
     private Maper maper;
 
     /**
-     * Creates new form CrearTarea
+     * Crea una nueva instancia de la ventana.
      *
-     * @param parent
-     * @param modal
+     * @param parent El Frame padre de la ventana.
+     * @param modal Un valor booleano que indica si la ventana es modal.
      */
     public VentanaCrearTarea(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -52,47 +57,47 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
 
     /**
      *
-     * @param parent
-     * @param modal
-     * @param fecha
-     * @param listaLugares
+     * Crea una nueva instancia de la ventana.
+     *
+     * @param parent El Frame padre de la ventana.
+     * @param modal Un valor booleano que indica si la ventana es modal.
+     * @param fecha La fecha en la que se creará la tarea.
+     * @param listaLugares Una lista de lugares disponibles para asociar a la
+     * tarea.
      */
     public VentanaCrearTarea(java.awt.Frame parent, boolean modal, Date fecha, LinkedList<Lugar> listaLugares) {
         super(parent, modal);
         initComponents();
         this.maper = Menu.maper;
+        this.dateFormat = new SimpleDateFormat();
 
         //Creacion de panel e introduccion de las tareas guardadas.
-        JPanel jPanelTareasGuardadasCreacion = new JPanel();
+        JPanel jPanelTareasGuardadas = new JPanel();
         LinkedList<Tarea> listaTareas = ConectorDB.BuscarTareasGuardadas();
         for (Tarea t : listaTareas) {
             EtiquetaTarea etiquetaTarea = new EtiquetaTarea(t);
             etiquetaTarea.addMouseListener(new MouseInputAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    // Get the index of the "Tareas Guardadas" tab
-                    int index = jTabbedPane1.indexOfTab("Nueva Tarea");
+                    // Obtener el índice de la pestaña "Tareas Guardadas"
+                    int index = jTabbedPane.indexOfTab("Nueva Tarea");
                     tarea = etiquetaTarea.getTarea();
-                    // Select the "Tareas Guardadas" tab
-                    jTabbedPane1.setSelectedIndex(index);
+                    // Seleccionar la pestaña "Tareas Guardadas"
+                    jTabbedPane.setSelectedIndex(index);
                     RellenarDatosTarea(tarea);
                 }
             });
-            jPanelTareasGuardadasCreacion.add(etiquetaTarea);
+            jPanelTareasGuardadas.add(etiquetaTarea);
         }
-        jPanelTareasGuardadasCreacion.setLayout(new BoxLayout(jPanelTareasGuardadasCreacion, BoxLayout.Y_AXIS));
-        JScrollPane scroll = new JScrollPane(jPanelTareasGuardadasCreacion);
+        jPanelTareasGuardadas.setLayout(new BoxLayout(jPanelTareasGuardadas, BoxLayout.Y_AXIS));
+        JScrollPane scroll = new JScrollPane(jPanelTareasGuardadas);
         scroll.setPreferredSize(new Dimension(300, 300));
         //Se añade el nuevo panel al tabpanel.
-        jTabbedPane1.add(scroll, "Tareas Guardadas");
+        jTabbedPane.add(scroll, "Tareas Guardadas");
 
         RellenarPrioridades(ConectorDB.BuscarPrioridades());
-        Menu.maper.setMapaLugares(Menu.maper.CrearMapaLugares(listaLugares));
-        //Se rellena el combo box con los lugares que pertenecen al grupo.
-        for (Lugar l : listaLugares) {
-            String nombreLugar = l.getNombre();
-            jComboBoxLugar.addItem(nombreLugar);
-        }
+        RellenarLugares(listaLugares);
+
         if (fecha == null) {
             jDatePicker1.setVisible(false);
             jLabelFecha.setVisible(false);
@@ -107,7 +112,7 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jTabbedPane = new javax.swing.JTabbedPane();
         jPanelNuevaTareaCreacion = new javax.swing.JPanel();
         jTextFieldNombreTarea = new javax.swing.JTextField();
         jLabelNombre = new javax.swing.JLabel();
@@ -138,8 +143,8 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
         jPanel2.setName("jPanel2"); // NOI18N
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(VentanaCrearTarea.class);
-        jTabbedPane1.setFont(resourceMap.getFont("jTabbedPane1.font")); // NOI18N
-        jTabbedPane1.setName("jTabbedPane1"); // NOI18N
+        jTabbedPane.setFont(resourceMap.getFont("jTabbedPane.font")); // NOI18N
+        jTabbedPane.setName("jTabbedPane"); // NOI18N
 
         jPanelNuevaTareaCreacion.setName("jPanelNuevaTareaCreacion"); // NOI18N
 
@@ -321,18 +326,18 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
                         .addGap(95, 95, 95))))
         );
 
-        jTabbedPane1.addTab(resourceMap.getString("jPanelNuevaTareaCreacion.TabConstraints.tabTitle"), jPanelNuevaTareaCreacion); // NOI18N
+        jTabbedPane.addTab(resourceMap.getString("jPanelNuevaTareaCreacion.TabConstraints.tabTitle"), jPanelNuevaTareaCreacion); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 6, Short.MAX_VALUE))
         );
 
@@ -373,17 +378,39 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Método que se ejecuta al hacer clic en el panel de color para elegir un
+     * color para la tarea. Abre un JColorChooser para que el usuario seleccione
+     * un color y lo asigna a la variable de clase colorTarea. También cambia el
+     * fondo del panel para que muestre el color seleccionado.
+     *
+     * @param evt El evento del mouse que se produce al hacer clic en el panel
+     * de color.
+     */
     private void jPanelColorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelColorMouseClicked
         Color color = JColorChooser.showDialog(null, "Elige un color", Color.WHITE);
         colorTarea = color;
         jPanelColor.setBackground(color);
     }//GEN-LAST:event_jPanelColorMouseClicked
-
+    /**
+     * Método que se ejecuta al hacer clic en el botón "Cancelar". Cierra la
+     * ventana actual.
+     *
+     * @param evt El evento del mouse que se produce al hacer clic en el botón
+     * "Cancelar".
+     */
     private void jButtonCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonCancelarMouseClicked
         dispose();
     }//GEN-LAST:event_jButtonCancelarMouseClicked
-
+    /**
+     * Método que se ejecuta al seleccionar la opción de hora en el radio
+     * button. Habilita los campos para seleccionar la hora de inicio y
+     * finalización de la tarea, y deshabilita el campo para seleccionar la
+     * prioridad.
+     *
+     * @param evt El evento que se produce al seleccionar la opción de hora en
+     * el radio button.
+     */
     private void jRadioButtonHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonHoraActionPerformed
         jComboBoxHoraDesde.setEnabled(true);
         jComboBoxHoraHasta.setEnabled(true);
@@ -391,7 +418,15 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
         jComboBoxMinHasta.setEnabled(true);
         jComboBoxPrioridad.setEnabled(false);
     }//GEN-LAST:event_jRadioButtonHoraActionPerformed
-
+    /**
+     * Método que se ejecuta al hacer clic en la opción de prioridad en el radio
+     * button. Deshabilita los campos para seleccionar la hora de inicio y
+     * finalización de la tarea, y habilita el campo para seleccionar la
+     * prioridad.
+     *
+     * @param evt El evento del mouse que se produce al hacer clic en la opción
+     * de prioridad en el radio button.
+     */
     private void jRadioButtonPrioridadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButtonPrioridadMouseClicked
         jComboBoxHoraDesde.setEnabled(false);
         jComboBoxHoraHasta.setEnabled(false);
@@ -544,7 +579,7 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
     private javax.swing.JPanel jPanelNuevaTareaCreacion;
     private javax.swing.JRadioButton jRadioButtonHora;
     private javax.swing.JRadioButton jRadioButtonPrioridad;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JTextField jTextFieldNombreTarea;
     // End of variables declaration//GEN-END:variables
 
@@ -584,10 +619,20 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
      * @param listaPrioridades
      */
     private void RellenarPrioridades(LinkedList<Prioridad> listaPrioridades) {
-        Menu.maper.setListaPrioridades(listaPrioridades);
-        Menu.maper.ActualizarMapaPrioridades(listaPrioridades);
+        maper.ActualizarMapaPrioridades(listaPrioridades);
         listaPrioridades.forEach((p) -> {
             jComboBoxPrioridad.addItem(p.getNombre());
+        });
+    }
+
+    /**
+     *
+     * @param listaLugares
+     */
+    private void RellenarLugares(LinkedList<Lugar> listaLugares) {
+        maper.ActualizarMapaLugares(listaLugares);
+        listaLugares.forEach((lugar) -> {
+            jComboBoxLugar.addItem(lugar.getNombre());
         });
     }
 

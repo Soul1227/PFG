@@ -2,6 +2,7 @@ package pfg.Dialogs;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.MouseEvent;
 import java.sql.Time;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -14,7 +15,9 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SwingWorker;
+import javax.swing.event.MouseInputAdapter;
 import pfg.ConectorDB;
+import pfg.Maper;
 import pfg.Menu;
 import pfg.paneles.EtiquetaTarea;
 import servidorprueba.Lugar;
@@ -26,6 +29,7 @@ import servidorprueba.Tarea;
  */
 public class VentanaCrearTarea extends javax.swing.JDialog {
 
+    public Tarea tarea;
     public String nombreTarea;
     public Color colorTarea;
     public String horaInicio;
@@ -33,6 +37,7 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
     public Date fecha;
     public String editadoPor;
     public SimpleDateFormat model;
+    private Maper maper;
 
     /**
      * Creates new form CrearTarea
@@ -55,12 +60,24 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
     public VentanaCrearTarea(java.awt.Frame parent, boolean modal, Date fecha, LinkedList<Lugar> listaLugares) {
         super(parent, modal);
         initComponents();
+        this.maper = Menu.maper;
 
         //Creacion de panel e introduccion de las tareas guardadas.
         JPanel jPanelTareasGuardadasCreacion = new JPanel();
         LinkedList<Tarea> listaTareas = ConectorDB.BuscarTareasGuardadas();
         for (Tarea t : listaTareas) {
             EtiquetaTarea etiquetaTarea = new EtiquetaTarea(t);
+            etiquetaTarea.addMouseListener(new MouseInputAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    // Get the index of the "Tareas Guardadas" tab
+                    int index = jTabbedPane1.indexOfTab("Nueva Tarea");
+                    tarea = etiquetaTarea.getTarea();
+                    // Select the "Tareas Guardadas" tab
+                    jTabbedPane1.setSelectedIndex(index);
+                    RellenarDatosTarea(tarea);
+                }
+            });
             jPanelTareasGuardadasCreacion.add(etiquetaTarea);
         }
         jPanelTareasGuardadasCreacion.setLayout(new BoxLayout(jPanelTareasGuardadasCreacion, BoxLayout.Y_AXIS));
@@ -69,7 +86,6 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
         //Se añade el nuevo panel al tabpanel.
         jTabbedPane1.add(scroll, "Tareas Guardadas");
 
-        
         RellenarPrioridades(ConectorDB.BuscarPrioridades());
         Menu.maper.setMapaLugares(Menu.maper.CrearMapaLugares(listaLugares));
         //Se rellena el combo box con los lugares que pertenecen al grupo.
@@ -564,15 +580,43 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
     }
 
     /**
-     * 
-     * @param listaPrioridades 
+     *
+     * @param listaPrioridades
      */
     private void RellenarPrioridades(LinkedList<Prioridad> listaPrioridades) {
         Menu.maper.setListaPrioridades(listaPrioridades);
         Menu.maper.ActualizarMapaPrioridades(listaPrioridades);
-        listaPrioridades.forEach((p)->{
+        listaPrioridades.forEach((p) -> {
             jComboBoxPrioridad.addItem(p.getNombre());
         });
     }
 
+    /**
+     *
+     * @param tarea
+     */
+    private void RellenarDatosTarea(Tarea tarea) {
+        jTextFieldNombreTarea.setText(tarea.getNombre());
+        colorTarea = Color.decode(tarea.getColor());
+        jPanelColor.setBackground(colorTarea);
+        if (tarea.getPrioridad() == 0) {
+            jRadioButtonHora.setSelected(true);
+            jComboBoxHoraDesde.setSelectedItem(tarea.getHoraInicio().substring(0, 2));
+            jComboBoxMinDesde.setSelectedItem(tarea.getHoraInicio().substring(3));
+            jComboBoxHoraHasta.setSelectedItem(tarea.getHoraFin().substring(0, 2));
+            jComboBoxMinHasta.setSelectedItem(tarea.getHoraFin().substring(3));
+        } else {
+            jRadioButtonPrioridad.setSelected(true);
+            maper.getListaPrioridades().forEach((prioridad) -> {
+                if (prioridad.getId() == tarea.getPrioridad()) {
+                    jComboBoxPrioridad.setSelectedItem(prioridad.getNombre());
+                }
+            });
+        }
+        maper.getListaLugares().forEach((lugar) -> {
+            if (lugar.getId() == tarea.getLugar()) {
+                jComboBoxLugar.setSelectedItem(lugar.getNombre());
+            }
+        });
+    }
 }

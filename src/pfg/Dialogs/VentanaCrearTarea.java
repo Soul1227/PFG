@@ -4,8 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
 import java.sql.Time;
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.concurrent.ExecutionException;
@@ -25,6 +25,11 @@ import servidorprueba.Prioridad;
 import servidorprueba.Tarea;
 
 /**
+ * Ventana para crear una nueva Tarea. La ventana contiene diferentes campos que
+ * el usuario debe completar para crear una nueva Tarea. Además, muestra tareas
+ * previamente guardadas para que el usuario pueda seleccionarlas y utilizarlas
+ * como base para crear una nueva Tarea.
+ *
  * @author angel
  */
 public class VentanaCrearTarea extends javax.swing.JDialog {
@@ -36,14 +41,14 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
     public String horaFinal;
     public Date fecha;
     public String editadoPor;
-    public SimpleDateFormat model;
+    public SimpleDateFormat dateFormat;
     private Maper maper;
 
     /**
-     * Creates new form CrearTarea
+     * Crea una nueva instancia de la ventana.
      *
-     * @param parent
-     * @param modal
+     * @param parent El Frame padre de la ventana.
+     * @param modal Un valor booleano que indica si la ventana es modal.
      */
     public VentanaCrearTarea(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -52,47 +57,47 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
 
     /**
      *
-     * @param parent
-     * @param modal
-     * @param fecha
-     * @param listaLugares
+     * Crea una nueva instancia de la ventana.
+     *
+     * @param parent El Frame padre de la ventana.
+     * @param modal Un valor booleano que indica si la ventana es modal.
+     * @param fecha La fecha en la que se creará la nuevaTarea.
+     * @param listaLugares Una lista de lugares disponibles para asociar a la
+     * nuevaTarea.
      */
     public VentanaCrearTarea(java.awt.Frame parent, boolean modal, Date fecha, LinkedList<Lugar> listaLugares) {
         super(parent, modal);
         initComponents();
         this.maper = Menu.maper;
+        this.dateFormat = new SimpleDateFormat();
 
         //Creacion de panel e introduccion de las tareas guardadas.
-        JPanel jPanelTareasGuardadasCreacion = new JPanel();
+        JPanel jPanelTareasGuardadas = new JPanel();
         LinkedList<Tarea> listaTareas = ConectorDB.BuscarTareasGuardadas();
         for (Tarea t : listaTareas) {
             EtiquetaTarea etiquetaTarea = new EtiquetaTarea(t);
             etiquetaTarea.addMouseListener(new MouseInputAdapter() {
                 @Override
                 public void mouseClicked(MouseEvent e) {
-                    // Get the index of the "Tareas Guardadas" tab
-                    int index = jTabbedPane1.indexOfTab("Nueva Tarea");
+                    // Obtener el índice de la pestaña "Tareas Guardadas"
+                    int index = jTabbedPane.indexOfTab("Nueva Tarea");
                     tarea = etiquetaTarea.getTarea();
-                    // Select the "Tareas Guardadas" tab
-                    jTabbedPane1.setSelectedIndex(index);
+                    // Seleccionar la pestaña "Tareas Guardadas"
+                    jTabbedPane.setSelectedIndex(index);
                     RellenarDatosTarea(tarea);
                 }
             });
-            jPanelTareasGuardadasCreacion.add(etiquetaTarea);
+            jPanelTareasGuardadas.add(etiquetaTarea);
         }
-        jPanelTareasGuardadasCreacion.setLayout(new BoxLayout(jPanelTareasGuardadasCreacion, BoxLayout.Y_AXIS));
-        JScrollPane scroll = new JScrollPane(jPanelTareasGuardadasCreacion);
+        jPanelTareasGuardadas.setLayout(new BoxLayout(jPanelTareasGuardadas, BoxLayout.Y_AXIS));
+        JScrollPane scroll = new JScrollPane(jPanelTareasGuardadas);
         scroll.setPreferredSize(new Dimension(300, 300));
         //Se añade el nuevo panel al tabpanel.
-        jTabbedPane1.add(scroll, "Tareas Guardadas");
+        jTabbedPane.add(scroll, "Tareas Guardadas");
 
         RellenarPrioridades(ConectorDB.BuscarPrioridades());
-        Menu.maper.setMapaLugares(Menu.maper.CrearMapaLugares(listaLugares));
-        //Se rellena el combo box con los lugares que pertenecen al grupo.
-        for (Lugar l : listaLugares) {
-            String nombreLugar = l.getNombre();
-            jComboBoxLugar.addItem(nombreLugar);
-        }
+        RellenarLugares(listaLugares);
+
         if (fecha == null) {
             jDatePicker1.setVisible(false);
             jLabelFecha.setVisible(false);
@@ -107,7 +112,7 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
 
         buttonGroup1 = new javax.swing.ButtonGroup();
         jPanel2 = new javax.swing.JPanel();
-        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jTabbedPane = new javax.swing.JTabbedPane();
         jPanelNuevaTareaCreacion = new javax.swing.JPanel();
         jTextFieldNombreTarea = new javax.swing.JTextField();
         jLabelNombre = new javax.swing.JLabel();
@@ -138,8 +143,8 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
         jPanel2.setName("jPanel2"); // NOI18N
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(VentanaCrearTarea.class);
-        jTabbedPane1.setFont(resourceMap.getFont("jTabbedPane1.font")); // NOI18N
-        jTabbedPane1.setName("jTabbedPane1"); // NOI18N
+        jTabbedPane.setFont(resourceMap.getFont("jTabbedPane.font")); // NOI18N
+        jTabbedPane.setName("jTabbedPane"); // NOI18N
 
         jPanelNuevaTareaCreacion.setName("jPanelNuevaTareaCreacion"); // NOI18N
 
@@ -321,18 +326,18 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
                         .addGap(95, 95, 95))))
         );
 
-        jTabbedPane1.addTab(resourceMap.getString("jPanelNuevaTareaCreacion.TabConstraints.tabTitle"), jPanelNuevaTareaCreacion); // NOI18N
+        jTabbedPane.addTab(resourceMap.getString("jPanelNuevaTareaCreacion.TabConstraints.tabTitle"), jPanelNuevaTareaCreacion); // NOI18N
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jTabbedPane1)
+            .addComponent(jTabbedPane)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jTabbedPane, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 6, Short.MAX_VALUE))
         );
 
@@ -373,17 +378,39 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    /**
+     * Método que se ejecuta al hacer clic en el panel de color para elegir un
+     * color para la nuevaTarea. Abre un JColorChooser para que el usuario
+     * seleccione un color y lo asigna a la variable de clase colorTarea.
+     * También cambia el fondo del panel para que muestre el color seleccionado.
+     *
+     * @param evt El evento del mouse que se produce al hacer clic en el panel
+     * de color.
+     */
     private void jPanelColorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jPanelColorMouseClicked
         Color color = JColorChooser.showDialog(null, "Elige un color", Color.WHITE);
         colorTarea = color;
         jPanelColor.setBackground(color);
     }//GEN-LAST:event_jPanelColorMouseClicked
-
+    /**
+     * Método que se ejecuta al hacer clic en el botón "Cancelar". Cierra la
+     * ventana actual.
+     *
+     * @param evt El evento del mouse que se produce al hacer clic en el botón
+     * "Cancelar".
+     */
     private void jButtonCancelarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonCancelarMouseClicked
         dispose();
     }//GEN-LAST:event_jButtonCancelarMouseClicked
-
+    /**
+     * Método que se ejecuta al seleccionar la opción de hora en el radio
+     * button. Habilita los campos para seleccionar la hora de inicio y
+     * finalización de la nuevaTarea, y deshabilita el campo para seleccionar la
+     * prioridad.
+     *
+     * @param evt El evento que se produce al seleccionar la opción de hora en
+     * el radio button.
+     */
     private void jRadioButtonHoraActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButtonHoraActionPerformed
         jComboBoxHoraDesde.setEnabled(true);
         jComboBoxHoraHasta.setEnabled(true);
@@ -391,7 +418,15 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
         jComboBoxMinHasta.setEnabled(true);
         jComboBoxPrioridad.setEnabled(false);
     }//GEN-LAST:event_jRadioButtonHoraActionPerformed
-
+    /**
+     * Método que se ejecuta al hacer clic en la opción de prioridad en el radio
+     * button. Deshabilita los campos para seleccionar la hora de inicio y
+     * finalización de la nuevaTarea, y habilita el campo para seleccionar la
+     * prioridad.
+     *
+     * @param evt El evento del mouse que se produce al hacer clic en la opción
+     * de prioridad en el radio button.
+     */
     private void jRadioButtonPrioridadMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jRadioButtonPrioridadMouseClicked
         jComboBoxHoraDesde.setEnabled(false);
         jComboBoxHoraHasta.setEnabled(false);
@@ -399,83 +434,49 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
         jComboBoxMinHasta.setEnabled(false);
         jComboBoxPrioridad.setEnabled(true);
     }//GEN-LAST:event_jRadioButtonPrioridadMouseClicked
-
+    /**
+     * Método que se ejecuta cuando se presiona el botón "Aceptar" del
+     * formulario de creación de tarea. Verifica que se haya seleccionado entre
+     * "Hora" y "Prioridad". Si no es así, muestra un mensaje de error y termina
+     * la ejecución. Obtiene los valores del formulario y los convierte en una
+     * instancia de la clase Tarea. Luego, la envía a la base de datos para que
+     * sea creada. Si la tarea es creada exitosamente, cierra el formulario. Si
+     * no, muestra un mensaje de error. Este método se ejecuta en un hilo
+     * SwingWorker para no bloquear la interfaz gráfica de usuario.
+     *
+     * @param evt objeto que representa el evento de presionar el botón
+     * "Aceptar".
+     */
     private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
         if (!jRadioButtonHora.isSelected() && !jRadioButtonPrioridad.isSelected()) {
             JOptionPane.showMessageDialog(rootPane, "seleccione entre hora y prioridad");
-        } else {
-            //tomar los valores del formulario.
-            String nombre = jTextFieldNombreTarea.getText();
-            Color backgroundcolor = jPanelColor.getBackground();
-            String color = String.format("#%06x", backgroundcolor.getRGB() & 0xFFFFFF);
-            String horaDesde = jComboBoxHoraDesde.getSelectedItem().toString() + ":" + jComboBoxMinDesde.getSelectedItem().toString();
-            String horaHasta = jComboBoxHoraHasta.getSelectedItem().toString() + ":" + jComboBoxMinHasta.getSelectedItem().toString();
-            String lugarSeleccionado = jComboBoxLugar.getSelectedItem().toString();
-            int lugarId = (int) Menu.maper.getMapaLugares().get(lugarSeleccionado);
-            String prioridadSeleccionada = jComboBoxPrioridad.getSelectedItem().toString();
-            int PrioridadId = (int) Menu.maper.getMapaPrioridades().get(prioridadSeleccionada);
-            Date date;
-            boolean guardada;
-            if (jDatePicker1.isEnabled()) {
-                guardada = false;
-                java.util.Calendar calendar = (java.util.Calendar) jDatePicker1.getModel().getValue();
-                if (calendar != null) {
-                    date = new java.sql.Date(calendar.getTime().getTime());
-                } else {
-                    date = null;
-                }
-            } else {
-                date = null;
-                guardada = true;
-            }
-            if (jRadioButtonHora.isSelected() && ComprobarHoras(horaDesde, horaHasta)) {
-                jButtonAceptar.setEnabled(false);
-                SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
-                    @Override
-                    protected Boolean doInBackground() throws Exception {
-                        Tarea tarea = new Tarea(nombre, color, (java.sql.Date) date, lugarId, 0, guardada, Menu.usuario.getGrupo(), null, horaDesde, horaHasta, Menu.usuario.getNombre() + " " + Menu.usuario.getApellidos());
-                        return ConectorDB.CrearTarea(tarea);
-                    }
-
-                    @Override
-                    protected void done() {
-                        try {
-                            if (get()) {
-                                dispose();
-                            } else {
-                                JOptionPane.showMessageDialog(rootPane, "no se pudo conectar con la base de datos\nintentelo más tarde.");
-                            }
-                        } catch (ExecutionException | InterruptedException ex) {
-                            System.err.println(ex.getMessage());
-                        }
-                    }
-                };
-                worker.execute();
-            } else if (jRadioButtonPrioridad.isSelected()) {
-                jButtonAceptar.setEnabled(false);
-                SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
-                    @Override
-                    protected Boolean doInBackground() throws Exception {
-                        Tarea tarea = new Tarea(nombre, color, (java.sql.Date) date, lugarId, PrioridadId, guardada, Menu.usuario.getGrupo(), null, null, null, Menu.usuario.getNombre() + " " + Menu.usuario.getApellidos());
-                        return ConectorDB.CrearTarea(tarea);
-                    }
-
-                    @Override
-                    protected void done() {
-                        try {
-                            if (get()) {
-                                dispose();
-                            } else {
-                                JOptionPane.showMessageDialog(rootPane, "no se pudo conectar con la base de datos\nintentelo más tarde.");
-                            }
-                        } catch (ExecutionException | InterruptedException ex) {
-                            System.err.println(ex.getMessage());
-                        }
-                    }
-                };
-                worker.execute();
-            }
+            return;
         }
+        Tarea nuevaTarea = generarTareaDelFormulario();
+        if (nuevaTarea == null) {
+            return;
+        }
+        jButtonAceptar.setEnabled(false);
+        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+            @Override
+            protected Boolean doInBackground() throws Exception {
+                return ConectorDB.CrearTarea(nuevaTarea);
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    if (get()) {
+                        dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "no se pudo conectar con la base de datos\nintentelo más tarde.");
+                    }
+                } catch (ExecutionException | InterruptedException ex) {
+                    System.err.println(ex.getMessage());
+                }
+            }
+        };
+        worker.execute();
     }//GEN-LAST:event_jButtonAceptarActionPerformed
 
     /**
@@ -544,56 +545,113 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
     private javax.swing.JPanel jPanelNuevaTareaCreacion;
     private javax.swing.JRadioButton jRadioButtonHora;
     private javax.swing.JRadioButton jRadioButtonPrioridad;
-    private javax.swing.JTabbedPane jTabbedPane1;
+    private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JTextField jTextFieldNombreTarea;
     // End of variables declaration//GEN-END:variables
-
-    /**
+/**
      * Método para estableceren en el jDatePicker la fecha del dia que hemos
-     * seleccionado para la tarea.
+     * seleccionado para la nuevaTarea.
      *
      * @param fecha Date dia-mes-año
      */
     private void TomarFechaDelDia(Date fecha) {
-        DateFormat dfDia = new SimpleDateFormat("dd");
-        DateFormat dfMes = new SimpleDateFormat("MM");
-        DateFormat dfAno = new SimpleDateFormat("yyyy");
-        int dia = Integer.valueOf(dfDia.format(fecha));
-        int mes = Integer.valueOf(dfMes.format(fecha)) - 1;
-        int ano = Integer.valueOf(dfAno.format(fecha));
-        jDatePicker1.getModel().setDay(dia);
-        jDatePicker1.getModel().setMonth(mes);
-        jDatePicker1.getModel().setYear(ano);
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(fecha);
+        jDatePicker1.getModel().setDate(cal.get(Calendar.YEAR), cal.get(Calendar.MONTH), cal.get(Calendar.DAY_OF_MONTH));
         jDatePicker1.getModel().setSelected(true);
     }
 
     /**
+     * Comprueba si la hora de inicio es anterior a la hora de finalización.
      *
-     * @param desde
-     * @param hasta
-     * @return
+     * @param horaInicio La hora de inicio en formato HH:mm
+     * @param horaFin La hora de finalización en formato HH:mm
+     * @return True si la hora de inicio es anterior a la hora de finalización,
+     * false en caso contrario.
      */
-    private boolean ComprobarHoras(String desde, String hasta) {
-        Time time1 = Time.valueOf(desde + ":00");
-        Time time2 = Time.valueOf(hasta + ":00");
-        return time1.before(time2);
+    private boolean comprobarHoras(String horaInicio, String horaFin) {
+        Time horaInicioTime = Time.valueOf(horaInicio + ":00");
+        Time horaFinTime = Time.valueOf(horaFin + ":00");
+        return horaInicioTime.before(horaFinTime);
     }
 
     /**
+     * Rellena el ComboBox de prioridades con los nombres de las prioridades
+     * contenidas en la lista de prioridades proporcionada, y actualiza el mapa
+     * de prioridades en el maper.
      *
-     * @param listaPrioridades
+     * @param listaPrioridades la lista de prioridades a utilizar
      */
     private void RellenarPrioridades(LinkedList<Prioridad> listaPrioridades) {
-        Menu.maper.setListaPrioridades(listaPrioridades);
-        Menu.maper.ActualizarMapaPrioridades(listaPrioridades);
+        // Actualiza el mapa de prioridades en el maper
+        maper.ActualizarMapaPrioridades(listaPrioridades);
+
+        // Añade cada prioridad de la lista al ComboBox de prioridades
         listaPrioridades.forEach((p) -> {
             jComboBoxPrioridad.addItem(p.getNombre());
         });
     }
 
     /**
+     * Rellena el JComboBox de lugares con los elementos de la lista de lugares
+     * proporcionada y actualiza el mapa de lugares en el maper.
      *
-     * @param tarea
+     * @param listaLugares La lista de lugares a mostrar en el JComboBox.
+     */
+    private void RellenarLugares(LinkedList<Lugar> listaLugares) {
+        maper.ActualizarMapaLugares(listaLugares);
+        listaLugares.forEach((lugar) -> {
+            jComboBoxLugar.addItem(lugar.getNombre());
+        });
+    }
+
+    /**
+     * Genera una nueva instancia de Tarea desde los campos del formulario.
+     *
+     * @return la nueva instancia de tarea.
+     */
+    private Tarea generarTareaDelFormulario() {
+        String nombre = jTextFieldNombreTarea.getText();
+        Color backgroundcolor = jPanelColor.getBackground();
+        String color = String.format("#%06x", backgroundcolor.getRGB() & 0xFFFFFF);
+
+        String horaDesde = null;
+        String horaHasta = null;
+        if (jRadioButtonHora.isSelected()) {
+            horaDesde = jComboBoxHoraDesde.getSelectedItem().toString() + ":" + jComboBoxMinDesde.getSelectedItem().toString();
+            horaHasta = jComboBoxHoraHasta.getSelectedItem().toString() + ":" + jComboBoxMinHasta.getSelectedItem().toString();
+
+            if (!comprobarHoras(horaDesde, horaHasta)) {
+                JOptionPane.showMessageDialog(rootPane, "las horas no son válidas");
+                return null;
+            }
+        }
+
+        int lugarId = (int) Menu.maper.getMapaLugares().get(jComboBoxLugar.getSelectedItem().toString());
+
+        int PrioridadId = 0;
+        if (jRadioButtonPrioridad.isSelected()) {
+            PrioridadId = (int) Menu.maper.getMapaPrioridades().get(jComboBoxPrioridad.getSelectedItem().toString());
+        }
+
+        Date date = null;
+        boolean guardada = true;
+        if (jDatePicker1.isEnabled()) {
+            guardada = false;
+            java.util.Calendar calendar = (java.util.Calendar) jDatePicker1.getModel().getValue();
+            if (calendar != null) {
+                date = new java.sql.Date(calendar.getTime().getTime());
+            }
+        }
+
+        return new Tarea(nombre, color, (java.sql.Date) date, lugarId, PrioridadId, guardada, Menu.usuario.getGrupo(), null, horaDesde, horaHasta, Menu.usuario.getNombre() + " " + Menu.usuario.getApellidos());
+    }
+
+    /**
+     * Este método se encarga de rellenar los datos de una tarea en los campos
+     * correspondientes del formulario.
+     *
+     * @param tarea la tarea cuyos datos se van a rellenar en el formulario.
      */
     private void RellenarDatosTarea(Tarea tarea) {
         jTextFieldNombreTarea.setText(tarea.getNombre());

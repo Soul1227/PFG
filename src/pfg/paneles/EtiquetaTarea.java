@@ -148,8 +148,16 @@ public class EtiquetaTarea extends javax.swing.JPanel {
                 }
             });
             detalles.setVisible(true);
-        }
+        }       
     }//GEN-LAST:event_formMouseClicked
+
+    public Tarea getTarea() {
+        return tarea;
+    }
+
+    public void setTarea(Tarea tarea) {
+        this.tarea = tarea;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabelHora;

@@ -176,20 +176,20 @@ public class ConectorDB {
     /**
      * Manda al servidor la orden de obtener la lista de grupos.
      *
-     * @return Lista con las tareas.
+     * @return Lista con los grupos.
      */
     public static LinkedList<Grupo> BuscarGrupos() {
-        LinkedList listaLugares = new LinkedList();
+        LinkedList listaGrupos = new LinkedList();
         Conectar();
         try {
             Mensaje mensaje = new Mensaje(Comandos.BUSCARGRUPOS);
             flujoSalida.writeObject(mensaje);
-            listaLugares = (LinkedList) flujoEntrada.readObject();
+            listaGrupos = (LinkedList) flujoEntrada.readObject();
         } catch (IOException | ClassNotFoundException ex) {
             ex.getMessage();
         }
         CerrarConexion();
-        return listaLugares;
+        return listaGrupos;
     }
 
     /**

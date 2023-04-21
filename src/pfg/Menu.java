@@ -16,6 +16,7 @@ import pfg.Menu.Paneles;
 import pfg.Dialogs.VentanaCrearPersonal;
 import pfg.Dialogs.VentanaCrearTarea;
 import pfg.Dialogs.VentanaDetallesPersonal;
+import pfg.Dialogs.VentanaGrupos;
 import pfg.paneles.PanelPersonal;
 import pfg.paneles.PanelSemana;
 import pfg.paneles.PanelTareas;
@@ -88,7 +89,7 @@ public class Menu extends javax.swing.JFrame {
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItemGrupos = new javax.swing.JMenuItem();
         jMenuItem2 = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
@@ -303,9 +304,14 @@ public class Menu extends javax.swing.JFrame {
         exitMenuItem.setName("exitMenuItem"); // NOI18N
         fileMenu.add(exitMenuItem);
 
-        jMenuItem1.setText(resourceMap.getString("jMenuItem1.text")); // NOI18N
-        jMenuItem1.setName("jMenuItem1"); // NOI18N
-        fileMenu.add(jMenuItem1);
+        jMenuItemGrupos.setText(resourceMap.getString("jMenuItemGrupos.text")); // NOI18N
+        jMenuItemGrupos.setName("jMenuItemGrupos"); // NOI18N
+        jMenuItemGrupos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemGruposActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItemGrupos);
 
         jMenuItem2.setText(resourceMap.getString("jMenuItem2.text")); // NOI18N
         jMenuItem2.setName("jMenuItem2"); // NOI18N
@@ -404,6 +410,11 @@ public class Menu extends javax.swing.JFrame {
         ActualizarSemana(selectedValue);
         CambiarPanel(Paneles.Semana);
     }//GEN-LAST:event_jDatePickerMenuActionPerformed
+
+    private void jMenuItemGruposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGruposActionPerformed
+        VentanaGrupos ventanaGrupos = new VentanaGrupos(this, true);
+        ventanaGrupos.setVisible(true);
+    }//GEN-LAST:event_jMenuItemGruposActionPerformed
 
     /**
      * @param args the command line arguments
@@ -603,8 +614,8 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelPersonal;
     private javax.swing.JLabel jLabelSemana;
     private javax.swing.JLabel jLabelTareas;
-    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItemGrupos;
     private javax.swing.JPanel jPaneAbajo;
     private javax.swing.JPanel jPanelArriba;
     private javax.swing.JPanel jPanelIconos;

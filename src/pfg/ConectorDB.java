@@ -173,6 +173,25 @@ public class ConectorDB {
         CerrarConexion();
         return listaTareas;
     }
+    /**
+     * Crea un nuevo grupo en la base de datos.
+     * @param nombreGrupo nombre del nuevo grupo.
+     * @return true o false.
+     */
+    public static boolean CrearGrupo(String nombreGrupo){
+        Conectar();
+        LinkedList<String> argumentos = new LinkedList<>();
+        argumentos.add(nombreGrupo);
+        try{
+            Mensaje mensaje = new Mensaje(Comandos.CREARGRUPO,argumentos);
+            flujoSalida.writeObject(mensaje);
+            return flujoEntrada.readBoolean();
+        }catch(IOException ex){
+            System.err.println(ex.getMessage());
+        }
+        CerrarConexion();
+        return false;
+    }
 
     /**
      * Manda al servidor la orden de obtener la lista de grupos.

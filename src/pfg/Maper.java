@@ -64,6 +64,9 @@ public final class Maper {
     }
 
     public void setListaGrupos(LinkedList<Grupo> listaGrupos) {
+        if(this.listaGrupos==null){
+            this.listaGrupos = new LinkedList<>();
+        }
         this.listaGrupos = listaGrupos;
     }
     
@@ -105,6 +108,14 @@ public final class Maper {
         });
         return mapaPrioridadesActualizado;
     }
+    
+    public HashMap CrearMapaGrupos(LinkedList<Grupo> listaGrupos){
+        HashMap<String, Integer> mapaGruposActualizado = new HashMap<>();
+        listaGrupos.forEach((grupo)->{
+            mapaGruposActualizado.put(grupo.getGrupoNombre(), grupo.getGrupoId());
+        });
+        return mapaGruposActualizado;
+    }
     /**
      * 
      * @param listaPrioridades 
@@ -121,4 +132,9 @@ public final class Maper {
         setListaLugares(listaLugares);
         setMapaLugares(CrearMapaLugares(listaLugares));
     }
+    
+    public void ActualizarMapaGrupos (LinkedList<Grupo> listaGrupos){
+        setListaGrupos(listaGrupos);
+        setMapaGrupos(CrearMapaGrupos(listaGrupos));
+    } 
 }

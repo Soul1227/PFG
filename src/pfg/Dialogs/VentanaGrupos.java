@@ -2,7 +2,9 @@ package pfg.Dialogs;
 
 import java.util.LinkedList;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
 import pfg.ConectorDB;
+import pfg.Maper;
 import servidorprueba.Grupo;
 
 /**
@@ -12,17 +14,25 @@ import servidorprueba.Grupo;
 public class VentanaGrupos extends javax.swing.JDialog {
 
     private DefaultListModel listaGrupos;
+    private Maper maper;
+
+    public VentanaGrupos(java.awt.Frame parent, boolean modal) {
+        super(parent, modal);
+
+    }
 
     /**
      * Creates new form VentanaGrupos
      *
      * @param parent
      * @param modal
+     * @param maper
      */
-    public VentanaGrupos(java.awt.Frame parent, boolean modal) {
+    public VentanaGrupos(java.awt.Frame parent, boolean modal, Maper maper) {
         super(parent, modal);
+        this.maper = maper;
         initComponents();
-        RellenarGrupos(ConectorDB.BuscarGrupos());
+        RellenarGrupos(maper.getListaGrupos());
     }
 
     @SuppressWarnings("unchecked")
@@ -49,6 +59,11 @@ public class VentanaGrupos extends javax.swing.JDialog {
 
         jButtonCrearGrupo.setText(resourceMap.getString("jButtonCrearGrupo.text")); // NOI18N
         jButtonCrearGrupo.setName("jButtonCrearGrupo"); // NOI18N
+        jButtonCrearGrupo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonCrearGrupoActionPerformed(evt);
+            }
+        });
 
         jScrollPane1.setName("jScrollPane1"); // NOI18N
 
@@ -101,6 +116,23 @@ public class VentanaGrupos extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButtonCrearGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearGrupoActionPerformed
+        if (jTextFieldNombre.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(rootPane, "Por favor introduzca un nombre.");
+            return;
+        }
+        if (ComprobarNombre()) {
+            JOptionPane.showMessageDialog(rootPane, "Ya existe un grupo con ese nombre.");
+            return;
+        }
+        if (ConectorDB.CrearGrupo(jTextFieldNombre.getText())) {
+            maper.ActualizarMapaGrupos(ConectorDB.BuscarGrupos());
+            RellenarGrupos(maper.getListaGrupos());
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "No pudo conectase con la base de datos\n porfavor intentelo más tarde.");
+        }
+    }//GEN-LAST:event_jButtonCrearGrupoActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -151,14 +183,27 @@ public class VentanaGrupos extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     /**
-     * 
-     * @param BuscarGrupos 
+     *
+     * @param BuscarGrupos
      */
     private void RellenarGrupos(LinkedList<Grupo> BuscarGrupos) {
         listaGrupos = new DefaultListModel();
-        BuscarGrupos.forEach((grupo)->{
+        BuscarGrupos.forEach((grupo) -> {
             listaGrupos.addElement(grupo.getGrupoNombre());
         });
         jListGrupos.setModel(listaGrupos);
+    }
+
+    /**
+     *
+     * @return
+     */
+    private boolean ComprobarNombre() {
+        for (Grupo grupo : maper.getListaGrupos()) {
+            if (jTextFieldNombre.getText().equals(grupo.getGrupoNombre())) {
+                return true;
+            }
+        }
+        return false;
     }
 }

@@ -122,7 +122,7 @@ public class ConectorDB {
     }
 
     public static LinkedList<Prioridad> BuscarPrioridades() {
-        LinkedList<Prioridad> listaPrioridades = new LinkedList<>();
+        LinkedList<Prioridad> listaPrioridades = new LinkedList();
         Conectar();
         try {
             Mensaje mensaje = new Mensaje(Comandos.BUSCARPRIORIDAD);
@@ -131,6 +131,7 @@ public class ConectorDB {
         } catch (ClassNotFoundException | IOException ex) {
             System.err.println(ex.getMessage());
         }
+        CerrarConexion();
         return listaPrioridades;
     }
 
@@ -321,19 +322,20 @@ public class ConectorDB {
         }
         return eliminado;
     }
+
     /**
-     * 
+     *
      * @param tarea
-     * @return 
+     * @return
      */
-    public static boolean EliminarTarea(Tarea tarea){
+    public static boolean EliminarTarea(Tarea tarea) {
         boolean eliminado = false;
         Conectar();
-        try{
+        try {
             Mensaje mensaje = new Mensaje(Comandos.ELIMINARTAREA, tarea);
             flujoSalida.writeObject(mensaje);
             eliminado = flujoEntrada.readBoolean();
-        }catch(IOException ex){
+        } catch (IOException ex) {
             System.err.println(ex.getMessage());
         }
         return eliminado;

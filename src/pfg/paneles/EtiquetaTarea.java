@@ -59,8 +59,8 @@ public class EtiquetaTarea extends javax.swing.JPanel {
         this.tarea = tarea;
         this.maper = Menu.maper;
         this.menu = menu;
-        maper.setMapaPrioridades(maper.CrearMapaPrioridades(maper.getListaPrioridades()));
         jLabelNombreTarea.setText(tarea.getNombre());
+        
         if (tarea.getHoraInicio() != null) {
             jLabelHora.setText(tarea.getHoraInicio() + ":" + tarea.getHoraFin());
         } else {

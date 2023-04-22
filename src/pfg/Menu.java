@@ -530,6 +530,8 @@ public class Menu extends javax.swing.JFrame {
      * @param panelTipo El tipo de panel a activar.
      */
     public void CambiarPanel(Paneles panelTipo) {
+        maper.ActualizarMapaLugares(ConectorDB.BuscarLugaresDeUsuario(usuario.getGrupo()));
+        maper.ActualizarMapaPrioridades(ConectorDB.BuscarPrioridades());
         jPaneAbajo.removeAll();
         switch (panelTipo) {
             case Semana:
@@ -574,7 +576,7 @@ public class Menu extends javax.swing.JFrame {
      */
     private PanelSemana CrearPanelSemana() {
         panelActivo = Paneles.Semana;
-        return new PanelSemana(dias, ConectorDB.BuscarLugaresDeUsuario(usuario.getGrupo()), usuario.isEsAdmin(),this);
+        return new PanelSemana(dias, ConectorDB.BuscarLugaresDeUsuario(usuario.getGrupo()), usuario.isEsAdmin(), this);
     }
 
     /**

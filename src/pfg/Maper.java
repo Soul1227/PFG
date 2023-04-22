@@ -10,7 +10,7 @@ import servidorprueba.Prioridad;
  *
  * @author angel
  */
-public class Maper {
+public final class Maper {
 
     int grupoUsuario;
     private HashMap<String, Integer> mapaPrioridades;
@@ -22,8 +22,6 @@ public class Maper {
 
     public Maper(int grupoUsuario) {
         this.grupoUsuario = grupoUsuario;
-        listaLugares = ConectorDB.BuscarLugaresDeUsuario(grupoUsuario);
-        listaPrioridades = ConectorDB.BuscarPrioridades();
     }
 
     public HashMap getMapaPrioridades() {
@@ -47,7 +45,7 @@ public class Maper {
     }
 
     public void setListaPrioridades(LinkedList<Prioridad> listaPrioridades) {
-        if (listaPrioridades == null) {
+        if (this.listaPrioridades == null) {
             this.listaPrioridades = new LinkedList<>();
         }
         this.listaPrioridades = listaPrioridades;
@@ -76,7 +74,7 @@ public class Maper {
     
 
     public void setListaLugares(LinkedList<Lugar> listaLugares) {
-        if (listaLugares == null) {
+        if (this.listaLugares == null) {
             this.listaLugares = new LinkedList<>();
         }
         this.listaLugares = listaLugares;
@@ -89,8 +87,8 @@ public class Maper {
      */
     public HashMap CrearMapaLugares(LinkedList<Lugar> listaLugares) {
         HashMap<String, Integer> mapaLugaresActualizado = new HashMap();
-        listaLugares.forEach((l) -> {
-            mapaLugaresActualizado.put(l.getNombre(), l.getId());
+        listaLugares.forEach((lugar) -> {
+            mapaLugaresActualizado.put(lugar.getNombre(), lugar.getId());
         });
         return mapaLugaresActualizado;
     }
@@ -102,8 +100,8 @@ public class Maper {
      */
     public HashMap CrearMapaPrioridades(LinkedList<Prioridad> listaPrioridades) {
         HashMap<String, Integer> mapaPrioridadesActualizado = new HashMap();
-        listaPrioridades.forEach((p) -> {
-            mapaPrioridadesActualizado.put(p.getNombre(), p.getId());
+        listaPrioridades.forEach((prioridad) -> {
+            mapaPrioridadesActualizado.put(prioridad.getNombre(), prioridad.getId());
         });
         return mapaPrioridadesActualizado;
     }

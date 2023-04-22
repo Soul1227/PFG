@@ -192,6 +192,21 @@ public class ConectorDB {
         CerrarConexion();
         return false;
     }
+    
+    public static boolean BuscarUsuariosEnGrupoNoAdmin(int grupoid){
+        Conectar();
+        LinkedList<Integer> argumentos = new LinkedList<>();
+        argumentos.add(grupoid);
+        try{
+            Mensaje mensaje = new Mensaje(Comandos.BUSCARMIEMBROSDELGRUPONOADMIN, argumentos);
+            flujoSalida.writeObject(mensaje);
+            return flujoEntrada.readBoolean();
+        }catch(IOException ex){
+            System.err.println(ex.getMessage());
+        }
+        CerrarConexion();
+        return true;
+    }
 
     /**
      * Manda al servidor la orden de obtener la lista de grupos.

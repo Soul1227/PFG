@@ -1,6 +1,7 @@
 package pfg.Dialogs;
 
 import java.util.LinkedList;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import pfg.ConectorDB;
@@ -73,6 +74,11 @@ public class VentanaGrupos extends javax.swing.JDialog {
 
         jButtonEliminarGrupos.setText(resourceMap.getString("jButtonEliminarGrupos.text")); // NOI18N
         jButtonEliminarGrupos.setName("jButtonEliminarGrupos"); // NOI18N
+        jButtonEliminarGrupos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonEliminarGruposActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -132,6 +138,17 @@ public class VentanaGrupos extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(rootPane, "No pudo conectase con la base de datos\n porfavor intentelo más tarde.");
         }
     }//GEN-LAST:event_jButtonCrearGrupoActionPerformed
+
+    private void jButtonEliminarGruposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarGruposActionPerformed
+        if (ConfirmarEliminarGrupo()) {
+            LinkedList<Integer> gruposSeleccionados = GruposSeleccionados();
+            for (Integer gruposSeleccionado : gruposSeleccionados) {
+                EliminarGrupo(gruposSeleccionado);
+            }
+        }
+
+
+    }//GEN-LAST:event_jButtonEliminarGruposActionPerformed
 
     /**
      * @param args the command line arguments
@@ -205,5 +222,59 @@ public class VentanaGrupos extends javax.swing.JDialog {
             }
         }
         return false;
+    }
+
+    /**
+     *
+     * @return
+     */
+    private boolean ConfirmarEliminarGrupo() {
+        int choice = JOptionPane.showConfirmDialog(rootPane, "¿Eliminar al grupo seleccionado?");
+        if (choice == JOptionPane.YES_OPTION) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     *
+     * @return
+     */
+    private boolean EliminarGrupo(int IdGrupo) {
+        //Comprobar que ningun usuario sin calidad de administrador esta en el grupo seleccionado.
+        if (ComprobarUsuariosEnGrupo(IdGrupo)) {
+            System.out.println("false");
+            return false; 
+        }else{
+            System.out.println("true");
+            return true;
+        }
+        //Comprobar que ningun lugar esta asignado a el grupo seleccionado.
+        //si no ha habido fallo, eliminar los administradores existentes en el grupo y posteriormente al grupo y desloguear.
+    }
+
+    /**
+     *
+     * @param IdGrupo
+     * @return
+     */
+    private boolean ComprobarUsuariosEnGrupo(int IdGrupo) {
+        return ConectorDB.BuscarUsuariosEnGrupoNoAdmin(IdGrupo);
+    }
+
+    /**
+     * Devuelve la lista de las Ids de los grupos seleccionados.
+     *
+     * @return LinkedList<Integer> con las ids.
+     */
+    private LinkedList<Integer> GruposSeleccionados() {
+        List<String> GruposSeleccionados = new LinkedList<>();
+        LinkedList<Integer> IdGruposSeleccionados = new LinkedList<>();
+        GruposSeleccionados = jListGrupos.getSelectedValuesList();
+        for (String grupoNombre : GruposSeleccionados) {
+            IdGruposSeleccionados.add((int) maper.getMapaGrupos().get(grupoNombre));
+        }
+        return IdGruposSeleccionados;
     }
 }

@@ -10,7 +10,7 @@ import servidorprueba.Prioridad;
  *
  * @author angel
  */
-public class Maper {
+public final class Maper {
 
     int grupoUsuario;
     private HashMap<String, Integer> mapaPrioridades;
@@ -22,8 +22,6 @@ public class Maper {
 
     public Maper(int grupoUsuario) {
         this.grupoUsuario = grupoUsuario;
-        listaLugares = ConectorDB.BuscarLugaresDeUsuario(grupoUsuario);
-        listaPrioridades = ConectorDB.BuscarPrioridades();
     }
 
     public HashMap getMapaPrioridades() {
@@ -47,7 +45,7 @@ public class Maper {
     }
 
     public void setListaPrioridades(LinkedList<Prioridad> listaPrioridades) {
-        if (listaPrioridades == null) {
+        if (this.listaPrioridades == null) {
             this.listaPrioridades = new LinkedList<>();
         }
         this.listaPrioridades = listaPrioridades;
@@ -66,17 +64,18 @@ public class Maper {
     }
 
     public void setListaGrupos(LinkedList<Grupo> listaGrupos) {
+        if (this.listaGrupos == null) {
+            this.listaGrupos = new LinkedList<>();
+        }
         this.listaGrupos = listaGrupos;
     }
-    
-    
+
     public LinkedList<Lugar> getListaLugares() {
         return listaLugares;
     }
-    
 
     public void setListaLugares(LinkedList<Lugar> listaLugares) {
-        if (listaLugares == null) {
+        if (this.listaLugares == null) {
             this.listaLugares = new LinkedList<>();
         }
         this.listaLugares = listaLugares;
@@ -89,8 +88,8 @@ public class Maper {
      */
     public HashMap CrearMapaLugares(LinkedList<Lugar> listaLugares) {
         HashMap<String, Integer> mapaLugaresActualizado = new HashMap();
-        listaLugares.forEach((l) -> {
-            mapaLugaresActualizado.put(l.getNombre(), l.getId());
+        listaLugares.forEach((lugar) -> {
+            mapaLugaresActualizado.put(lugar.getNombre(), lugar.getId());
         });
         return mapaLugaresActualizado;
     }
@@ -102,25 +101,44 @@ public class Maper {
      */
     public HashMap CrearMapaPrioridades(LinkedList<Prioridad> listaPrioridades) {
         HashMap<String, Integer> mapaPrioridadesActualizado = new HashMap();
-        listaPrioridades.forEach((p) -> {
-            mapaPrioridadesActualizado.put(p.getNombre(), p.getId());
+        listaPrioridades.forEach((prioridad) -> {
+            mapaPrioridadesActualizado.put(prioridad.getNombre(), prioridad.getId());
         });
         return mapaPrioridadesActualizado;
     }
+
+    public HashMap CrearMapaGrupos(LinkedList<Grupo> listaGrupos) {
+        HashMap<String, Integer> mapaGruposActualizado = new HashMap<>();
+        listaGrupos.forEach((grupo) -> {
+            mapaGruposActualizado.put(grupo.getGrupoNombre(), grupo.getGrupoId());
+        });
+        return mapaGruposActualizado;
+    }
+
     /**
-     * 
-     * @param listaPrioridades 
+     *
+     * @param listaPrioridades
      */
-    public void ActualizarMapaPrioridades(LinkedList<Prioridad> listaPrioridades){
+    public void ActualizarMapaPrioridades(LinkedList<Prioridad> listaPrioridades) {
         setListaPrioridades(listaPrioridades);
         setMapaPrioridades(CrearMapaPrioridades(listaPrioridades));
     }
+
     /**
-     * 
-     * @param listaLugares 
+     *
+     * @param listaLugares
      */
-    public void ActualizarMapaLugares(LinkedList<Lugar> listaLugares){
+    public void ActualizarMapaLugares(LinkedList<Lugar> listaLugares) {
         setListaLugares(listaLugares);
         setMapaLugares(CrearMapaLugares(listaLugares));
+    }
+
+    /**
+     *
+     * @param listaGrupos
+     */
+    public void ActualizarMapaGrupos(LinkedList<Grupo> listaGrupos) {
+        setListaGrupos(listaGrupos);
+        setMapaGrupos(CrearMapaGrupos(listaGrupos));
     }
 }

@@ -116,9 +116,6 @@
             <Property name="text" type="java.lang.String" resourceKey="jTextFieldNombreUsuario.text"/>
             <Property name="name" type="java.lang.String" value="jTextFieldNombreUsuario" noResource="true"/>
           </Properties>
-          <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jTextFieldNombreUsuarioActionPerformed"/>
-          </Events>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabelContrasena">
           <Properties>

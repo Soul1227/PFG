@@ -412,7 +412,8 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jDatePickerMenuActionPerformed
 
     private void jMenuItemGruposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGruposActionPerformed
-        VentanaGrupos ventanaGrupos = new VentanaGrupos(this, true);
+        maper.ActualizarMapaGrupos(ConectorDB.BuscarGrupos());
+        VentanaGrupos ventanaGrupos = new VentanaGrupos(this, true, maper);
         ventanaGrupos.setVisible(true);
     }//GEN-LAST:event_jMenuItemGruposActionPerformed
 
@@ -444,10 +445,8 @@ public class Menu extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Menu().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Menu().setVisible(true);
         });
     }
 
@@ -530,6 +529,8 @@ public class Menu extends javax.swing.JFrame {
      * @param panelTipo El tipo de panel a activar.
      */
     public void CambiarPanel(Paneles panelTipo) {
+        maper.ActualizarMapaLugares(ConectorDB.BuscarLugaresDeUsuario(usuario.getGrupo()));
+        maper.ActualizarMapaPrioridades(ConectorDB.BuscarPrioridades());
         jPaneAbajo.removeAll();
         switch (panelTipo) {
             case Semana:
@@ -574,7 +575,7 @@ public class Menu extends javax.swing.JFrame {
      */
     private PanelSemana CrearPanelSemana() {
         panelActivo = Paneles.Semana;
-        return new PanelSemana(dias, ConectorDB.BuscarLugaresDeUsuario(usuario.getGrupo()), usuario.isEsAdmin(),this);
+        return new PanelSemana(dias, ConectorDB.BuscarLugaresDeUsuario(usuario.getGrupo()), usuario.isEsAdmin(), this);
     }
 
     /**

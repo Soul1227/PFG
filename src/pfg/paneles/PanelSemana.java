@@ -13,7 +13,7 @@ import servidorprueba.Lugar;
  * @author angel
  */
 public class PanelSemana extends javax.swing.JPanel {
-    
+
     /**
      * Creates new form PanelSemana
      */
@@ -24,11 +24,11 @@ public class PanelSemana extends javax.swing.JPanel {
     public PanelSemana(Date[] semana, LinkedList<Lugar> lugaresGrupo, boolean isAdmin, Menu menu) {
         initComponents();
         for (Date d : semana) {
-            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");  
-            String strDate = dateFormat.format(d); 
-            Menu.maper.setListaLugares(lugaresGrupo);
-            Menu.maper.CrearMapaLugares(lugaresGrupo);
-            PanelDiaSemana diaSemana = new PanelDiaSemana(d, lugaresGrupo, isAdmin, ConectorDB.BuscarTareas(strDate),menu);
+            DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            String strDate = dateFormat.format(d);
+            menu.maper.ActualizarMapaLugares(ConectorDB.BuscarLugaresDeUsuario(menu.usuario.getGrupo()));
+            // maper.setMapaPrioridades(maper.CrearMapaPrioridades(maper.getListaPrioridades()));
+            PanelDiaSemana diaSemana = new PanelDiaSemana(d, lugaresGrupo, isAdmin, ConectorDB.BuscarTareas(strDate), menu);
             diaSemana.setSize(WIDTH, this.getHeight());
             diaSemana.setMaximumSize(this.getSize());
             diaSemana.setAutoscrolls(true);

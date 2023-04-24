@@ -111,7 +111,7 @@ public class ConectorDB {
         LinkedList<Lugar> listalugares = new LinkedList();
         Conectar();
         try {
-            Mensaje mensaje = new Mensaje(Comandos.BUSCARLUGARES, grupo);
+            Mensaje mensaje = new Mensaje(Comandos.BUSCARLUGARESDELUSUARIO, grupo);
             flujoSalida.writeObject(mensaje);
             listalugares = (LinkedList<Lugar>) flujoEntrada.readObject();
         } catch (IOException | ClassNotFoundException ex) {
@@ -135,13 +135,55 @@ public class ConectorDB {
         return listaPrioridades;
     }
 
+    /**
+     *
+     * @param idLugar
+     * @param idGrupo
+     */
+    public static void ActualizarGrupoLugares(int idLugar, int idGrupo) {
+        LinkedList<Integer> argumentos = new LinkedList<>();
+        argumentos.add(idGrupo);
+        argumentos.add(idLugar);
+        Conectar();
+        try {
+            Mensaje mensaje = new Mensaje(Comandos.CREARGRUPOLUGAR, argumentos);
+            flujoSalida.writeObject(mensaje);
+
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+        CerrarConexion();
+    }
+    /**
+     * 
+     * @param idGrupo
+     * @return 
+     */
+    public static boolean EliminarLugaresParaUnGrupo(int idGrupo){
+        Conectar();
+        try{
+            Mensaje mensaje = new Mensaje(Comandos.ELIMINARLUGARESPARAUNGRUPO, idGrupo);
+            flujoSalida.writeObject(mensaje);
+            return flujoEntrada.readBoolean();
+        }catch(IOException ex ){
+            System.err.println(ex.getMessage());
+        }
+        CerrarConexion();
+        return  false;
+    }
+
+    /**
+     *
+     * @param idGrupo
+     * @return
+     */
     public static boolean EliminarTareasDelGrupo(int idGrupo) {
         Conectar();
         try {
             Mensaje mensaje = new Mensaje(Comandos.ELIMINARTODASLASTAREASDEGRUPO, idGrupo);
             flujoSalida.writeObject(mensaje);
             return flujoEntrada.readBoolean();
-        }catch(IOException ex){
+        } catch (IOException ex) {
             System.err.println(ex.getMessage());
         }
         CerrarConexion();
@@ -310,6 +352,41 @@ public class ConectorDB {
     }
 
     /**
+     * Crea un nuevo lugar en la base de datos.
+     *
+     * @param lugar nuevo lugar a crear.
+     * @return
+     */
+    public static boolean CrearNuevoLugar(Lugar lugar) {
+        Conectar();
+        try {
+            Mensaje mensaje = new Mensaje(Comandos.CREARLUGAR, lugar);
+            flujoSalida.writeObject(mensaje);
+            return flujoEntrada.readBoolean();
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+        CerrarConexion();
+        return false;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static LinkedList<Lugar> BuscarLugares() {
+        Conectar();
+        try {
+            Mensaje mensaje = new Mensaje(Comandos.BUSCARLUGARES);
+            flujoSalida.writeObject(mensaje);
+            return (LinkedList<Lugar>) flujoEntrada.readObject();
+        } catch (ClassNotFoundException | IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+        return null;
+    }
+
+    /**
      * manda al servidor la orden de obtener la lista de tareas para un dia en
      * especifico.
      *
@@ -332,6 +409,11 @@ public class ConectorDB {
         return listaTareas;
     }
 
+    /**
+     *
+     * @param tarea
+     * @return
+     */
     public static Tarea BuscarTareaPorId(Tarea tarea) {
         Conectar();
         try {
@@ -345,6 +427,11 @@ public class ConectorDB {
         return null;
     }
 
+    /**
+     *
+     * @param persona
+     * @return
+     */
     public static boolean ActualizarPersonal(Persona persona) {
         LinkedList listapersona = new LinkedList();
         listapersona.add(persona);
@@ -441,8 +528,13 @@ public class ConectorDB {
 
     /**
      *
-     * @param tarea
-     * @return
+     * Envia una solicitud al servidor para eliminar la tarea especificada y
+     * devuelve un booleano que indica si la tarea fue eliminada correctamente.
+     *
+     * @param tarea la tarea a eliminar del servidor.
+     * @return {@code true} si la tarea fue eliminada correctamente,
+     * {@code false} de lo contrario.
+     * @throws NullPointerException si la tarea es {@code null}.
      */
     public static boolean EliminarTarea(Tarea tarea) {
         boolean eliminado = false;

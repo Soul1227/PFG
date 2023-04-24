@@ -137,6 +137,43 @@ public class ConectorDB {
 
     /**
      *
+     * @param idLugar
+     * @param idGrupo
+     */
+    public static void ActualizarGrupoLugares(int idLugar, int idGrupo) {
+        LinkedList<Integer> argumentos = new LinkedList<>();
+        argumentos.add(idGrupo);
+        argumentos.add(idLugar);
+        Conectar();
+        try {
+            Mensaje mensaje = new Mensaje(Comandos.CREARGRUPOLUGAR, argumentos);
+            flujoSalida.writeObject(mensaje);
+
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+        CerrarConexion();
+    }
+    /**
+     * 
+     * @param idGrupo
+     * @return 
+     */
+    public static boolean EliminarLugaresParaUnGrupo(int idGrupo){
+        Conectar();
+        try{
+            Mensaje mensaje = new Mensaje(Comandos.ELIMINARLUGARESPARAUNGRUPO, idGrupo);
+            flujoSalida.writeObject(mensaje);
+            return flujoEntrada.readBoolean();
+        }catch(IOException ex ){
+            System.err.println(ex.getMessage());
+        }
+        CerrarConexion();
+        return  false;
+    }
+
+    /**
+     *
      * @param idGrupo
      * @return
      */

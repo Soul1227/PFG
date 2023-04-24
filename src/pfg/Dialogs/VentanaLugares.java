@@ -14,7 +14,7 @@ import servidorprueba.Lugar;
  * @author angel
  */
 public class VentanaLugares extends javax.swing.JDialog {
-    
+
     private LinkedList<JCheckBox> listaCheckBoxLugares;
     private Maper maper;
 
@@ -43,7 +43,7 @@ public class VentanaLugares extends javax.swing.JDialog {
         RellenarListaLugares(this.maper.getListaLugares());
         MarcarLugaresDelGrupo(ConectorDB.BuscarLugaresDeUsuario(Menu.usuario.getGrupo()));
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -53,7 +53,7 @@ public class VentanaLugares extends javax.swing.JDialog {
         jTextFieldNombre = new javax.swing.JTextField();
         jTextFieldDireccion = new javax.swing.JTextField();
         jButtonCrearLugar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        jButtonActualizarLugares = new javax.swing.JButton();
         jPanelLugares = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -80,8 +80,13 @@ public class VentanaLugares extends javax.swing.JDialog {
             }
         });
 
-        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
-        jButton1.setName("jButton1"); // NOI18N
+        jButtonActualizarLugares.setText(resourceMap.getString("jButtonActualizarLugares.text")); // NOI18N
+        jButtonActualizarLugares.setName("jButtonActualizarLugares"); // NOI18N
+        jButtonActualizarLugares.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonActualizarLugaresActionPerformed(evt);
+            }
+        });
 
         jPanelLugares.setBorder(javax.swing.BorderFactory.createTitledBorder(null, resourceMap.getString("jPanelLugares.border.title"), javax.swing.border.TitledBorder.CENTER, javax.swing.border.TitledBorder.TOP)); // NOI18N
         jPanelLugares.setName("jPanelLugares"); // NOI18N
@@ -116,7 +121,7 @@ public class VentanaLugares extends javax.swing.JDialog {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(39, 39, 39)
-                                        .addComponent(jButton1))
+                                        .addComponent(jButtonActualizarLugares))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGap(57, 57, 57)
                                         .addComponent(jButtonCrearLugar)))
@@ -143,7 +148,7 @@ public class VentanaLugares extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jPanelLugares, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1)
+                .addComponent(jButtonActualizarLugares)
                 .addContainerGap())
         );
 
@@ -157,10 +162,15 @@ public class VentanaLugares extends javax.swing.JDialog {
             CrearNuevoLugar(nombre, direccion);
             maper.ActualizarMapaLugares(ConectorDB.BuscarLugares());
             RellenarListaLugares(maper.getListaLugares());
+            MarcarLugaresDelGrupo(ConectorDB.BuscarLugaresDeUsuario(Menu.usuario.getGrupo()));
         } else {
             JOptionPane.showMessageDialog(rootPane, "Ya existe un grupo con ese nombre.");
         }
     }//GEN-LAST:event_jButtonCrearLugarActionPerformed
+
+    private void jButtonActualizarLugaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarLugaresActionPerformed
+        ActualizarLugares(TomarLugaresMarcados());
+    }//GEN-LAST:event_jButtonActualizarLugaresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -203,7 +213,7 @@ public class VentanaLugares extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonActualizarLugares;
     private javax.swing.JButton jButtonCrearLugar;
     private javax.swing.JLabel jLabelDireccion;
     private javax.swing.JLabel jLabelNombre;
@@ -217,6 +227,8 @@ public class VentanaLugares extends javax.swing.JDialog {
      * @param ResultadoLugares
      */
     private void RellenarListaLugares(LinkedList<Lugar> ResultadoLugares) {
+        listaCheckBoxLugares.clear();
+        jPanelLugares.removeAll();
         jPanelLugares.setLayout(new BoxLayout(jPanelLugares, BoxLayout.Y_AXIS));
         for (Lugar lugar : ResultadoLugares) {
             JCheckBox box = new JCheckBox();
@@ -262,5 +274,30 @@ public class VentanaLugares extends javax.swing.JDialog {
             }
         }
     }
-    
+
+    /**
+     *
+     * @param lugaresSeleccionados
+     */
+    private void ActualizarLugares(LinkedList<String> lugaresSeleccionados) {
+        ConectorDB.EliminarLugaresParaUnGrupo(Menu.usuario.getGrupo());
+        for (String nombre : lugaresSeleccionados) {
+            ConectorDB.ActualizarGrupoLugares(Integer.valueOf(maper.getMapaLugares().get(nombre).toString()), Menu.usuario.getGrupo());
+        }
+    }
+
+    /**
+     * Devuelve los lugares marcados en el panel Lugares Existentes.
+     *
+     * @return LinkedList<String> con los nombres de los lugares.
+     */
+    private LinkedList<String> TomarLugaresMarcados() {
+        LinkedList<String> LugaresSeleccionados = new LinkedList<>();
+        for (JCheckBox box : listaCheckBoxLugares) {
+            if (box.isSelected()) {
+                LugaresSeleccionados.add(box.getText());
+            }
+        }
+        return LugaresSeleccionados;
+    }
 }

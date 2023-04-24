@@ -64,17 +64,15 @@ public final class Maper {
     }
 
     public void setListaGrupos(LinkedList<Grupo> listaGrupos) {
-        if(this.listaGrupos==null){
+        if (this.listaGrupos == null) {
             this.listaGrupos = new LinkedList<>();
         }
         this.listaGrupos = listaGrupos;
     }
-    
-    
+
     public LinkedList<Lugar> getListaLugares() {
         return listaLugares;
     }
-    
 
     public void setListaLugares(LinkedList<Lugar> listaLugares) {
         if (this.listaLugares == null) {
@@ -108,33 +106,39 @@ public final class Maper {
         });
         return mapaPrioridadesActualizado;
     }
-    
-    public HashMap CrearMapaGrupos(LinkedList<Grupo> listaGrupos){
+
+    public HashMap CrearMapaGrupos(LinkedList<Grupo> listaGrupos) {
         HashMap<String, Integer> mapaGruposActualizado = new HashMap<>();
-        listaGrupos.forEach((grupo)->{
+        listaGrupos.forEach((grupo) -> {
             mapaGruposActualizado.put(grupo.getGrupoNombre(), grupo.getGrupoId());
         });
         return mapaGruposActualizado;
     }
+
     /**
-     * 
-     * @param listaPrioridades 
+     *
+     * @param listaPrioridades
      */
-    public void ActualizarMapaPrioridades(LinkedList<Prioridad> listaPrioridades){
+    public void ActualizarMapaPrioridades(LinkedList<Prioridad> listaPrioridades) {
         setListaPrioridades(listaPrioridades);
         setMapaPrioridades(CrearMapaPrioridades(listaPrioridades));
     }
+
     /**
-     * 
-     * @param listaLugares 
+     *
+     * @param listaLugares
      */
-    public void ActualizarMapaLugares(LinkedList<Lugar> listaLugares){
+    public void ActualizarMapaLugares(LinkedList<Lugar> listaLugares) {
         setListaLugares(listaLugares);
         setMapaLugares(CrearMapaLugares(listaLugares));
     }
-    
-    public void ActualizarMapaGrupos (LinkedList<Grupo> listaGrupos){
+
+    /**
+     *
+     * @param listaGrupos
+     */
+    public void ActualizarMapaGrupos(LinkedList<Grupo> listaGrupos) {
         setListaGrupos(listaGrupos);
         setMapaGrupos(CrearMapaGrupos(listaGrupos));
-    } 
+    }
 }

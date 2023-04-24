@@ -135,6 +135,19 @@ public class ConectorDB {
         return listaPrioridades;
     }
 
+    public static boolean EliminarTareasDelGrupo(int idGrupo) {
+        Conectar();
+        try {
+            Mensaje mensaje = new Mensaje(Comandos.ELIMINARTODASLASTAREASDEGRUPO, idGrupo);
+            flujoSalida.writeObject(mensaje);
+            return flujoEntrada.readBoolean();
+        }catch(IOException ex){
+            System.err.println(ex.getMessage());
+        }
+        CerrarConexion();
+        return false;
+    }
+
     /**
      * Manda las credenciales para el login al servidor.
      *
@@ -173,35 +186,104 @@ public class ConectorDB {
         CerrarConexion();
         return listaTareas;
     }
+
     /**
      * Crea un nuevo grupo en la base de datos.
+     *
      * @param nombreGrupo nombre del nuevo grupo.
      * @return true o false.
      */
-    public static boolean CrearGrupo(String nombreGrupo){
+    public static boolean CrearGrupo(String nombreGrupo) {
         Conectar();
         LinkedList<String> argumentos = new LinkedList<>();
         argumentos.add(nombreGrupo);
-        try{
-            Mensaje mensaje = new Mensaje(Comandos.CREARGRUPO,argumentos);
+        try {
+            Mensaje mensaje = new Mensaje(Comandos.CREARGRUPO, argumentos);
             flujoSalida.writeObject(mensaje);
             return flujoEntrada.readBoolean();
-        }catch(IOException ex){
+        } catch (IOException ex) {
             System.err.println(ex.getMessage());
         }
         CerrarConexion();
         return false;
     }
-    
-    public static boolean BuscarUsuariosEnGrupoNoAdmin(int grupoid){
+
+    /**
+     *
+     * @param grupoid
+     * @return
+     */
+    public static boolean BuscarUsuariosEnGrupoNoAdmin(int grupoid) {
         Conectar();
         LinkedList<Integer> argumentos = new LinkedList<>();
         argumentos.add(grupoid);
-        try{
+        try {
             Mensaje mensaje = new Mensaje(Comandos.BUSCARMIEMBROSDELGRUPONOADMIN, argumentos);
             flujoSalida.writeObject(mensaje);
             return flujoEntrada.readBoolean();
-        }catch(IOException ex){
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+        CerrarConexion();
+        return true;
+    }
+
+    /**
+     *
+     * @param grupoid
+     * @return
+     */
+    public static boolean EliminarGrupo(int grupoid) {
+        Conectar();
+        LinkedList<Integer> argumentos = new LinkedList<>();
+        argumentos.add(grupoid);
+        try {
+            Mensaje mensaje = new Mensaje(Comandos.ELIMINARGRUPO, argumentos);
+            flujoSalida.writeObject(mensaje);
+            return flujoEntrada.readBoolean();
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+        CerrarConexion();
+        return true;
+    }
+
+    /**
+     *
+     * @param grupoid
+     * @return
+     */
+    public static boolean EliminarAdminsDeGrupo(int grupoid) {
+        Conectar();
+        LinkedList<Integer> argumentos = new LinkedList<>();
+        argumentos.add(grupoid);
+        try {
+            Mensaje mensaje = new Mensaje(Comandos.ELIMINARADMINSDEGRUPO, argumentos);
+            flujoSalida.writeObject(mensaje);
+            return flujoEntrada.readBoolean();
+        } catch (IOException ex) {
+            System.err.println(ex.getMessage());
+        }
+        CerrarConexion();
+        return true;
+    }
+
+    /**
+     * Busca en la base de datos si existe algun resultado en la tabla
+     * grupo_lugar, para el grupo id usado como parametro.
+     *
+     * @param grupoid id del grupo que se desea buscar.
+     * @return true si encuantra algun resultado, false si no encuentra nada.
+     */
+    public static boolean BuscarLugaresParaUnGrupo(int grupoid) {
+        Conectar();
+        LinkedList<Integer> argumentos = new LinkedList<>();
+        argumentos.add(grupoid);
+        try {
+            Mensaje mensaje = new Mensaje(Comandos.BUSCARLUGARESPARAUNGRUPO, argumentos);
+            flujoSalida.writeObject(mensaje);
+            return flujoEntrada.readBoolean();
+        } catch (IOException ex) {
             System.err.println(ex.getMessage());
         }
         CerrarConexion();

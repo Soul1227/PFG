@@ -13,13 +13,13 @@ import servidorprueba.Grupo;
  * @author angel
  */
 public class VentanaGrupos extends javax.swing.JDialog {
-
+    
     private DefaultListModel listaGrupos;
     private Maper maper;
-
+    
     public VentanaGrupos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-
+        
     }
 
     /**
@@ -35,7 +35,7 @@ public class VentanaGrupos extends javax.swing.JDialog {
         initComponents();
         RellenarGrupos(maper.getListaGrupos());
     }
-
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -143,11 +143,16 @@ public class VentanaGrupos extends javax.swing.JDialog {
         if (ConfirmarEliminarGrupo()) {
             LinkedList<Integer> gruposSeleccionados = GruposSeleccionados();
             for (Integer gruposSeleccionado : gruposSeleccionados) {
-                EliminarGrupo(gruposSeleccionado);
+                if (SePuedeEliminarGrupo(gruposSeleccionado)) {
+                    EliminarAdmins(gruposSeleccionado);
+                    EliminarTareasDelGrupo(gruposSeleccionado);
+                    EliminarGrupo(gruposSeleccionado);
+                } else {
+                    JOptionPane.showMessageDialog(rootPane, "No puede ser eliminado un grupo mientras\n haya lugares, usuarios o tareas ligados a este.");
+                }
             }
+            RellenarGrupos(ConectorDB.BuscarGrupos());
         }
-
-
     }//GEN-LAST:event_jButtonEliminarGruposActionPerformed
 
     /**
@@ -238,20 +243,30 @@ public class VentanaGrupos extends javax.swing.JDialog {
     }
 
     /**
+     * Sí el grupo seleccionado no tiene asignado ningún empleado no
+     * administrador y tampoco tiene ningún lugar asignado, se eliminaran los
+     * administradores que queden asignados a ese grupo y el grupo.
      *
-     * @return
+     * @return true si la proceso se ha completado correctamente. false si no.
      */
-    private boolean EliminarGrupo(int IdGrupo) {
+    private boolean SePuedeEliminarGrupo(int IdGrupo) {
         //Comprobar que ningun usuario sin calidad de administrador esta en el grupo seleccionado.
-        if (ComprobarUsuariosEnGrupo(IdGrupo)) {
+        if (!ComprobarUsuariosEnGrupo(IdGrupo)) {
             System.out.println("false");
-            return false; 
-        }else{
+            //Comprobar que ningun lugar esta asignado a el grupo seleccionado.
+            if (!ComprobarLugaresDelGrupo(IdGrupo)) {
+                //si no ha habido fallo, eliminar los administradores existentes
+                //en el grupo y posteriormente al grupo y desloguear.
+                System.out.println("false2");
+                return true;
+            }
+            //si no ha habido fallo, eliminar los administradores existentes
+            //en el grupo y posteriormente al grupo y desloguear.
+        } else {
             System.out.println("true");
-            return true;
+            return false;
         }
-        //Comprobar que ningun lugar esta asignado a el grupo seleccionado.
-        //si no ha habido fallo, eliminar los administradores existentes en el grupo y posteriormente al grupo y desloguear.
+        return false;
     }
 
     /**
@@ -276,5 +291,42 @@ public class VentanaGrupos extends javax.swing.JDialog {
             IdGruposSeleccionados.add((int) maper.getMapaGrupos().get(grupoNombre));
         }
         return IdGruposSeleccionados;
+    }
+
+    /**
+     *
+     * @param IdGrupo
+     * @return
+     */
+    private boolean ComprobarLugaresDelGrupo(int IdGrupo) {
+        return ConectorDB.BuscarLugaresParaUnGrupo(IdGrupo);
+    }
+
+    /**
+     *
+     * @param idGrupo
+     * @return
+     */
+    private boolean EliminarGrupo(int idGrupo) {
+        return ConectorDB.EliminarGrupo(idGrupo);
+    }
+
+    /**
+     * Elimina a los administradores restantes en el grupo.
+     *
+     * @param idGrupo id del grupo de que se quiere eliminar los admins
+     * @return
+     */
+    private boolean EliminarAdmins(Integer idGrupo) {
+        return ConectorDB.EliminarAdminsDeGrupo(idGrupo);
+    }
+
+    /**
+     * Eliminar las tareas pertenecientes a un grupo.
+     *
+     * @param gruposSeleccionado
+     */
+    private boolean EliminarTareasDelGrupo(Integer gruposSeleccionado) {
+        return ConectorDB.EliminarTareasDelGrupo(gruposSeleccionado);
     }
 }

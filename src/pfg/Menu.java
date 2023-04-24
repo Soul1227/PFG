@@ -17,6 +17,7 @@ import pfg.Dialogs.VentanaCrearPersonal;
 import pfg.Dialogs.VentanaCrearTarea;
 import pfg.Dialogs.VentanaDetallesPersonal;
 import pfg.Dialogs.VentanaGrupos;
+import pfg.Dialogs.VentanaLugares;
 import pfg.paneles.PanelPersonal;
 import pfg.paneles.PanelSemana;
 import pfg.paneles.PanelTareas;
@@ -315,6 +316,11 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuItem2.setText(resourceMap.getString("jMenuItem2.text")); // NOI18N
         jMenuItem2.setName("jMenuItem2"); // NOI18N
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
         fileMenu.add(jMenuItem2);
 
         menuBar.add(fileMenu);
@@ -416,6 +422,12 @@ public class Menu extends javax.swing.JFrame {
         VentanaGrupos ventanaGrupos = new VentanaGrupos(this, true, maper);
         ventanaGrupos.setVisible(true);
     }//GEN-LAST:event_jMenuItemGruposActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+       maper.ActualizarMapaLugares(ConectorDB.BuscarLugares());
+       VentanaLugares ventanaLugares = new VentanaLugares(this, true, maper);
+       ventanaLugares.setVisible(true);
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
      * @param args the command line arguments

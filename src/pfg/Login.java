@@ -3,7 +3,6 @@ package pfg;
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
 import servidorprueba.Persona;
-
 /**
  * Clase que representa la ventana de inicio de sesión para el usuario.
  */

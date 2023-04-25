@@ -10,8 +10,9 @@ import pfg.Menu;
 import servidorprueba.Lugar;
 
 /**
- *
- * @author angel
+ * Una ventana de diálogo que muestra una lista de lugares y permite al usuario
+ * marcar o desmarcar lugares específicos. También se utiliza para marcar los
+ * lugares de un grupo en particular.
  */
 public class VentanaLugares extends javax.swing.JDialog {
 
@@ -19,10 +20,11 @@ public class VentanaLugares extends javax.swing.JDialog {
     private Maper maper;
 
     /**
-     * Creates new form VentanaLugares
+     * Crea una nueva instancia de la ventana de diálogo VentanaLugares.
      *
-     * @param parent
-     * @param modal
+     * @param parent el marco padre de la ventana de diálogo.
+     * @param modal un booleano que indica si la ventana de diálogo es modal o
+     * no.
      */
     public VentanaLugares(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -30,10 +32,14 @@ public class VentanaLugares extends javax.swing.JDialog {
     }
 
     /**
+     * Crea una nueva instancia de la ventana de diálogo VentanaLugares con un
+     * objeto Maper especificado. También inicializa una lista de JCheckBox para
+     * la selección de lugares.
      *
-     * @param parent
-     * @param modal
-     * @param maper
+     * @param parent el marco padre de la ventana de diálogo.
+     * @param modal un booleano que indica si la ventana de diálogo es modal o
+     * no.
+     * @param maper un objeto Maper que contiene la lista de lugares.
      */
     public VentanaLugares(java.awt.Frame parent, boolean modal, Maper maper) {
         super(parent, modal);
@@ -223,8 +229,10 @@ public class VentanaLugares extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     /**
+     * Rellena la lista de lugares con checkboxes para que el usuario pueda
+     * seleccionar lugares.
      *
-     * @param ResultadoLugares
+     * @param ResultadoLugares la lista de lugares a mostrar
      */
     private void RellenarListaLugares(LinkedList<Lugar> ResultadoLugares) {
         listaCheckBoxLugares.clear();
@@ -240,8 +248,10 @@ public class VentanaLugares extends javax.swing.JDialog {
     }
 
     /**
+     * Comprueba si el nombre del lugar ingresado por el usuario ya existe en la
+     * lista de lugares.
      *
-     * @return
+     * @return true si el nombre del lugar ya existe, false en caso contrario
      */
     private boolean ComprobarNombre() {
         for (Lugar lugar : maper.getListaLugares()) {
@@ -253,9 +263,10 @@ public class VentanaLugares extends javax.swing.JDialog {
     }
 
     /**
+     * Crea un nuevo lugar con el nombre y la dirección especificados.
      *
-     * @param nombre
-     * @param direccion
+     * @param nombre El nombre del nuevo lugar.
+     * @param direccion La dirección del nuevo lugar.
      */
     private void CrearNuevoLugar(String nombre, String direccion) {
         Lugar nuevoLugar = new Lugar(0, nombre, direccion);
@@ -263,7 +274,11 @@ public class VentanaLugares extends javax.swing.JDialog {
     }
 
     /**
-     * Marca los lugares pasados por parametros.
+     * Marca los lugares pasados por parametro como seleccionados en la lista de
+     * lugares.
+     *
+     * @param lugares Una lista de lugares que deben ser marcados como
+     * seleccionados.
      */
     private void MarcarLugaresDelGrupo(LinkedList<Lugar> lugares) {
         for (Lugar lugar : lugares) {
@@ -276,8 +291,10 @@ public class VentanaLugares extends javax.swing.JDialog {
     }
 
     /**
+     * Actualiza los lugares del grupo en la base de datos.
      *
-     * @param lugaresSeleccionados
+     * @param lugaresSeleccionados LinkedList con los nombres de los lugares
+     * seleccionados.
      */
     private void ActualizarLugares(LinkedList<String> lugaresSeleccionados) {
         ConectorDB.EliminarLugaresParaUnGrupo(Menu.usuario.getGrupo());
@@ -287,9 +304,9 @@ public class VentanaLugares extends javax.swing.JDialog {
     }
 
     /**
-     * Devuelve los lugares marcados en el panel Lugares Existentes.
+     * Obtiene los lugares que han sido marcados por el usuario.
      *
-     * @return LinkedList<String> con los nombres de los lugares.
+     * @return LinkedList con los nombres de los lugares seleccionados.
      */
     private LinkedList<String> TomarLugaresMarcados() {
         LinkedList<String> LugaresSeleccionados = new LinkedList<>();

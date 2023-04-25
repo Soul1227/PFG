@@ -24,10 +24,21 @@ import pfg.paneles.PanelTareas;
 import servidorprueba.Persona;
 
 /**
+ *
+ * La clase Menu representa la ventana principal de la aplicación de gestión de
+ * tareas.
+ *
+ * Esta clase contiene diferentes paneles que permiten visualizar y gestionar
+ * las tareas, personal y la semana.
+ *
  * @author angel
  */
 public class Menu extends javax.swing.JFrame {
 
+    /**
+     * Enumeración que representa los diferentes paneles disponibles en la
+     * ventana Menu.
+     */
     public enum Paneles {
         Tareas, Personal, Semana
     };
@@ -40,9 +51,9 @@ public class Menu extends javax.swing.JFrame {
     private JPanel panel;
 
     /**
-     * Crea un nuevo Menu.
+     * Crea una nueva instancia de la clase Menu.
      *
-     * @param usuario Usuario que ha logeado.
+     * @param usuario El usuario que ha iniciado sesión.
      */
     public Menu(Persona usuario) {
         super();
@@ -424,9 +435,9 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemGruposActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-       maper.ActualizarMapaLugares(ConectorDB.BuscarLugares());
-       VentanaLugares ventanaLugares = new VentanaLugares(this, true, maper);
-       ventanaLugares.setVisible(true);
+        maper.ActualizarMapaLugares(ConectorDB.BuscarLugares());
+        VentanaLugares ventanaLugares = new VentanaLugares(this, true, maper);
+        ventanaLugares.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     /**
@@ -463,8 +474,9 @@ public class Menu extends javax.swing.JFrame {
     }
 
     /**
+     * Actualiza la semana mostrada en la interfaz y la variable 'dias'.
      *
-     * @param bool
+     * @param bool Indica si se debe volver a la semana actual o no.
      */
     private void ActualizarSemana(boolean bool) {
         StringBuilder textoSemana = new StringBuilder();
@@ -485,8 +497,9 @@ public class Menu extends javax.swing.JFrame {
     }
 
     /**
+     * Actualiza la semana a partir de un objeto Calendar.
      *
-     * @param calendar
+     * @param calendar objeto Calendar que representa el inicio de la semana.
      */
     private void ActualizarSemana(Calendar calendar) {
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);

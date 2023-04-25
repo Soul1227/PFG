@@ -18,7 +18,6 @@ public class VentanaAñadirPersonaATarea extends javax.swing.JDialog {
     private Tarea tarea;
 
     /**
-     *
      * Crea una nueva instancia de la ventana.
      *
      * @param parent el Frame padre de la ventana
@@ -30,7 +29,6 @@ public class VentanaAñadirPersonaATarea extends javax.swing.JDialog {
     }
 
     /**
-     *
      * Crea una nueva instancia de la ventana con una lista de personas y una
      * tarea especificada.
      *
@@ -57,7 +55,7 @@ public class VentanaAñadirPersonaATarea extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         jPanelMuestraPersonal = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
+        jButtonAñadir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -72,11 +70,11 @@ public class VentanaAñadirPersonaATarea extends javax.swing.JDialog {
         jPanel3.setName("jPanel3"); // NOI18N
 
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(VentanaAñadirPersonaATarea.class);
-        jButton1.setText(resourceMap.getString("jButton1.text")); // NOI18N
-        jButton1.setName("jButton1"); // NOI18N
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonAñadir.setText(resourceMap.getString("jButtonAñadir.text")); // NOI18N
+        jButtonAñadir.setName("jButtonAñadir"); // NOI18N
+        jButtonAñadir.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                jButtonAñadirActionPerformed(evt);
             }
         });
 
@@ -86,14 +84,14 @@ public class VentanaAñadirPersonaATarea extends javax.swing.JDialog {
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap(381, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(jButtonAñadir)
                 .addContainerGap(397, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(jButtonAñadir)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -133,9 +131,9 @@ public class VentanaAñadirPersonaATarea extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void jButtonAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirActionPerformed
         AñadirPersonalATarea();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_jButtonAñadirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -179,14 +177,14 @@ public class VentanaAñadirPersonaATarea extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButtonAñadir;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanelMuestraPersonal;
     private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
+
     /**
-     *
      * Añade las personas seleccionadas en la lista a la tarea y las agrega a la
      * base de datos.
      */

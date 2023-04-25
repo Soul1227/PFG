@@ -18,6 +18,15 @@ import servidorprueba.Prioridad;
 import servidorprueba.Tarea;
 
 /**
+ * Esta clase representa una ventana de diálogo que muestra los detalles de una
+ * tarea.
+ *
+ * La ventana muestra la información detallada de la tarea, como su nombre, hora
+ * de inicio, hora de finalización, prioridad, lugar, y la lista de personal
+ * asignado a la tarea.
+ *
+ * También permite la edición de la información de la tarea, en caso de que el
+ * usuario tenga permisos.
  *
  * @author angel
  */
@@ -41,17 +50,19 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
     private DefaultListModel<String> demoList;
 
     /**
-     * @param parent
-     * @param modal
+     * Crea una nueva instancia del diálogo DetallesTarea.
+     *
+     * @param parentFrame El frame padre del diálogo.
+     * @param isModal Si el diálogo debe ser modal.
      */
-    public VentanaDetallesTarea(java.awt.Frame parent, boolean modal) {
-        super(parent, modal);
+    public VentanaDetallesTarea(java.awt.Frame parentFrame, boolean isModal) {
+        super(parentFrame, isModal);
         initComponents();
     }
 
     /**
-     *
-     * Crea una nueva instancia del diálogo DetallesTarea.
+     * Crea una nueva instancia del diálogo DetallesTarea con la información de
+     * una tarea especificada.
      *
      * @param parentFrame El frame padre del diálogo.
      * @param isModal Si el diálogo debe ser modal.
@@ -456,7 +467,7 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
     }
 
     /**
-     * Llena los componentes de la interfaz de usuario con los detalles de la
+     * Rellena los componentes de la interfaz de usuario con los detalles de la
      * tarea dada.
      *
      * @param tarea La tarea que se mostrará en el diálogo.
@@ -500,7 +511,8 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
     }
 
     /**
-     *
+     * Crea una ventana para agregar una persona a la tarea actual y actualiza
+     * los detalles de la tarea después de cerrar la ventana.
      */
     private void CearVentanaAñadirPersonalATarea() {
         LinkedList argumentos = new LinkedList();
@@ -532,7 +544,10 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
     }
 
     /**
+     * Método para eliminar a un personal de la tarea actual.
      *
+     * @param eliminar Si es true, se eliminará al personal seleccionado de la
+     * tarea actual.
      */
     private void EliminarPersonarlDeTarea(Boolean eliminar) {
         if (eliminar) {
@@ -606,8 +621,11 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
     }
 
     /**
+     * Rellena el ComboBox de lugares con los lugares del usuario y selecciona
+     * el lugar de la tarea.
      *
-     * @param BuscarLugaresDeUsuario
+     * @param buscarLugaresDeUsuario Una lista de objetos Lugar que representa
+     * los lugares del usuario.
      */
     private void RellenarComboBoxLugares(LinkedList<Lugar> BuscarLugaresDeUsuario) {
         //Rellena el combobox
@@ -640,8 +658,8 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
         }
         setLugar(getValorLugar());
         setEditadoPor(Menu.usuario.getNombre() + " " + Menu.usuario.getApellidos());
-        Tarea tareaActualizada = new Tarea(tarea.getId(), nombreTarea, StringColor, tarea.getFecha(), lugar, prioridad,tarea.isGuardada(), tarea.getGrupo(), tarea.getEmpleadosEnTarea(), horaInicio, horaFin, editadoPor);
-        ConectorDB.ActualizarTarea(tareaActualizada);    
+        Tarea tareaActualizada = new Tarea(tarea.getId(), nombreTarea, StringColor, tarea.getFecha(), lugar, prioridad, tarea.isGuardada(), tarea.getGrupo(), tarea.getEmpleadosEnTarea(), horaInicio, horaFin, editadoPor);
+        ConectorDB.ActualizarTarea(tareaActualizada);
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -676,16 +694,18 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     /**
+     * Devuelve el id del lugar seleccionado en el combo box.
      *
-     * @return
+     * @return el id del lugar seleccionado.
      */
     private int getValorLugar() {
         return (int) Menu.maper.getMapaLugares().get(jComboBoxLugar.getSelectedItem().toString());
     }
 
     /**
+     * Devuelve el id de la prioridad seleccionada en el combo box.
      *
-     * @return
+     * @return el id de la prioridad seleccionada.
      */
     private int getValorPrioridad() {
         return (int) Menu.maper.getMapaPrioridades().get(jComboBoxPrioridad.getSelectedItem().toString());
@@ -728,11 +748,11 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
     }
 
     public void setStringColor(Color colorTarea) {
-        if(colorTarea==null){
+        if (colorTarea == null) {
             this.StringColor = tarea.getColor();
-        }else{
+        } else {
             this.StringColor = String.format("#%06x", colorTarea.getRGB() & 0xFFFFFF);
-        }  
+        }
     }
 
     public String getHoraDesde() {
@@ -799,6 +819,10 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
         this.editadoPor = editadoPor;
     }
 
+    /**
+     * Método para crear las horas de inicio y fin de la tarea a partir de los
+     * valores seleccionados en los combos.
+     */
     private void CrearHoras() {
         setHoraDesde(jComboBoxHoraDesde.getSelectedItem().toString());
         setMinDesde(jComboBoxMinDesde.getSelectedItem().toString());
@@ -809,9 +833,13 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
         setHoraFin(getHoraHasta() + ":" + getMinHasta());
     }
 
+    /**
+     * Método para eliminar la tarea de la base de datos, así como todos los
+     * empleados asociados a ella.
+     */
     private void EliminarTarea() {
-        if(!tarea.getEmpleadosEnTarea().isEmpty()){
-            tarea.getEmpleadosEnTarea().forEach((empleado)->{
+        if (!tarea.getEmpleadosEnTarea().isEmpty()) {
+            tarea.getEmpleadosEnTarea().forEach((empleado) -> {
                 ConectorDB.EliminarPersonalDeTarea(empleado, tarea);
             });
         }

@@ -9,25 +9,32 @@ import pfg.Maper;
 import servidorprueba.Grupo;
 
 /**
- *
- * @author angel
+ * La clase VentanaGrupos representa una ventana de diálogo para mostrar una
+ * lista de grupos.
  */
 public class VentanaGrupos extends javax.swing.JDialog {
-    
+
     private DefaultListModel listaGrupos;
     private Maper maper;
-    
+
+    /**
+     * Crea una nueva instancia de la clase VentanaGrupos.
+     *
+     * @param parent el JFrame padre de la ventana.
+     * @param modal un indicador de si la ventana es modal o no.
+     */
     public VentanaGrupos(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        
+
     }
 
     /**
-     * Creates new form VentanaGrupos
+     * Crea una nueva instancia de la clase VentanaGrupos.
      *
-     * @param parent
-     * @param modal
-     * @param maper
+     * @param parent el JFrame padre de la ventana.
+     * @param modal un indicador de si la ventana es modal o no.
+     * @param maper el objeto Maper que se utiliza para obtener la lista de
+     * grupos.
      */
     public VentanaGrupos(java.awt.Frame parent, boolean modal, Maper maper) {
         super(parent, modal);
@@ -35,7 +42,7 @@ public class VentanaGrupos extends javax.swing.JDialog {
         initComponents();
         RellenarGrupos(maper.getListaGrupos());
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -205,8 +212,11 @@ public class VentanaGrupos extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     /**
+     * Rellena la lista de grupos en la ventana con los nombres de los grupos en
+     * la lista especificada.
      *
-     * @param BuscarGrupos
+     * @param BuscarGrupos una lista de objetos Grupo cuyos nombres se
+     * utilizarán para rellenar la lista de grupos en la ventana.
      */
     private void RellenarGrupos(LinkedList<Grupo> BuscarGrupos) {
         listaGrupos = new DefaultListModel();
@@ -217,8 +227,11 @@ public class VentanaGrupos extends javax.swing.JDialog {
     }
 
     /**
+     * Comprueba si el nombre del grupo introducido en el campo de texto ya
+     * existe en la lista de grupos obtenida del objeto Maper.
      *
-     * @return
+     * @return true si el nombre del grupo ya existe en la lista de grupos,
+     * false de lo contrario.
      */
     private boolean ComprobarNombre() {
         for (Grupo grupo : maper.getListaGrupos()) {
@@ -230,8 +243,11 @@ public class VentanaGrupos extends javax.swing.JDialog {
     }
 
     /**
+     * Muestra un cuadro de diálogo de confirmación para pedir al usuario que
+     * confirme si desea eliminar el grupo seleccionado.
      *
-     * @return
+     * @return true si el usuario confirma que desea eliminar el grupo
+     * seleccionado, false si el usuario cancela la operación.
      */
     private boolean ConfirmarEliminarGrupo() {
         int choice = JOptionPane.showConfirmDialog(rootPane, "¿Eliminar al grupo seleccionado?");
@@ -270,9 +286,14 @@ public class VentanaGrupos extends javax.swing.JDialog {
     }
 
     /**
+     * Comprueba si hay usuarios que pertenecen al grupo especificado pero que
+     * no tienen el rol de administrador en la base de datos.
      *
-     * @param IdGrupo
-     * @return
+     * @param IdGrupo el ID del grupo para el cual se comprobará si hay usuarios
+     * sin rol de administrador.
+     * @return true si hay usuarios en el grupo que no tienen el rol de
+     * administrador, false si todos los usuarios en el grupo son
+     * administradores.
      */
     private boolean ComprobarUsuariosEnGrupo(int IdGrupo) {
         return ConectorDB.BuscarUsuariosEnGrupoNoAdmin(IdGrupo);
@@ -294,28 +315,37 @@ public class VentanaGrupos extends javax.swing.JDialog {
     }
 
     /**
+     * Comprueba si el grupo especificado tiene lugares asociados en la base de
+     * datos.
      *
-     * @param IdGrupo
-     * @return
+     * @param IdGrupo el ID del grupo para el cual se comprobará si hay lugares
+     * asociados.
+     * @return true si el grupo tiene lugares asociados en la base de datos,
+     * false de lo contrario.
      */
     private boolean ComprobarLugaresDelGrupo(int IdGrupo) {
         return ConectorDB.BuscarLugaresParaUnGrupo(IdGrupo);
     }
 
     /**
+     * Elimina el grupo especificado de la base de datos.
      *
-     * @param idGrupo
-     * @return
+     * @param idGrupo el ID del grupo que se eliminará de la base de datos.
+     * @return true si se eliminó el grupo correctamente de la base de datos,
+     * false de lo contrario.
      */
     private boolean EliminarGrupo(int idGrupo) {
         return ConectorDB.EliminarGrupo(idGrupo);
     }
 
     /**
-     * Elimina a los administradores restantes en el grupo.
+     * Elimina a todos los administradores restantes del grupo especificado en
+     * la base de datos.
      *
-     * @param idGrupo id del grupo de que se quiere eliminar los admins
-     * @return
+     * @param idGrupo el ID del grupo para el cual se eliminarán los
+     * administradores restantes.
+     * @return true si se eliminaron los administradores correctamente de la
+     * base de datos, false de lo contrario.
      */
     private boolean EliminarAdmins(Integer idGrupo) {
         return ConectorDB.EliminarAdminsDeGrupo(idGrupo);
@@ -324,7 +354,7 @@ public class VentanaGrupos extends javax.swing.JDialog {
     /**
      * Eliminar las tareas pertenecientes a un grupo.
      *
-     * @param gruposSeleccionado
+     * @param gruposSeleccionado id del grupo
      */
     private boolean EliminarTareasDelGrupo(Integer gruposSeleccionado) {
         return ConectorDB.EliminarTareasDelGrupo(gruposSeleccionado);

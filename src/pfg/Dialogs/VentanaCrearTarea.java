@@ -56,7 +56,6 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
     }
 
     /**
-     *
      * Crea una nueva instancia de la ventana.
      *
      * @param parent El Frame padre de la ventana.
@@ -548,7 +547,8 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
     private javax.swing.JTabbedPane jTabbedPane;
     private javax.swing.JTextField jTextFieldNombreTarea;
     // End of variables declaration//GEN-END:variables
-/**
+
+    /**
      * Método para estableceren en el jDatePicker la fecha del dia que hemos
      * seleccionado para la nuevaTarea.
      *

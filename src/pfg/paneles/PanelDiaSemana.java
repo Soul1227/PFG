@@ -16,8 +16,8 @@ import servidorprueba.Lugar;
 import servidorprueba.Tarea;
 
 /**
- *
- * @author angel
+ * Esta clase define un panel que representa visualmente un día de la semana,
+ * con su fecha y lista de tareas.
  */
 public class PanelDiaSemana extends javax.swing.JPanel {
 
@@ -27,19 +27,22 @@ public class PanelDiaSemana extends javax.swing.JPanel {
     DateFormat df = new SimpleDateFormat("EEEEE");
 
     /**
-     *
+     * constructor por defecto que inicializa los componentes del panel.
      */
     public PanelDiaSemana() {
         initComponents();
     }
 
     /**
+     * Constructor que inicializa los componentes del panel y asigna la fecha,
+     * lista de lugares, si el usuario es administrador, lista de tareas y el
+     * menú pasados como argumentos.
      *
-     * @param fecha
-     * @param listaLugares
-     * @param isAdmin
-     * @param listaTareas
-     * @param menu
+     * @param fecha La fecha del día de la semana que se muestra en este panel.
+     * @param listaLugares La lista de lugares que se muestran en este panel.
+     * @param isAdmin Booleano que indica si el usuario es administrador.
+     * @param listaTareas La lista de tareas que se muestran en este panel.
+     * @param menu El menú que se muestra en este panel.
      */
     public PanelDiaSemana(Date fecha, LinkedList<Lugar> listaLugares, boolean isAdmin, LinkedList<Tarea> listaTareas, Menu menu) {
         this.fecha = fecha;
@@ -83,11 +86,6 @@ public class PanelDiaSemana extends javax.swing.JPanel {
 
         jPanel2.setMinimumSize(getPreferredSize());
         jPanel2.setName("jPanel2"); // NOI18N
-        jPanel2.addMouseWheelListener(new java.awt.event.MouseWheelListener() {
-            public void mouseWheelMoved(java.awt.event.MouseWheelEvent evt) {
-                jPanel2MouseWheelMoved(evt);
-            }
-        });
         jPanel2.setLayout(new javax.swing.BoxLayout(jPanel2, javax.swing.BoxLayout.Y_AXIS));
         jScrollPane1.setViewportView(jPanel2);
 
@@ -117,10 +115,6 @@ public class PanelDiaSemana extends javax.swing.JPanel {
         });
         nuevaTarea.setVisible(true);
     }//GEN-LAST:event_jButtonAñadirTareaActionPerformed
-
-    private void jPanel2MouseWheelMoved(java.awt.event.MouseWheelEvent evt) {//GEN-FIRST:event_jPanel2MouseWheelMoved
-
-    }//GEN-LAST:event_jPanel2MouseWheelMoved
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAñadirTarea;

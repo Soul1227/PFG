@@ -5,13 +5,12 @@ import javax.swing.JOptionPane;
 import servidorprueba.Persona;
 
 /**
- *
- * @author angel
+ * Clase que representa la ventana de inicio de sesión para el usuario.
  */
 public class Login extends javax.swing.JFrame {
 
     /**
-     * Creates new form Login
+     * Constructor de la clase. Inicializa los componentes de la ventana.
      */
     public Login() {
         initComponents();

@@ -34,10 +34,11 @@ public class ConectorDB {
     }
 
     /**
-     * Manda al servidor la orden de obtener la lista del personal.
+     * Manda al servidor la orden de obtener la lista del personal
+     * correspondiente a un grupo.
      *
-     * @param num_grupo
-     * @return lista con el personal
+     * @param num_grupo número del grupo a buscar el personal
+     * @return una lista con el personal del grupo
      */
     public static LinkedList BuscarPersonal(int num_grupo) {
         LinkedList listaPersonal = new LinkedList();
@@ -57,8 +58,8 @@ public class ConectorDB {
      * Manda al servidor la orden de obtener la lista del personal fuera de la
      * tarea de la que se manda la id.
      *
-     * @param idTarea linkedlist con la id de la tarea.
-     * @return
+     * @param idTarea LinkedList con la ID de la tarea.
+     * @return Lista del personal fuera de la tarea.
      */
     public static LinkedList BuscarPersonalFueraDeTarea(LinkedList idTarea) {
         LinkedList listaPersonal = new LinkedList();
@@ -74,6 +75,12 @@ public class ConectorDB {
         return listaPersonal;
     }
 
+    /**
+     * Crea una nueva tarea en la base de datos del servidor.
+     *
+     * @param tarea La tarea a ser creada.
+     * @return true si la tarea fue creada con éxito, false en caso contrario.
+     */
     public static Boolean CrearTarea(Tarea tarea) {
         Conectar();
         try {
@@ -88,11 +95,13 @@ public class ConectorDB {
     }
 
     /**
-     * Manda las los datos para la creacion de un nuevo usuario en la base de
-     * datos
+     * Envía los datos necesarios para crear un nuevo empleado en la base de
+     * datos.
      *
-     * @param datosNuevoEmpleado LinkedList con un objeto Persona.
-     * @return
+     * @param datosNuevoEmpleado una LinkedList que contiene un objeto de tipo
+     * Persona con los datos del nuevo empleado.
+     * @return el objeto Persona creado en la base de datos, o null si ocurrió
+     * un error.
      */
     public static Persona CrearEmpleado(LinkedList<Persona> datosNuevoEmpleado) {
         Conectar();
@@ -107,6 +116,13 @@ public class ConectorDB {
         return null;
     }
 
+    /**
+     *
+     * Busca los lugares asociados a un grupo en particular.
+     *
+     * @param grupo el identificador del grupo cuyos lugares se desean buscar.
+     * @return una lista enlazada con los lugares encontrados.
+     */
     public static LinkedList<Lugar> BuscarLugaresDeUsuario(int grupo) {
         LinkedList<Lugar> listalugares = new LinkedList();
         Conectar();
@@ -121,6 +137,12 @@ public class ConectorDB {
         return listalugares;
     }
 
+    /**
+     * Manda al servidor la orden de obtener la lista de prioridades existentes
+     * en la base de datos.
+     *
+     * @return LinkedList con las prioridades encontradas.
+     */
     public static LinkedList<Prioridad> BuscarPrioridades() {
         LinkedList<Prioridad> listaPrioridades = new LinkedList();
         Conectar();
@@ -136,9 +158,11 @@ public class ConectorDB {
     }
 
     /**
+     * Actualiza la asociación entre un lugar y un grupo en la base de datos del
+     * servidor.
      *
-     * @param idLugar
-     * @param idGrupo
+     * @param idLugar El ID del lugar a asociar con el grupo.
+     * @param idGrupo El ID del grupo al que se quiere asociar el lugar.
      */
     public static void ActualizarGrupoLugares(int idLugar, int idGrupo) {
         LinkedList<Integer> argumentos = new LinkedList<>();
@@ -154,28 +178,35 @@ public class ConectorDB {
         }
         CerrarConexion();
     }
+
     /**
-     * 
-     * @param idGrupo
-     * @return 
+     * Envía al servidor la orden de eliminar todos los lugares asociados a un
+     * grupo.
+     *
+     * @param idGrupo el id del grupo del que se eliminarán los lugares.
+     * @return true si se eliminaron los lugares correctamente, false en caso
+     * contrario.
      */
-    public static boolean EliminarLugaresParaUnGrupo(int idGrupo){
+    public static boolean EliminarLugaresParaUnGrupo(int idGrupo) {
         Conectar();
-        try{
+        try {
             Mensaje mensaje = new Mensaje(Comandos.ELIMINARLUGARESPARAUNGRUPO, idGrupo);
             flujoSalida.writeObject(mensaje);
             return flujoEntrada.readBoolean();
-        }catch(IOException ex ){
+        } catch (IOException ex) {
             System.err.println(ex.getMessage());
         }
         CerrarConexion();
-        return  false;
+        return false;
     }
 
     /**
+     * Manda al servidor la orden de eliminar todas las tareas de un grupo en
+     * particular.
      *
-     * @param idGrupo
-     * @return
+     * @param idGrupo id del grupo.
+     * @return true si la operación de eliminar las tareas del grupo fue
+     * exitosa, false en caso contrario.
      */
     public static boolean EliminarTareasDelGrupo(int idGrupo) {
         Conectar();
@@ -191,10 +222,11 @@ public class ConectorDB {
     }
 
     /**
-     * Manda las credenciales para el login al servidor.
+     * Envía las credenciales para iniciar sesión al servidor.
      *
-     * @param credenciales
-     * @return
+     * @param credenciales Una lista enlazada que contiene las credenciales del
+     * usuario.
+     * @return Un objeto Persona que representa al usuario que inició sesión.
      */
     public static Persona Login(LinkedList credenciales) {
         Persona p = new Persona("1", "1", true);
@@ -211,9 +243,10 @@ public class ConectorDB {
     }
 
     /**
-     * Manda al servidor la orden de obtener la lista de tareas guardadas.
+     * Envía una solicitud al servidor para obtener la lista de tareas
+     * guardadas.
      *
-     * @return Lista con las tareas.
+     * @return Lista enlazada con las tareas guardadas.
      */
     public static LinkedList<Tarea> BuscarTareasGuardadas() {
         LinkedList listaTareas = new LinkedList();
@@ -232,8 +265,8 @@ public class ConectorDB {
     /**
      * Crea un nuevo grupo en la base de datos.
      *
-     * @param nombreGrupo nombre del nuevo grupo.
-     * @return true o false.
+     * @param nombreGrupo El nombre del nuevo grupo.
+     * @return true si el grupo se ha creado correctamente, false si no.
      */
     public static boolean CrearGrupo(String nombreGrupo) {
         Conectar();
@@ -251,9 +284,11 @@ public class ConectorDB {
     }
 
     /**
+     * Busca si existen usuarios en un grupo que no sean administradores.
      *
-     * @param grupoid
-     * @return
+     * @param grupoid ID del grupo a buscar.
+     * @return true si existen usuarios en el grupo que no sean administradores,
+     * false en caso contrario.
      */
     public static boolean BuscarUsuariosEnGrupoNoAdmin(int grupoid) {
         Conectar();
@@ -271,9 +306,11 @@ public class ConectorDB {
     }
 
     /**
+     * Envía un mensaje al servidor para eliminar un grupo de la base de datos.
      *
-     * @param grupoid
-     * @return
+     * @param grupoid ID del grupo a eliminar.
+     * @return true si el grupo fue eliminado correctamente, false en caso
+     * contrario.
      */
     public static boolean EliminarGrupo(int grupoid) {
         Conectar();
@@ -291,9 +328,11 @@ public class ConectorDB {
     }
 
     /**
+     * Elimina todos los administradores de un grupo en particular.
      *
-     * @param grupoid
-     * @return
+     * @param grupoid identificador del grupo.
+     * @return true si se eliminaron todos los administradores, false en caso
+     * contrario.
      */
     public static boolean EliminarAdminsDeGrupo(int grupoid) {
         Conectar();
@@ -355,7 +394,7 @@ public class ConectorDB {
      * Crea un nuevo lugar en la base de datos.
      *
      * @param lugar nuevo lugar a crear.
-     * @return
+     * @return true si se crea un nuevo lugar, false en caso contrario.
      */
     public static boolean CrearNuevoLugar(Lugar lugar) {
         Conectar();
@@ -371,8 +410,10 @@ public class ConectorDB {
     }
 
     /**
+     * Busca los lugares guardados en la base de datos y los devuelve en una
+     * lista.
      *
-     * @return
+     * @return Una lista de objetos Lugar.
      */
     public static LinkedList<Lugar> BuscarLugares() {
         Conectar();
@@ -387,11 +428,12 @@ public class ConectorDB {
     }
 
     /**
-     * manda al servidor la orden de obtener la lista de tareas para un dia en
+     * Manda al servidor la orden de obtener la lista de tareas para un dia en
      * especifico.
      *
-     * @param fecha dia especifico del que se quiere obtener las tareas.
-     * @return
+     * @param fecha día específico del que se quiere obtener las tareas. Debe
+     * estar en formato "yyyy-MM-dd".
+     * @return Lista de objetos Tarea correspondientes al día especificado.
      */
     public static LinkedList<Tarea> BuscarTareas(String fecha) {
         LinkedList listaTareas = new LinkedList();
@@ -410,9 +452,10 @@ public class ConectorDB {
     }
 
     /**
+     * Busca una tarea por su ID en la base de datos.
      *
-     * @param tarea
-     * @return
+     * @param tarea la tarea que se desea buscar.
+     * @return la tarea encontrada o null si no se encontró.
      */
     public static Tarea BuscarTareaPorId(Tarea tarea) {
         Conectar();
@@ -428,9 +471,12 @@ public class ConectorDB {
     }
 
     /**
+     * Envía al servidor la orden de actualizar la información de una persona en
+     * la base de datos.
      *
-     * @param persona
-     * @return
+     * @param persona Objeto Persona que contiene la información a actualizar.
+     * @return true si la información fue actualizada con éxito, false en caso
+     * contrario.
      */
     public static boolean ActualizarPersonal(Persona persona) {
         LinkedList listapersona = new LinkedList();
@@ -450,9 +496,11 @@ public class ConectorDB {
     }
 
     /**
+     * Método para eliminar a una persona del sistema.
      *
-     * @param persona
-     * @return
+     * @param persona la persona que se desea eliminar.
+     * @return true si la persona fue eliminada correctamente, false si ocurrió
+     * algún error.
      */
     public static boolean EliminarPersonal(Persona persona) {
         LinkedList listapersona = new LinkedList();
@@ -470,9 +518,11 @@ public class ConectorDB {
     }
 
     /**
+     * Actualiza una tarea en el servidor.
      *
-     * @param tarea
-     * @return
+     * @param tarea la tarea a actualizar
+     * @return true si la tarea se actualizó correctamente, false en caso
+     * contrario
      */
     public static boolean ActualizarTarea(Tarea tarea) {
         Conectar();
@@ -488,10 +538,12 @@ public class ConectorDB {
     }
 
     /**
+     * Añade una persona a una tarea especificada.
      *
-     * @param persona
-     * @param tarea
-     * @return
+     * @param persona La persona que se desea añadir a la tarea.
+     * @param tarea La tarea a la que se desea añadir la persona.
+     * @return true si la persona fue añadida exitosamente a la tarea, false en
+     * caso contrario.
      */
     public static boolean AñadirPersonalATarea(Persona persona, Tarea tarea) {
         boolean añadido = false;
@@ -507,10 +559,13 @@ public class ConectorDB {
     }
 
     /**
+     * Envía un mensaje al servidor para eliminar una persona de una tarea
+     * específica.
      *
-     * @param persona
-     * @param tarea
-     * @return
+     * @param persona Persona a eliminar de la tarea.
+     * @param tarea Tarea de la que se eliminará a la persona.
+     * @return true si la persona fue eliminada de la tarea exitosamente, false
+     * en caso contrario.
      */
     public static boolean EliminarPersonalDeTarea(Persona persona, Tarea tarea) {
         boolean eliminado = false;
@@ -527,14 +582,12 @@ public class ConectorDB {
     }
 
     /**
-     *
      * Envia una solicitud al servidor para eliminar la tarea especificada y
      * devuelve un booleano que indica si la tarea fue eliminada correctamente.
      *
      * @param tarea la tarea a eliminar del servidor.
-     * @return {@code true} si la tarea fue eliminada correctamente,
-     * {@code false} de lo contrario.
-     * @throws NullPointerException si la tarea es {@code null}.
+     * @return true si la tarea fue eliminada correctamente, false de lo
+     * contrario.
      */
     public static boolean EliminarTarea(Tarea tarea) {
         boolean eliminado = false;

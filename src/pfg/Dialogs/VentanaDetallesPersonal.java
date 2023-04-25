@@ -8,18 +8,22 @@ import pfg.Menu;
 import servidorprueba.Persona;
 
 /**
+ * Clase que representa una ventana para ver los detalles de un objeto Persona.
  *
- * @author angel
+ * Se utiliza para mostrar la información de una persona y permitir su edición
+ * en caso de que el usuario sea administrador o la persona sea el propio
+ * usuario.
  */
 public class VentanaDetallesPersonal extends javax.swing.JDialog {
 
     private Persona persona;
 
     /**
-     * Creates new form DetallesPersonal
+     * Constructor que crea una nueva instancia de la ventana para mostrar los
+     * detalles de una persona.
      *
-     * @param parent
-     * @param modal
+     * @param parent Objeto Frame que representa la ventana padre.
+     * @param modal Booleano que indica si la ventana debe ser modal o no.
      */
     public VentanaDetallesPersonal(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -27,11 +31,13 @@ public class VentanaDetallesPersonal extends javax.swing.JDialog {
     }
 
     /**
+     * Constructor que crea una nueva instancia de la ventana para mostrar y
+     * editar los detalles de una persona.
      *
-     * @param parent
-     * @param modal
-     * @param persona
-     * @param esAdmin
+     * @param parent Objeto Frame que representa la ventana padre.
+     * @param modal Booleano que indica si la ventana debe ser modal o no.
+     * @param persona Objeto Persona que se va a mostrar y/o editar.
+     * @param esAdmin Booleano que indica si el usuario es administrador o no.
      */
     public VentanaDetallesPersonal(java.awt.Frame parent, boolean modal, Persona persona, boolean esAdmin) {
         super(parent, modal);

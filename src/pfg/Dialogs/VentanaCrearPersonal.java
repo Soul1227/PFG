@@ -19,9 +19,10 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
     private LinkedList<Grupo> listagrupos;
 
     /**
+     * Constructor para crear la ventana de diálogo CrearPersonal.
      *
-     * @param parent
-     * @param modal
+     * @param parent La ventana padre a la que está asociada esta ventana.
+     * @param modal Booleano que indica si la ventana es modal o no.
      */
     public VentanaCrearPersonal(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -209,7 +210,7 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
             protected void done() {
                 jButtonCrear.setEnabled(true);
                 dispose();
-            }   
+            }
         };
         jButtonCrear.setEnabled(false);
         worker.execute();
@@ -268,7 +269,9 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
     }
 
     /**
-     *  Recorre los campos, crea y devuelve un objeto persona dentro de una lista.
+     * Recorre los campos, crea y devuelve un objeto persona dentro de una
+     * lista.
+     *
      * @return LinkedList<Persona>
      */
     private LinkedList<Persona> TomaDatosDeLosCampos() {

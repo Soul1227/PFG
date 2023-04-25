@@ -10,8 +10,8 @@ import servidorprueba.Prioridad;
 import servidorprueba.Tarea;
 
 /**
- *
- * @author angel
+ * Esta clase define un panel que representa visualmente una tarea con su
+ * nombre, hora de inicio/fin y color asociado.
  */
 public class EtiquetaTarea extends javax.swing.JPanel {
 
@@ -20,15 +20,17 @@ public class EtiquetaTarea extends javax.swing.JPanel {
     private Menu menu;
 
     /**
-     * Creates new form PanelTarea
+     * constructor por defecto que inicializa los componentes del panel.
      */
     public EtiquetaTarea() {
         initComponents();
     }
 
     /**
+     * constructor que inicializa los componentes del panel y asigna la tarea
+     * pasada como argumento.
      *
-     * @param tarea
+     * @param tarea tarea cuya informacion se mostrara en la etiqueta.
      */
     public EtiquetaTarea(Tarea tarea) {
         initComponents();
@@ -50,9 +52,11 @@ public class EtiquetaTarea extends javax.swing.JPanel {
     }
 
     /**
+     * constructor que inicializa los componentes del panel y asigna la tarea y
+     * el menú pasado como argumento.
      *
-     * @param tarea
-     * @param menu
+     * @param tarea cuya informacion se mostrara en la etiqueta. 
+     * @param menu con acceso a la clase maper.
      */
     public EtiquetaTarea(Tarea tarea, Menu menu) {
         initComponents();
@@ -60,7 +64,7 @@ public class EtiquetaTarea extends javax.swing.JPanel {
         this.maper = Menu.maper;
         this.menu = menu;
         jLabelNombreTarea.setText(tarea.getNombre());
-        
+
         if (tarea.getHoraInicio() != null) {
             jLabelHora.setText(tarea.getHoraInicio() + ":" + tarea.getHoraFin());
         } else {
@@ -148,7 +152,7 @@ public class EtiquetaTarea extends javax.swing.JPanel {
                 }
             });
             detalles.setVisible(true);
-        }       
+        }
     }//GEN-LAST:event_formMouseClicked
 
     public Tarea getTarea() {

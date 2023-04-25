@@ -11,8 +11,8 @@ import pfg.Menu;
 import servidorprueba.Persona;
 
 /**
- *
- * @author angel
+ * La clase EtiquetaPersonal representa una etiqueta que muestra información
+ * personal de una persona, como su nombre, teléfono y correo electrónico
  */
 public class EtiquetaPersonal extends javax.swing.JPanel {
 
@@ -22,15 +22,17 @@ public class EtiquetaPersonal extends javax.swing.JPanel {
     private JCheckBox checkbox;
 
     /**
-     * Creates new form PanelPersonal
+     * Crea una nueva instancia de EtiquetaPersonal sin ningún parámetro.
      */
     public EtiquetaPersonal() {
         initComponents();
     }
 
     /**
+     * Crea una nueva instancia de EtiquetaPersonal con la información de una
+     * persona.
      *
-     * @param persona
+     * @param persona La persona cuya información se mostrará en la etiqueta.
      */
     public EtiquetaPersonal(Persona persona) {
         initComponents();
@@ -40,6 +42,14 @@ public class EtiquetaPersonal extends javax.swing.JPanel {
         jLabelEmail.setText(persona.getEmail());
     }
 
+    /**
+     * Crea una nueva instancia de EtiquetaPersonal con la información de una
+     * persona y una casilla de verificación.
+     *
+     * @param persona La persona cuya información se mostrará en la etiqueta.
+     * @param chequeable True si la etiqueta debe incluir una casilla de
+     * verificación, false en caso contrario.
+     */
     public EtiquetaPersonal(Persona persona, boolean chequeable) {
         initComponents();
         this.persona = persona;
@@ -53,6 +63,16 @@ public class EtiquetaPersonal extends javax.swing.JPanel {
         }
     }
 
+    /**
+     * Crea una nueva instancia de EtiquetaPersonal con la información de una
+     * persona, una casilla de verificación y un menú.
+     *
+     * @param persona La persona cuya información se mostrará en la etiqueta.
+     * @param chequeable True si la etiqueta debe incluir una casilla de
+     * verificación, false en caso contrario.
+     * @param menu El menú al que se agregará la etiqueta si se marca la casilla
+     * de verificación.
+     */
     public EtiquetaPersonal(Persona persona, boolean chequeable, Menu menu) {
         initComponents();
         this.persona = persona;

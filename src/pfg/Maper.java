@@ -8,6 +8,9 @@ import servidorprueba.Prioridad;
 
 /**
  *
+ * La clase Maper es una herramienta para gestionar una serie de listas y mapas,
+ * de grupos, prioridades y lugares.
+ *
  * @author angel
  */
 public final class Maper {
@@ -20,6 +23,11 @@ public final class Maper {
     private LinkedList<Prioridad> listaPrioridades;
     private LinkedList<Lugar> listaLugares;
 
+    /**
+     * Constructor de la clase con el grupo del usuario.
+     *
+     * @param grupoUsuario id del grupo al que pertenece el usuario.
+     */
     public Maper(int grupoUsuario) {
         this.grupoUsuario = grupoUsuario;
     }
@@ -82,9 +90,13 @@ public final class Maper {
     }
 
     /**
+     * Este método crea un mapa de lugares actualizado a partir de una lista de
+     * lugares dada. Asigna a cada lugar su respectivo ID y lo agrega al mapa.
      *
-     * @param listaLugares
-     * @return
+     * @param listaLugares una lista de lugares que se utilizará para crear el
+     * mapa
+     * @return un objeto de tipo HashMap que contiene los nombres de los lugares
+     * como clave y sus IDs como valor
      */
     public HashMap CrearMapaLugares(LinkedList<Lugar> listaLugares) {
         HashMap<String, Integer> mapaLugaresActualizado = new HashMap();
@@ -95,9 +107,14 @@ public final class Maper {
     }
 
     /**
+     * Este método crea un mapa de Prioridades actualizado a partir de una lista
+     * de prioridades dada. Asigna a cada prioridad su respectivo ID y lo agrega
+     * al mapa.
      *
-     * @param listaPrioridades
-     * @return
+     * @param listaPrioridades una lista de prioridades que se utilizará para
+     * crear el mapa
+     * @return un objeto de tipo HashMap que contiene los nombres de las
+     * prioridades como clave y sus IDs como valor
      */
     public HashMap CrearMapaPrioridades(LinkedList<Prioridad> listaPrioridades) {
         HashMap<String, Integer> mapaPrioridadesActualizado = new HashMap();
@@ -107,6 +124,15 @@ public final class Maper {
         return mapaPrioridadesActualizado;
     }
 
+    /**
+     * Este método crea un mapa de Grupos actualizado a partir de una lista de
+     * grupos dada. Asigna a cada grupo su respectivo ID y lo agrega al mapa.
+     *
+     * @param listaGrupos una lista de grupos que se utilizará para crear el
+     * mapa
+     * @return un objeto de tipo HashMap que contiene los nombres de los grupos
+     * como clave y sus IDs como valor
+     */
     public HashMap CrearMapaGrupos(LinkedList<Grupo> listaGrupos) {
         HashMap<String, Integer> mapaGruposActualizado = new HashMap<>();
         listaGrupos.forEach((grupo) -> {
@@ -116,8 +142,9 @@ public final class Maper {
     }
 
     /**
+     * Actualiza el mapa de prioridades con la lista de prioridades especificada
      *
-     * @param listaPrioridades
+     * @param listaPrioridades La lista de prioridades actualizada
      */
     public void ActualizarMapaPrioridades(LinkedList<Prioridad> listaPrioridades) {
         setListaPrioridades(listaPrioridades);
@@ -125,8 +152,9 @@ public final class Maper {
     }
 
     /**
+     * Actualiza el mapa de lugares con la lista de lugares especificada
      *
-     * @param listaLugares
+     * @param listaLugares La lista de lugares actualizada
      */
     public void ActualizarMapaLugares(LinkedList<Lugar> listaLugares) {
         setListaLugares(listaLugares);
@@ -134,8 +162,9 @@ public final class Maper {
     }
 
     /**
+     * Actualiza el mapa de grupos con la lista de grupos especificada
      *
-     * @param listaGrupos
+     * @param listaGrupos La lista de grupos actualizada
      */
     public void ActualizarMapaGrupos(LinkedList<Grupo> listaGrupos) {
         setListaGrupos(listaGrupos);

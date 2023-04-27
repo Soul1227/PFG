@@ -61,7 +61,7 @@ public class ConectorDB {
      * @param idTarea LinkedList con la ID de la tarea.
      * @return Lista del personal fuera de la tarea.
      */
-    public static LinkedList BuscarPersonalFueraDeTarea(LinkedList idTarea) {
+    public static LinkedList BuscarPersonalFueraDeTarea(LinkedList<Integer> idTarea) {
         LinkedList listaPersonal = new LinkedList();
         Conectar();
         try {

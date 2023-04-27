@@ -2,7 +2,6 @@ package pfg.Dialogs;
 
 import java.awt.Component;
 import java.util.LinkedList;
-import javax.swing.SwingWorker;
 import pfg.ConectorDB;
 import pfg.paneles.EtiquetaPersonal;
 import servidorprueba.Persona;

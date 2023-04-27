@@ -3,6 +3,7 @@ package pfg.Dialogs;
 import java.awt.Color;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -549,34 +550,21 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
      * @param eliminar Si es true, se eliminará al personal seleccionado de la
      * tarea actual.
      */
-    private void EliminarPersonarlDeTarea(Boolean eliminar) {
+   private void EliminarPersonarlDeTarea(Boolean eliminar) {
         if (eliminar) {
             List<String> selectedValues = jListEmpleadosEnTarea.getSelectedValuesList();
-            selectedValues.forEach((String value) -> {
-                tarea.getEmpleadosEnTarea().forEach((Persona persona) -> {
-                    String nombreEmpleado = persona.getNombre() + " " + persona.getApellidos();
-                    if (nombreEmpleado.equals(value)) {
-                        tarea.getEmpleadosEnTarea().remove(persona);
-                        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
-                            @Override
-                            protected Boolean doInBackground() throws Exception {
-                                return ConectorDB.EliminarPersonalDeTarea(persona, tarea);
-                            }
-
-                            @Override
-                            protected void done() {
-                                try {
-                                    if (get()) {
-                                    }
-                                } catch (ExecutionException | InterruptedException ex) {
-                                    System.err.println(ex.getMessage());
-                                }
-                            }
-                        };
-                        worker.execute();
+            Iterator<Persona> iterator = tarea.getEmpleadosEnTarea().iterator();
+            while (iterator.hasNext()) {
+                Persona persona = iterator.next();
+                String nombreEmpleado = persona.getNombre() + " " + persona.getApellidos();
+                if (selectedValues.contains(nombreEmpleado)) {
+                    if (ConectorDB.EliminarPersonalDeTarea(persona, tarea)) {
+                        iterator.remove();
+                    } else {
+                        JOptionPane.showMessageDialog(rootPane, "Error al conecta con la base de datos.\n No se pudo llevar a cabo la petición.");
                     }
-                });
-            });
+                }
+            }
         }
     }
 

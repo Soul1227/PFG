@@ -195,13 +195,7 @@ public class VentanaAñadirPersonaATarea extends javax.swing.JDialog {
                 if (etiquetaPersona.getjCheckBox1().isSelected()) {
                     Persona persona = etiquetaPersona.getPersona();
                     tarea.getEmpleadosEnTarea().add(persona);
-                    SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
-                        @Override
-                        protected Boolean doInBackground() throws Exception {
-                            return ConectorDB.AñadirPersonalATarea(persona, tarea);
-                        }
-                    };
-                    worker.execute();
+                    ConectorDB.AñadirPersonalATarea(persona, tarea);
                 }
             }
         }

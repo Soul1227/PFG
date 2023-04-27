@@ -24,7 +24,6 @@ import pfg.paneles.PanelTareas;
 import servidorprueba.Persona;
 
 /**
- *
  * La clase Menu representa la ventana principal de la aplicación de gestión de
  * tareas.
  *
@@ -96,7 +95,7 @@ public class Menu extends javax.swing.JFrame {
         jDatePickerMenu = new org.jdatepicker.JDatePicker();
         jPanelUsuario = new javax.swing.JPanel();
         jLabelNombreUsuario = new javax.swing.JLabel();
-        jButtonActualizar = new javax.swing.JButton();
+        jButtonImprimir = new javax.swing.JButton();
         jPaneAbajo = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
@@ -257,8 +256,13 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        jButtonActualizar.setText(resourceMap.getString("jButtonActualizar.text")); // NOI18N
-        jButtonActualizar.setName("jButtonActualizar"); // NOI18N
+        jButtonImprimir.setText(resourceMap.getString("jButtonImprimir.text")); // NOI18N
+        jButtonImprimir.setName("jButtonImprimir"); // NOI18N
+        jButtonImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonImprimirActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanelUsuarioLayout = new javax.swing.GroupLayout(jPanelUsuario);
         jPanelUsuario.setLayout(jPanelUsuarioLayout);
@@ -268,7 +272,7 @@ public class Menu extends javax.swing.JFrame {
                 .addGap(0, 410, Short.MAX_VALUE)
                 .addGroup(jPanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanelUsuarioLayout.createSequentialGroup()
-                        .addComponent(jButtonActualizar)
+                        .addComponent(jButtonImprimir)
                         .addGap(2, 2, 2))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUsuarioLayout.createSequentialGroup()
                         .addComponent(jLabelNombreUsuario)
@@ -278,9 +282,9 @@ public class Menu extends javax.swing.JFrame {
             jPanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelUsuarioLayout.createSequentialGroup()
                 .addComponent(jLabelNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonActualizar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
+                .addComponent(jButtonImprimir)
+                .addContainerGap())
         );
 
         jPanelArriba.add(jPanelUsuario);
@@ -368,17 +372,20 @@ public class Menu extends javax.swing.JFrame {
     private void jLabelPersonalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPersonalMouseClicked
         CambiarPanel(Paneles.Personal);
         jButtonAñadirPT.setVisible(true);
+        jButtonImprimir.setVisible(true);
     }//GEN-LAST:event_jLabelPersonalMouseClicked
 
     private void jLabelHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelHomeMouseClicked
         ActualizarSemana(true);
         CambiarPanel(Paneles.Semana);
         jButtonAñadirPT.setVisible(false);
+        jButtonImprimir.setVisible(false);
     }//GEN-LAST:event_jLabelHomeMouseClicked
 
     private void jLabelTareasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTareasMouseClicked
         CambiarPanel(Paneles.Tareas);
         jButtonAñadirPT.setVisible(true);
+        jButtonImprimir.setVisible(false);
     }//GEN-LAST:event_jLabelTareasMouseClicked
 
     private void jLabelFlechaIzquierdaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelFlechaIzquierdaMouseClicked
@@ -386,6 +393,7 @@ public class Menu extends javax.swing.JFrame {
         ActualizarSemana(false);
         CambiarPanel(Paneles.Semana);
         jButtonAñadirPT.setVisible(false);
+        jButtonImprimir.setVisible(false);
     }//GEN-LAST:event_jLabelFlechaIzquierdaMouseClicked
 
     private void jLabelFlechaDerechaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelFlechaDerechaMouseClicked
@@ -393,6 +401,7 @@ public class Menu extends javax.swing.JFrame {
         ActualizarSemana(false);
         CambiarPanel(Paneles.Semana);
         jButtonAñadirPT.setVisible(false);
+        jButtonImprimir.setVisible(false);
     }//GEN-LAST:event_jLabelFlechaDerechaMouseClicked
 
     private void jLabelNombreUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelNombreUsuarioMouseClicked
@@ -439,6 +448,10 @@ public class Menu extends javax.swing.JFrame {
         VentanaLugares ventanaLugares = new VentanaLugares(this, true, maper);
         ventanaLugares.setVisible(true);
     }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void jButtonImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirActionPerformed
+      
+    }//GEN-LAST:event_jButtonImprimirActionPerformed
 
     /**
      * @param args the command line arguments
@@ -531,6 +544,7 @@ public class Menu extends javax.swing.JFrame {
         jLabelFlechaDerecha.setText("");
         jLabelFlechaIzquierda.setText("");
         jButtonAñadirPT.setVisible(false);
+        jButtonImprimir.setVisible(false);
         jLabelHome.setText("");
         jLabelHome.setIcon(imageHome);
         jLabelNombreUsuario.setText(usuario.getNombre() + " " + usuario.getApellidos());
@@ -629,8 +643,8 @@ public class Menu extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonActualizar;
     private javax.swing.JButton jButtonAñadirPT;
+    private javax.swing.JButton jButtonImprimir;
     private org.jdatepicker.JDatePicker jDatePickerMenu;
     private javax.swing.JLabel jLabelFlechaDerecha;
     private javax.swing.JLabel jLabelFlechaIzquierda;

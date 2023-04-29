@@ -65,7 +65,7 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
         jLabel6 = new javax.swing.JLabel();
         jTextFieldPass = new javax.swing.JTextField();
         jButtonCrear = new javax.swing.JButton();
-        jCheckBox1 = new javax.swing.JCheckBox();
+        jCheckBoxEsAdministrador = new javax.swing.JCheckBox();
         jComboBoxGrupos = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -109,11 +109,11 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
             }
         });
 
-        jCheckBox1.setText(resourceMap.getString("jCheckBox1.text")); // NOI18N
-        jCheckBox1.setName("jCheckBox1"); // NOI18N
-        jCheckBox1.addActionListener(new java.awt.event.ActionListener() {
+        jCheckBoxEsAdministrador.setText(resourceMap.getString("jCheckBoxEsAdministrador.text")); // NOI18N
+        jCheckBoxEsAdministrador.setName("jCheckBoxEsAdministrador"); // NOI18N
+        jCheckBoxEsAdministrador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jCheckBox1ActionPerformed(evt);
+                jCheckBoxEsAdministradorActionPerformed(evt);
             }
         });
 
@@ -154,7 +154,7 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
                                 .addComponent(jTextFieldPass)))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jCheckBox1)
+                        .addComponent(jCheckBoxEsAdministrador)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jComboBoxGrupos, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -190,7 +190,7 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
                     .addComponent(jLabel6))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jCheckBox1)
+                    .addComponent(jCheckBoxEsAdministrador)
                     .addComponent(jComboBoxGrupos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButtonCrear))
                 .addContainerGap())
@@ -200,9 +200,9 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButtonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearActionPerformed
-        SwingWorker<Persona, Void> worker = new SwingWorker<Persona, Void>() {
+        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
             @Override
-            protected Persona doInBackground() throws Exception {
+            protected Boolean doInBackground() throws Exception {
                 return ConectorDB.CrearEmpleado(TomaDatosDeLosCampos());
             }
 
@@ -216,13 +216,13 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
         worker.execute();
     }//GEN-LAST:event_jButtonCrearActionPerformed
 
-    private void jCheckBox1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox1ActionPerformed
-        if (jCheckBox1.isSelected()) {
+    private void jCheckBoxEsAdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxEsAdministradorActionPerformed
+        if (jCheckBoxEsAdministrador.isSelected()) {
             jComboBoxGrupos.setEnabled(true);
         } else {
             jComboBoxGrupos.setEnabled(false);
         }
-    }//GEN-LAST:event_jCheckBox1ActionPerformed
+    }//GEN-LAST:event_jCheckBoxEsAdministradorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -269,13 +269,10 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
     }
 
     /**
-     * Recorre los campos, crea y devuelve un objeto persona dentro de una
-     * lista.
-     *
-     * @return LinkedList<Persona>
+     * Recorre los campos, crea y devuelve un objeto persona.
+     * @return Persona con los datos de los campos.
      */
-    private LinkedList<Persona> TomaDatosDeLosCampos() {
-        LinkedList<Persona> listPersona = new LinkedList<>();
+    private Persona TomaDatosDeLosCampos() {
         String nombre = jTextFieldNombre.getText().trim();
         String apellidos = jTextFieldApellidos.getText().trim();
         String nombreUsuario = jTextFieldNombreUsuario.getText().trim();
@@ -286,7 +283,7 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
             throw new IllegalArgumentException("Por favor ingrese todos los campos obligatorios.");
         }
 
-        if (jCheckBox1.isSelected()) {
+        if (jCheckBoxEsAdministrador.isSelected()) {
             for (Grupo g : listagrupos) {
                 if (jComboBoxGrupos.getSelectedItem().toString().equals(g.getGrupoNombre())) {
                     setGrupo(g.getGrupoId());
@@ -295,10 +292,9 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
         } else {
             grupo = Menu.usuario.getGrupo();
         }
-        Persona p = new Persona(nombre, apellidos, nombreUsuario, pass, email, telefonos,
-                jCheckBox1.isSelected(), grupo, Menu.usuario.getNombre());
-        listPersona.add(p);
-        return listPersona;
+        Persona nuevoUsuario = new Persona(nombre, apellidos, nombreUsuario, pass, email, telefonos,
+                jCheckBoxEsAdministrador.isSelected(), grupo, Menu.usuario.getNombre());
+        return nuevoUsuario;
     }
 
     /**
@@ -306,7 +302,7 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
      * diálogo.
      */
     private void initializeUIComponents() {
-        jCheckBox1.setSelected(false);
+        jCheckBoxEsAdministrador.setSelected(false);
         for (Grupo grupo : listagrupos) {
             jComboBoxGrupos.addItem(grupo.getGrupoNombre());
         }
@@ -332,7 +328,7 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonCrear;
-    private javax.swing.JCheckBox jCheckBox1;
+    private javax.swing.JCheckBox jCheckBoxEsAdministrador;
     private javax.swing.JComboBox<String> jComboBoxGrupos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

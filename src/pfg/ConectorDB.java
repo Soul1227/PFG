@@ -61,11 +61,11 @@ public class ConectorDB {
      * @param idTarea LinkedList con la ID de la tarea.
      * @return Lista del personal fuera de la tarea.
      */
-    public static LinkedList BuscarPersonalFueraDeTarea(LinkedList idTarea) {
+    public static LinkedList BuscarPersonalFueraDeTarea(LinkedList<Integer> idTarea) {
         LinkedList listaPersonal = new LinkedList();
         Conectar();
         try {
-            Mensaje mensaje = new Mensaje(Comandos.USUARIOSFUERADETAREA, idTarea);
+            Mensaje mensaje = new Mensaje(Comandos.PERSONASFUERADETAREA, idTarea);
             flujoSalida.writeObject(mensaje);
             listaPersonal = (LinkedList) flujoEntrada.readObject();
         } catch (IOException | ClassNotFoundException ex) {
@@ -98,22 +98,21 @@ public class ConectorDB {
      * Envía los datos necesarios para crear un nuevo empleado en la base de
      * datos.
      *
-     * @param datosNuevoEmpleado una LinkedList que contiene un objeto de tipo
-     * Persona con los datos del nuevo empleado.
+     * @param NuevoEmpleado Objeto persona con los datos del nuevo usuario.
      * @return el objeto Persona creado en la base de datos, o null si ocurrió
      * un error.
      */
-    public static Persona CrearEmpleado(LinkedList<Persona> datosNuevoEmpleado) {
+    public static boolean CrearEmpleado(Persona NuevoEmpleado) {
         Conectar();
         try {
-            Mensaje mensaje = new Mensaje(Comandos.CREARUSUARIO, datosNuevoEmpleado);
+            Mensaje mensaje = new Mensaje(Comandos.CREARUSUARIO, NuevoEmpleado);
             flujoSalida.writeObject(mensaje);
-            return (Persona) flujoEntrada.readObject();
-        } catch (IOException | ClassNotFoundException ex) {
+            return flujoEntrada.readBoolean();
+        } catch (IOException ex) {
             ex.getMessage();
             CerrarConexion();
         }
-        return null;
+        return false;
     }
 
     /**
@@ -163,8 +162,10 @@ public class ConectorDB {
      *
      * @param idLugar El ID del lugar a asociar con el grupo.
      * @param idGrupo El ID del grupo al que se quiere asociar el lugar.
+     * @return true si el proceso se completa con exito, false en caso
+     * contrario.
      */
-    public static void ActualizarGrupoLugares(int idLugar, int idGrupo) {
+    public static boolean ActualizarGrupoLugares(int idLugar, int idGrupo) {
         LinkedList<Integer> argumentos = new LinkedList<>();
         argumentos.add(idGrupo);
         argumentos.add(idLugar);
@@ -172,11 +173,12 @@ public class ConectorDB {
         try {
             Mensaje mensaje = new Mensaje(Comandos.CREARGRUPOLUGAR, argumentos);
             flujoSalida.writeObject(mensaje);
-
+            return flujoEntrada.readBoolean();
         } catch (IOException ex) {
             System.err.println(ex.getMessage());
         }
         CerrarConexion();
+        return false;
     }
 
     /**
@@ -246,13 +248,14 @@ public class ConectorDB {
      * Envía una solicitud al servidor para obtener la lista de tareas
      * guardadas.
      *
+     * @param num_grupo grupo al que corresponden las tareas.
      * @return Lista enlazada con las tareas guardadas.
      */
-    public static LinkedList<Tarea> BuscarTareasGuardadas() {
+    public static LinkedList<Tarea> BuscarTareasGuardadas(int num_grupo) {
         LinkedList listaTareas = new LinkedList();
         Conectar();
         try {
-            Mensaje mensaje = new Mensaje(Comandos.TAREASGUARDADAS);
+            Mensaje mensaje = new Mensaje(Comandos.TAREASGUARDADAS, num_grupo);
             flujoSalida.writeObject(mensaje);
             listaTareas = (LinkedList) flujoEntrada.readObject();
         } catch (IOException | ClassNotFoundException ex) {
@@ -433,15 +436,16 @@ public class ConectorDB {
      *
      * @param fecha día específico del que se quiere obtener las tareas. Debe
      * estar en formato "yyyy-MM-dd".
+     * @param idgrupo id del grupo del usuario.
      * @return Lista de objetos Tarea correspondientes al día especificado.
      */
-    public static LinkedList<Tarea> BuscarTareas(String fecha) {
+    public static LinkedList<Tarea> BuscarTareas(String fecha, int idgrupo) {
         LinkedList listaTareas = new LinkedList();
         LinkedList dia = new LinkedList();
         dia.add(fecha);
         Conectar();
         try {
-            Mensaje mensaje = new Mensaje(Comandos.TAREASDELDIA, dia);
+            Mensaje mensaje = new Mensaje(Comandos.TAREASDELDIA, dia, idgrupo);
             flujoSalida.writeObject(mensaje);
             listaTareas = (LinkedList) flujoEntrada.readObject();
         } catch (IOException | ClassNotFoundException ex) {
@@ -503,12 +507,10 @@ public class ConectorDB {
      * algún error.
      */
     public static boolean EliminarPersonal(Persona persona) {
-        LinkedList listapersona = new LinkedList();
-        listapersona.add(persona);
         boolean eliminado = false;
         Conectar();
         try {
-            Mensaje mensaje = new Mensaje(Comandos.ELIMINARPERSONAL, listapersona);
+            Mensaje mensaje = new Mensaje(Comandos.ELIMINARPERSONAL, persona);
             flujoSalida.writeObject(mensaje);
             eliminado = flujoEntrada.readBoolean();
         } catch (IOException ex) {

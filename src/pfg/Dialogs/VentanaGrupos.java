@@ -6,7 +6,9 @@ import javax.swing.DefaultListModel;
 import javax.swing.JOptionPane;
 import pfg.ConectorDB;
 import pfg.Maper;
+import pfg.Menu;
 import servidorprueba.Grupo;
+import servidorprueba.Persona;
 
 /**
  * La clase VentanaGrupos representa una ventana de diálogo para mostrar una
@@ -150,12 +152,13 @@ public class VentanaGrupos extends javax.swing.JDialog {
         if (ConfirmarEliminarGrupo()) {
             LinkedList<Integer> gruposSeleccionados = GruposSeleccionados();
             for (Integer gruposSeleccionado : gruposSeleccionados) {
-                if (SePuedeEliminarGrupo(gruposSeleccionado)) {
-                    EliminarAdmins(gruposSeleccionado);
+                if (SePuedeEliminarGrupo(gruposSeleccionado) && Menu.usuario.getGrupo() == gruposSeleccionado) {
+                    EliminarAdministradoresEnTareas(ConectorDB.BuscarPersonal(gruposSeleccionado));
                     EliminarTareasDelGrupo(gruposSeleccionado);
+                    EliminarAdmins(gruposSeleccionado);
                     EliminarGrupo(gruposSeleccionado);
                 } else {
-                    JOptionPane.showMessageDialog(rootPane, "No puede ser eliminado un grupo mientras\n haya lugares, usuarios o tareas ligados a este.");
+                    JOptionPane.showMessageDialog(rootPane, "No puede ser eliminado un grupo mientras\n haya lugares, empleados o tareas ligados a este.\n Solo puedes eliminar un grupo si perteneces a este.");
                 }
             }
             RellenarGrupos(ConectorDB.BuscarGrupos());
@@ -358,5 +361,12 @@ public class VentanaGrupos extends javax.swing.JDialog {
      */
     private boolean EliminarTareasDelGrupo(Integer gruposSeleccionado) {
         return ConectorDB.EliminarTareasDelGrupo(gruposSeleccionado);
+    }
+
+    private boolean EliminarAdministradoresEnTareas(LinkedList<Persona> BuscarPersonal) {
+        BuscarPersonal.forEach(persona -> {
+            ConectorDB.EliminarPersonal(persona);
+        });
+        return true;
     }
 }

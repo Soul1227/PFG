@@ -18,9 +18,7 @@ import servidorprueba.Tarea;
  * @author angel
  */
 public class PanelTareas extends javax.swing.JPanel {
-
-    private Menu menu;
-
+    
     public LinkedList<Tarea> listaTareas;
 
     public PanelTareas() {
@@ -35,7 +33,6 @@ public class PanelTareas extends javax.swing.JPanel {
      */
     public PanelTareas(LinkedList<Tarea> listaTareas, Menu menu) {
         this.listaTareas = listaTareas;
-        this.menu = menu;
         for (Tarea t : listaTareas) {
             EtiquetaTarea etiquetaTarea = new EtiquetaTarea(t, menu);
             this.add(etiquetaTarea);

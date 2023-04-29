@@ -72,7 +72,7 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
 
         //Creacion de panel e introduccion de las tareas guardadas.
         JPanel jPanelTareasGuardadas = new JPanel();
-        LinkedList<Tarea> listaTareas = ConectorDB.BuscarTareasGuardadas();
+        LinkedList<Tarea> listaTareas = ConectorDB.BuscarTareasGuardadas(Menu.usuario.getGrupo());
         for (Tarea t : listaTareas) {
             EtiquetaTarea etiquetaTarea = new EtiquetaTarea(t);
             etiquetaTarea.addMouseListener(new MouseInputAdapter() {
@@ -636,7 +636,7 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
 
         Date date = null;
         boolean guardada = true;
-        if (jDatePicker1.isEnabled()) {
+        if (jDatePicker1.isVisible()) {
             guardada = false;
             java.util.Calendar calendar = (java.util.Calendar) jDatePicker1.getModel().getValue();
             if (calendar != null) {

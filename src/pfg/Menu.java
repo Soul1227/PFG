@@ -604,7 +604,7 @@ public class Menu extends javax.swing.JFrame {
      */
     private PanelTareas CrearPanelTareas() {
         panelActivo = Paneles.Tareas;
-        return new PanelTareas(ConectorDB.BuscarTareasGuardadas(), this);
+        return new PanelTareas(ConectorDB.BuscarTareasGuardadas(usuario.getGrupo()), this);
     }
 
     /**

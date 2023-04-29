@@ -436,15 +436,16 @@ public class ConectorDB {
      *
      * @param fecha día específico del que se quiere obtener las tareas. Debe
      * estar en formato "yyyy-MM-dd".
+     * @param idgrupo id del grupo del usuario.
      * @return Lista de objetos Tarea correspondientes al día especificado.
      */
-    public static LinkedList<Tarea> BuscarTareas(String fecha) {
+    public static LinkedList<Tarea> BuscarTareas(String fecha, int idgrupo) {
         LinkedList listaTareas = new LinkedList();
         LinkedList dia = new LinkedList();
         dia.add(fecha);
         Conectar();
         try {
-            Mensaje mensaje = new Mensaje(Comandos.TAREASDELDIA, dia);
+            Mensaje mensaje = new Mensaje(Comandos.TAREASDELDIA, dia, idgrupo);
             flujoSalida.writeObject(mensaje);
             listaTareas = (LinkedList) flujoEntrada.readObject();
         } catch (IOException | ClassNotFoundException ex) {

@@ -125,14 +125,14 @@ public class Login extends javax.swing.JFrame {
         credenciales.add(jTextFieldNombreUsuario.getText());
         String passText = new String(jPasswordField1.getPassword());
         credenciales.add(passText);
-        Persona p = ConectorDB.Login(credenciales);
-        if (p == null) {
+        Persona persona = ConectorDB.Login(credenciales);
+        if (persona == null) {
             JOptionPane.showMessageDialog(this, "Las credenciales no son correctas\n Por favor vuelva a intentarlo.");
         } //Sistema de seguridad, intentar mejorarlo.
-        else if (p.getNombre().equals("1")) {
+        else if (persona.getNombre().equals("1")) {
             JOptionPane.showMessageDialog(this, "Imposible conectar con la Base de datos\n Por favor vuelva a intentarlo.");
         } else {
-            Menu menu = new Menu(p);
+            Menu menu = new Menu(persona);
             menu.setVisible(true);
             dispose();
         }

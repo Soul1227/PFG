@@ -1,8 +1,11 @@
 package pfg;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
 import servidorprueba.Persona;
+
 /**
  * Clase que representa la ventana de inicio de sesión para el usuario.
  */
@@ -13,6 +16,14 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
+        File file = new File("."+ File.separator + "ServerIP.txt");
+        if (!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -26,6 +37,10 @@ public class Login extends javax.swing.JFrame {
         jLabelContrasena = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
         jButtonAceptar = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItemServer = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setName("Form"); // NOI18N
@@ -90,6 +105,23 @@ public class Login extends javax.swing.JFrame {
                 jButtonAceptarMouseClicked(evt);
             }
         });
+
+        jMenuBar1.setName("jMenuBar1"); // NOI18N
+
+        jMenu1.setText(resourceMap.getString("jMenu1.text")); // NOI18N
+        jMenu1.setName("jMenu1"); // NOI18N
+
+        jMenuItemServer.setText(resourceMap.getString("jMenuItemServer.text")); // NOI18N
+        jMenuItemServer.setName("jMenuItemServer"); // NOI18N
+        jMenu1.add(jMenuItemServer);
+
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText(resourceMap.getString("jMenu2.text")); // NOI18N
+        jMenu2.setName("jMenu2"); // NOI18N
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -175,6 +207,10 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelContrasena;
     private javax.swing.JLabel jLabelLogo;
     private javax.swing.JLabel jLabelNombreUsuario;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItemServer;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextFieldNombreUsuario;

@@ -101,6 +101,7 @@ public class Menu extends javax.swing.JFrame {
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
         jMenuItemGrupos = new javax.swing.JMenuItem();
         jMenuItemLugares = new javax.swing.JMenuItem();
+        jMenuItemServidor = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
 
@@ -321,6 +322,10 @@ public class Menu extends javax.swing.JFrame {
             }
         });
         fileMenu.add(jMenuItemLugares);
+
+        jMenuItemServidor.setText(resourceMap.getString("jMenuItemServidor.text")); // NOI18N
+        jMenuItemServidor.setName("jMenuItemServidor"); // NOI18N
+        fileMenu.add(jMenuItemServidor);
 
         menuBar.add(fileMenu);
 
@@ -642,6 +647,7 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelTareas;
     private javax.swing.JMenuItem jMenuItemGrupos;
     private javax.swing.JMenuItem jMenuItemLugares;
+    private javax.swing.JMenuItem jMenuItemServidor;
     private javax.swing.JPanel jPaneAbajo;
     private javax.swing.JPanel jPanelArriba;
     private javax.swing.JPanel jPanelIconos;

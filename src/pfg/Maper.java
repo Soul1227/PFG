@@ -100,9 +100,11 @@ public final class Maper {
      */
     public HashMap CrearMapaLugares(LinkedList<Lugar> listaLugares) {
         HashMap<String, Integer> mapaLugaresActualizado = new HashMap();
-        listaLugares.forEach((lugar) -> {
-            mapaLugaresActualizado.put(lugar.getNombre(), lugar.getId());
-        });
+        if (listaLugares != null) {
+            listaLugares.forEach((lugar) -> {
+                mapaLugaresActualizado.put(lugar.getNombre(), lugar.getId());
+            });
+        }
         return mapaLugaresActualizado;
     }
 
@@ -118,9 +120,11 @@ public final class Maper {
      */
     public HashMap CrearMapaPrioridades(LinkedList<Prioridad> listaPrioridades) {
         HashMap<String, Integer> mapaPrioridadesActualizado = new HashMap();
-        listaPrioridades.forEach((prioridad) -> {
-            mapaPrioridadesActualizado.put(prioridad.getNombre(), prioridad.getId());
-        });
+        if (listaPrioridades != null) {
+            listaPrioridades.forEach((prioridad) -> {
+                mapaPrioridadesActualizado.put(prioridad.getNombre(), prioridad.getId());
+            });
+        }
         return mapaPrioridadesActualizado;
     }
 
@@ -135,9 +139,11 @@ public final class Maper {
      */
     public HashMap CrearMapaGrupos(LinkedList<Grupo> listaGrupos) {
         HashMap<String, Integer> mapaGruposActualizado = new HashMap<>();
-        listaGrupos.forEach((grupo) -> {
-            mapaGruposActualizado.put(grupo.getGrupoNombre(), grupo.getGrupoId());
-        });
+        if (listaGrupos != null) {
+            listaGrupos.forEach((grupo) -> {
+                mapaGruposActualizado.put(grupo.getGrupoNombre(), grupo.getGrupoId());
+            });
+        }
         return mapaGruposActualizado;
     }
 

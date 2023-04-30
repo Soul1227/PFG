@@ -95,13 +95,12 @@ public class Menu extends javax.swing.JFrame {
         jDatePickerMenu = new org.jdatepicker.JDatePicker();
         jPanelUsuario = new javax.swing.JPanel();
         jLabelNombreUsuario = new javax.swing.JLabel();
-        jButtonImprimir = new javax.swing.JButton();
         jPaneAbajo = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
         jMenuItemGrupos = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItemLugares = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
 
@@ -256,35 +255,20 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        jButtonImprimir.setText(resourceMap.getString("jButtonImprimir.text")); // NOI18N
-        jButtonImprimir.setName("jButtonImprimir"); // NOI18N
-        jButtonImprimir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonImprimirActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanelUsuarioLayout = new javax.swing.GroupLayout(jPanelUsuario);
         jPanelUsuario.setLayout(jPanelUsuarioLayout);
         jPanelUsuarioLayout.setHorizontalGroup(
             jPanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUsuarioLayout.createSequentialGroup()
                 .addGap(0, 410, Short.MAX_VALUE)
-                .addGroup(jPanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelUsuarioLayout.createSequentialGroup()
-                        .addComponent(jButtonImprimir)
-                        .addGap(2, 2, 2))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUsuarioLayout.createSequentialGroup()
-                        .addComponent(jLabelNombreUsuario)
-                        .addContainerGap())))
+                .addComponent(jLabelNombreUsuario)
+                .addContainerGap())
         );
         jPanelUsuarioLayout.setVerticalGroup(
             jPanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelUsuarioLayout.createSequentialGroup()
                 .addComponent(jLabelNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 56, Short.MAX_VALUE)
-                .addComponent(jButtonImprimir)
-                .addContainerGap())
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         jPanelArriba.add(jPanelUsuario);
@@ -329,14 +313,14 @@ public class Menu extends javax.swing.JFrame {
         });
         fileMenu.add(jMenuItemGrupos);
 
-        jMenuItem2.setText(resourceMap.getString("jMenuItem2.text")); // NOI18N
-        jMenuItem2.setName("jMenuItem2"); // NOI18N
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        jMenuItemLugares.setText(resourceMap.getString("jMenuItemLugares.text")); // NOI18N
+        jMenuItemLugares.setName("jMenuItemLugares"); // NOI18N
+        jMenuItemLugares.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                jMenuItemLugaresActionPerformed(evt);
             }
         });
-        fileMenu.add(jMenuItem2);
+        fileMenu.add(jMenuItemLugares);
 
         menuBar.add(fileMenu);
 
@@ -372,20 +356,17 @@ public class Menu extends javax.swing.JFrame {
     private void jLabelPersonalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelPersonalMouseClicked
         CambiarPanel(Paneles.Personal);
         jButtonAñadirPT.setVisible(true);
-        jButtonImprimir.setVisible(true);
     }//GEN-LAST:event_jLabelPersonalMouseClicked
 
     private void jLabelHomeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelHomeMouseClicked
         ActualizarSemana(true);
         CambiarPanel(Paneles.Semana);
         jButtonAñadirPT.setVisible(false);
-        jButtonImprimir.setVisible(false);
     }//GEN-LAST:event_jLabelHomeMouseClicked
 
     private void jLabelTareasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelTareasMouseClicked
         CambiarPanel(Paneles.Tareas);
         jButtonAñadirPT.setVisible(true);
-        jButtonImprimir.setVisible(false);
     }//GEN-LAST:event_jLabelTareasMouseClicked
 
     private void jLabelFlechaIzquierdaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelFlechaIzquierdaMouseClicked
@@ -393,7 +374,6 @@ public class Menu extends javax.swing.JFrame {
         ActualizarSemana(false);
         CambiarPanel(Paneles.Semana);
         jButtonAñadirPT.setVisible(false);
-        jButtonImprimir.setVisible(false);
     }//GEN-LAST:event_jLabelFlechaIzquierdaMouseClicked
 
     private void jLabelFlechaDerechaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelFlechaDerechaMouseClicked
@@ -401,7 +381,6 @@ public class Menu extends javax.swing.JFrame {
         ActualizarSemana(false);
         CambiarPanel(Paneles.Semana);
         jButtonAñadirPT.setVisible(false);
-        jButtonImprimir.setVisible(false);
     }//GEN-LAST:event_jLabelFlechaDerechaMouseClicked
 
     private void jLabelNombreUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelNombreUsuarioMouseClicked
@@ -438,20 +417,12 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jDatePickerMenuActionPerformed
 
     private void jMenuItemGruposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGruposActionPerformed
-        maper.ActualizarMapaGrupos(ConectorDB.BuscarGrupos());
-        VentanaGrupos ventanaGrupos = new VentanaGrupos(this, true, maper);
-        ventanaGrupos.setVisible(true);
+        AbrirVentanaGrupo();
     }//GEN-LAST:event_jMenuItemGruposActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        maper.ActualizarMapaLugares(ConectorDB.BuscarLugares());
-        VentanaLugares ventanaLugares = new VentanaLugares(this, true, maper);
-        ventanaLugares.setVisible(true);
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
-    private void jButtonImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonImprimirActionPerformed
-      
-    }//GEN-LAST:event_jButtonImprimirActionPerformed
+    private void jMenuItemLugaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLugaresActionPerformed
+        AbrirVentanaLugares();
+    }//GEN-LAST:event_jMenuItemLugaresActionPerformed
 
     /**
      * @param args the command line arguments
@@ -544,7 +515,6 @@ public class Menu extends javax.swing.JFrame {
         jLabelFlechaDerecha.setText("");
         jLabelFlechaIzquierda.setText("");
         jButtonAñadirPT.setVisible(false);
-        jButtonImprimir.setVisible(false);
         jLabelHome.setText("");
         jLabelHome.setIcon(imageHome);
         jLabelNombreUsuario.setText(usuario.getNombre() + " " + usuario.getApellidos());
@@ -632,6 +602,23 @@ public class Menu extends javax.swing.JFrame {
         jDatePickerMenu.getModel().setDate(ano, mes, dia);
         jDatePickerMenu.getModel().setSelected(true);
     }
+    /**
+     * Toma la lista de Grupos de la base de datos y abre la ventana Grupos.
+     */
+    private void AbrirVentanaGrupo() {
+        maper.ActualizarMapaGrupos(ConectorDB.BuscarGrupos());
+        VentanaGrupos ventanaGrupos = new VentanaGrupos(this, true, maper);
+        ventanaGrupos.setVisible(true);
+    }
+    
+    /**
+     * Toma la lista de lugares de la base de datos y abre la ventana Lugares.
+     */
+    private void AbrirVentanaLugares() {
+        maper.ActualizarMapaLugares(ConectorDB.BuscarLugares());
+        VentanaLugares ventanaLugares = new VentanaLugares(this, true, maper);
+        ventanaLugares.setVisible(true);
+    }
 
     public Paneles getPanelActivo() {
         return panelActivo;
@@ -644,7 +631,6 @@ public class Menu extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButtonAñadirPT;
-    private javax.swing.JButton jButtonImprimir;
     private org.jdatepicker.JDatePicker jDatePickerMenu;
     private javax.swing.JLabel jLabelFlechaDerecha;
     private javax.swing.JLabel jLabelFlechaIzquierda;
@@ -654,8 +640,8 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelPersonal;
     private javax.swing.JLabel jLabelSemana;
     private javax.swing.JLabel jLabelTareas;
-    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JMenuItem jMenuItemGrupos;
+    private javax.swing.JMenuItem jMenuItemLugares;
     private javax.swing.JPanel jPaneAbajo;
     private javax.swing.JPanel jPanelArriba;
     private javax.swing.JPanel jPanelIconos;

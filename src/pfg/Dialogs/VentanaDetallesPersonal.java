@@ -249,9 +249,7 @@ public class VentanaDetallesPersonal extends javax.swing.JDialog {
                     } else {
                         JOptionPane.showConfirmDialog(rootPane, "No se pudo conectar con la base de datos\nintentelo mas tarde");
                     }
-                } catch (ExecutionException ex) {
-                    System.err.println(ex.getMessage());
-                } catch (InterruptedException ex) {
+                } catch (ExecutionException | InterruptedException ex) {
                     System.err.println(ex.getMessage());
                 }
             }

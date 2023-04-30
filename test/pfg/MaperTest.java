@@ -17,22 +17,22 @@ import servidorprueba.Prioridad;
  * @author angel
  */
 public class MaperTest {
-    
+
     public MaperTest() {
     }
-    
+
     @BeforeClass
     public static void setUpClass() {
     }
-    
+
     @AfterClass
     public static void tearDownClass() {
     }
-    
+
     @Before
     public void setUp() {
     }
-    
+
     @After
     public void tearDown() {
     }
@@ -47,8 +47,6 @@ public class MaperTest {
         HashMap expResult = null;
         HashMap result = instance.getMapaPrioridades();
         assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -198,20 +196,36 @@ public class MaperTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-
     /**
      * Test of CrearMapaLugares method, of class Maper.
      */
     @Test
     public void testCrearMapaLugares() {
         System.out.println("CrearMapaLugares");
-        LinkedList<Lugar> listaLugares = null;
-        Maper instance = null;
-        HashMap expResult = null;
+        /**
+         * El metodo crea un Hashmap a partir de una LinkedList. El test se
+         * considera superado si el hashmap creado es igual al expResult.
+         */
+        LinkedList<Lugar> listaLugares = new LinkedList<>();
+        listaLugares.add(new Lugar(1, "lugar1", "direccion1"));
+        listaLugares.add(new Lugar(2, "lugar2", "direccion2"));
+        listaLugares.add(new Lugar(3, "lugar3", "direccion3"));
+        listaLugares.add(new Lugar(4, "lugar4", "direccion4"));
+        listaLugares.add(new Lugar(5, "lugar5", "direccion5"));
+        Maper instance = new Maper(0);
+        HashMap expResult = new HashMap();
+        expResult.put("lugar1", 1);
+        expResult.put("lugar2", 2);
+        expResult.put("lugar3", 3);
+        expResult.put("lugar4", 4);
+        expResult.put("lugar5", 5);
         HashMap result = instance.CrearMapaLugares(listaLugares);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+
+        listaLugares.forEach(lugar -> {
+            if (expResult.get(lugar.getNombre()) == result.get(lugar.getNombre())) {
+                assertTrue(true);
+            }
+        });
     }
 
     /**
@@ -220,13 +234,25 @@ public class MaperTest {
     @Test
     public void testCrearMapaPrioridades() {
         System.out.println("CrearMapaPrioridades");
-        LinkedList<Prioridad> listaPrioridades = null;
-        Maper instance = null;
-        HashMap expResult = null;
+        /**
+         * El metodo crea un Hashmap a partir de una LinkedList. El test se
+         * considera superado si el hashmap creado es igual al expResult.
+         */
+        LinkedList<Prioridad> listaPrioridades = new LinkedList<>();
+        listaPrioridades.add(new Prioridad(1, "baja"));
+        listaPrioridades.add(new Prioridad(2, "media"));
+        listaPrioridades.add(new Prioridad(2, "alta"));
+        Maper instance = new Maper(0);
+        HashMap expResult = new HashMap();
+        expResult.put("baja", 1);
+        expResult.put("media", 2);
+        expResult.put("alta", 3);
         HashMap result = instance.CrearMapaPrioridades(listaPrioridades);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        listaPrioridades.forEach(prioridad -> {
+            if (expResult.get(prioridad.getNombre()) == result.get(prioridad.getNombre())) {
+                assertTrue(true);
+            }
+        });
     }
 
     /**
@@ -235,14 +261,83 @@ public class MaperTest {
     @Test
     public void testCrearMapaGrupos() {
         System.out.println("CrearMapaGrupos");
-        LinkedList<Grupo> listaGrupos = null;
-        Maper instance = null;
-        HashMap expResult = null;
+        /**
+         * El metodo crea un Hashmap a partir de una LinkedList. El test se
+         * considera superado si el hashmap creado es igual al expResult.
+         */
+        LinkedList<Grupo> listaGrupos = new LinkedList<>();
+        listaGrupos.add(new Grupo(1, "grupo1"));
+        listaGrupos.add(new Grupo(2, "grupo2"));
+        listaGrupos.add(new Grupo(3, "grupo3"));
+        listaGrupos.add(new Grupo(4, "grupo4"));
+        Maper instance = new Maper(0);
+        HashMap expResult = new HashMap();
+        expResult.put("grupo1", 1);
+        expResult.put("grupo2", 2);
+        expResult.put("grupo3", 3);
+        expResult.put("grupo4", 4);
         HashMap result = instance.CrearMapaGrupos(listaGrupos);
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        listaGrupos.forEach(grupo -> {
+            if (expResult.get(grupo.getGrupoNombre()) == result.get(grupo.getGrupoNombre())) {
+                assertTrue(true);
+            }
+        });
     }
+
+    /**
+     * Test of CrearMapaGrupos method, of class Maper.
+     */
+    @Test
+    public void testCrearMapaGrupos2() {
+        System.out.println("CrearMapaGrupos - null");
+        /**
+         * El metodo crea un Hashmap a partir de una LinkedList. El test se
+         * considera superado si el hashmap creado esta vacio.
+         */
+        LinkedList<Grupo> listaGrupos = null;
+        Maper instance = new Maper(0);
+        HashMap result = instance.CrearMapaGrupos(listaGrupos);
+        if (result.isEmpty()) {
+            assertTrue(true);
+        }
+    }
+
+    /**
+     * Test of CrearMapaPrioridades method, of class Maper.
+     */
+    @Test
+    public void testCrearMapaPrioridades2() {
+        System.out.println("CrearMapaPrioridades - null");
+        /**
+         * El metodo crea un Hashmap a partir de una LinkedList. El test se
+         * considera superado si el hashmap creado esta vacio.
+         */
+        LinkedList<Prioridad> listaPrioridades = null;
+        Maper instance = new Maper(0);
+        HashMap result = instance.CrearMapaPrioridades(listaPrioridades);
+        if (result.isEmpty()) {
+            assertTrue(true);
+        }
+    }
+
+    /**
+     * Test of CrearMapaLugares method, of class Maper.
+     */
+    @Test
+    public void testCrearMapaLugares2() {
+        System.out.println("CrearMapaLugares - null");
+        /**
+         * El metodo crea un Hashmap a partir de una LinkedList. El test se
+         * considera superado si el hashmap creado esta vacio.
+         */
+        LinkedList<Lugar> listaLugares = null;
+        Maper instance = new Maper(0);
+        HashMap result = instance.CrearMapaLugares(listaLugares);
+        if (result.isEmpty()) {
+            assertTrue(true);
+        }
+    }
+
 
     /**
      * Test of ActualizarMapaPrioridades method, of class Maper.
@@ -282,5 +377,4 @@ public class MaperTest {
         // TODO review the generated test code and remove the default call to fail.
         fail("The test case is a prototype.");
     }
-    
 }

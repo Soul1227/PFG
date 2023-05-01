@@ -5,6 +5,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.LinkedList;
+import javax.swing.JOptionPane;
 import servidorprueba.Comandos;
 import servidorprueba.Grupo;
 import servidorprueba.Lugar;
@@ -21,11 +22,11 @@ import servidorprueba.Tarea;
  */
 public class ConectorDB {
 
-    private static final String SERVERIP = "192.168.0.12";
+    //192.168.0.12
     private static final int PUERTO = 6565;
     private static ObjectInputStream flujoEntrada;
     private static ObjectOutputStream flujoSalida;
-    private static Socket s;
+    private static Socket socket;
 
     /**
      * Constructor sin parametros.
@@ -42,15 +43,18 @@ public class ConectorDB {
      */
     public static LinkedList BuscarPersonal(int num_grupo) {
         LinkedList listaPersonal = new LinkedList();
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.BUSCARMIEMBROSDELGRUPO, num_grupo);
-            flujoSalida.writeObject(mensaje);
-            listaPersonal = (LinkedList) flujoEntrada.readObject();
-        } catch (IOException | ClassNotFoundException ex) {
-            ex.getMessage();
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.BUSCARMIEMBROSDELGRUPO, num_grupo);
+                flujoSalida.writeObject(mensaje);
+                listaPersonal = (LinkedList) flujoEntrada.readObject();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.getMessage();
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
-        CerrarConexion();
         return listaPersonal;
     }
 
@@ -63,15 +67,18 @@ public class ConectorDB {
      */
     public static LinkedList BuscarPersonalFueraDeTarea(LinkedList<Integer> idTarea) {
         LinkedList listaPersonal = new LinkedList();
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.PERSONASFUERADETAREA, idTarea);
-            flujoSalida.writeObject(mensaje);
-            listaPersonal = (LinkedList) flujoEntrada.readObject();
-        } catch (IOException | ClassNotFoundException ex) {
-            ex.getMessage();
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.PERSONASFUERADETAREA, idTarea);
+                flujoSalida.writeObject(mensaje);
+                listaPersonal = (LinkedList) flujoEntrada.readObject();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.getMessage();
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
-        CerrarConexion();
         return listaPersonal;
     }
 
@@ -82,15 +89,18 @@ public class ConectorDB {
      * @return true si la tarea fue creada con éxito, false en caso contrario.
      */
     public static Boolean CrearTarea(Tarea tarea) {
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.CREARTAREA, tarea);
-            flujoSalida.writeObject(mensaje);
-            return flujoEntrada.readBoolean();
-        } catch (IOException ex) {
-            System.err.print(ex.getMessage());
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.CREARTAREA, tarea);
+                flujoSalida.writeObject(mensaje);
+                return flujoEntrada.readBoolean();
+            } catch (IOException ex) {
+                System.err.print(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
-        CerrarConexion();
         return false;
     }
 
@@ -103,14 +113,18 @@ public class ConectorDB {
      * un error.
      */
     public static boolean CrearEmpleado(Persona NuevoEmpleado) {
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.CREARUSUARIO, NuevoEmpleado);
-            flujoSalida.writeObject(mensaje);
-            return flujoEntrada.readBoolean();
-        } catch (IOException ex) {
-            ex.getMessage();
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.CREARUSUARIO, NuevoEmpleado);
+                flujoSalida.writeObject(mensaje);
+                return flujoEntrada.readBoolean();
+            } catch (IOException ex) {
+                ex.getMessage();
+                CerrarConexion();
+            }
             CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
         return false;
     }
@@ -124,15 +138,18 @@ public class ConectorDB {
      */
     public static LinkedList<Lugar> BuscarLugaresDeUsuario(int grupo) {
         LinkedList<Lugar> listalugares = new LinkedList();
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.BUSCARLUGARESDELUSUARIO, grupo);
-            flujoSalida.writeObject(mensaje);
-            listalugares = (LinkedList<Lugar>) flujoEntrada.readObject();
-        } catch (IOException | ClassNotFoundException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.BUSCARLUGARESDELUSUARIO, grupo);
+                flujoSalida.writeObject(mensaje);
+                listalugares = (LinkedList<Lugar>) flujoEntrada.readObject();
+            } catch (IOException | ClassNotFoundException ex) {
+                System.err.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
-        CerrarConexion();
         return listalugares;
     }
 
@@ -144,15 +161,18 @@ public class ConectorDB {
      */
     public static LinkedList<Prioridad> BuscarPrioridades() {
         LinkedList<Prioridad> listaPrioridades = new LinkedList();
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.BUSCARPRIORIDAD);
-            flujoSalida.writeObject(mensaje);
-            listaPrioridades = (LinkedList<Prioridad>) flujoEntrada.readObject();
-        } catch (ClassNotFoundException | IOException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.BUSCARPRIORIDAD);
+                flujoSalida.writeObject(mensaje);
+                listaPrioridades = (LinkedList<Prioridad>) flujoEntrada.readObject();
+            } catch (ClassNotFoundException | IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
-        CerrarConexion();
         return listaPrioridades;
     }
 
@@ -166,18 +186,22 @@ public class ConectorDB {
      * contrario.
      */
     public static boolean ActualizarGrupoLugares(int idLugar, int idGrupo) {
+
         LinkedList<Integer> argumentos = new LinkedList<>();
         argumentos.add(idGrupo);
         argumentos.add(idLugar);
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.CREARGRUPOLUGAR, argumentos);
-            flujoSalida.writeObject(mensaje);
-            return flujoEntrada.readBoolean();
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.CREARGRUPOLUGAR, argumentos);
+                flujoSalida.writeObject(mensaje);
+                return flujoEntrada.readBoolean();
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
-        CerrarConexion();
         return false;
     }
 
@@ -190,15 +214,18 @@ public class ConectorDB {
      * contrario.
      */
     public static boolean EliminarLugaresParaUnGrupo(int idGrupo) {
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.ELIMINARLUGARESPARAUNGRUPO, idGrupo);
-            flujoSalida.writeObject(mensaje);
-            return flujoEntrada.readBoolean();
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.ELIMINARLUGARESPARAUNGRUPO, idGrupo);
+                flujoSalida.writeObject(mensaje);
+                return flujoEntrada.readBoolean();
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
-        CerrarConexion();
         return false;
     }
 
@@ -211,15 +238,18 @@ public class ConectorDB {
      * exitosa, false en caso contrario.
      */
     public static boolean EliminarTareasDelGrupo(int idGrupo) {
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.ELIMINARTODASLASTAREASDEGRUPO, idGrupo);
-            flujoSalida.writeObject(mensaje);
-            return flujoEntrada.readBoolean();
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.ELIMINARTODASLASTAREASDEGRUPO, idGrupo);
+                flujoSalida.writeObject(mensaje);
+                return flujoEntrada.readBoolean();
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
-        CerrarConexion();
         return false;
     }
 
@@ -232,15 +262,18 @@ public class ConectorDB {
      */
     public static Persona Login(LinkedList credenciales) {
         Persona p = new Persona("1", "1", true);
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.LOGIN, credenciales);
-            flujoSalida.writeObject(mensaje);
-            p = (Persona) flujoEntrada.readObject();
-        } catch (IOException | ClassNotFoundException ex) {
-            ex.getMessage();
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.LOGIN, credenciales);
+                flujoSalida.writeObject(mensaje);
+                p = (Persona) flujoEntrada.readObject();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.getMessage();
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
-        CerrarConexion();
         return p;
     }
 
@@ -253,15 +286,18 @@ public class ConectorDB {
      */
     public static LinkedList<Tarea> BuscarTareasGuardadas(int num_grupo) {
         LinkedList listaTareas = new LinkedList();
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.TAREASGUARDADAS, num_grupo);
-            flujoSalida.writeObject(mensaje);
-            listaTareas = (LinkedList) flujoEntrada.readObject();
-        } catch (IOException | ClassNotFoundException ex) {
-            ex.getMessage();
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.TAREASGUARDADAS, num_grupo);
+                flujoSalida.writeObject(mensaje);
+                listaTareas = (LinkedList) flujoEntrada.readObject();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.getMessage();
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
-        CerrarConexion();
         return listaTareas;
     }
 
@@ -272,17 +308,20 @@ public class ConectorDB {
      * @return true si el grupo se ha creado correctamente, false si no.
      */
     public static boolean CrearGrupo(String nombreGrupo) {
-        Conectar();
-        LinkedList<String> argumentos = new LinkedList<>();
-        argumentos.add(nombreGrupo);
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.CREARGRUPO, argumentos);
-            flujoSalida.writeObject(mensaje);
-            return flujoEntrada.readBoolean();
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            LinkedList<String> argumentos = new LinkedList<>();
+            argumentos.add(nombreGrupo);
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.CREARGRUPO, argumentos);
+                flujoSalida.writeObject(mensaje);
+                return flujoEntrada.readBoolean();
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
-        CerrarConexion();
         return false;
     }
 
@@ -294,17 +333,20 @@ public class ConectorDB {
      * false en caso contrario.
      */
     public static boolean BuscarUsuariosEnGrupoNoAdmin(int grupoid) {
-        Conectar();
-        LinkedList<Integer> argumentos = new LinkedList<>();
-        argumentos.add(grupoid);
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.BUSCARMIEMBROSDELGRUPONOADMIN, argumentos);
-            flujoSalida.writeObject(mensaje);
-            return flujoEntrada.readBoolean();
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            LinkedList<Integer> argumentos = new LinkedList<>();
+            argumentos.add(grupoid);
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.BUSCARMIEMBROSDELGRUPONOADMIN, argumentos);
+                flujoSalida.writeObject(mensaje);
+                return flujoEntrada.readBoolean();
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
-        CerrarConexion();
         return true;
     }
 
@@ -316,17 +358,20 @@ public class ConectorDB {
      * contrario.
      */
     public static boolean EliminarGrupo(int grupoid) {
-        Conectar();
-        LinkedList<Integer> argumentos = new LinkedList<>();
-        argumentos.add(grupoid);
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.ELIMINARGRUPO, argumentos);
-            flujoSalida.writeObject(mensaje);
-            return flujoEntrada.readBoolean();
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            LinkedList<Integer> argumentos = new LinkedList<>();
+            argumentos.add(grupoid);
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.ELIMINARGRUPO, argumentos);
+                flujoSalida.writeObject(mensaje);
+                return flujoEntrada.readBoolean();
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
-        CerrarConexion();
         return true;
     }
 
@@ -338,15 +383,19 @@ public class ConectorDB {
      * contrario.
      */
     public static boolean EliminarAdminsDeGrupo(int grupoid) {
-        Conectar();
-        LinkedList<Integer> argumentos = new LinkedList<>();
-        argumentos.add(grupoid);
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.ELIMINARADMINSDEGRUPO, argumentos);
-            flujoSalida.writeObject(mensaje);
-            return flujoEntrada.readBoolean();
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            LinkedList<Integer> argumentos = new LinkedList<>();
+            argumentos.add(grupoid);
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.ELIMINARADMINSDEGRUPO, argumentos);
+                flujoSalida.writeObject(mensaje);
+                return flujoEntrada.readBoolean();
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
         CerrarConexion();
         return true;
@@ -360,15 +409,18 @@ public class ConectorDB {
      * @return true si encuantra algun resultado, false si no encuentra nada.
      */
     public static boolean BuscarLugaresParaUnGrupo(int grupoid) {
-        Conectar();
-        LinkedList<Integer> argumentos = new LinkedList<>();
-        argumentos.add(grupoid);
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.BUSCARLUGARESPARAUNGRUPO, argumentos);
-            flujoSalida.writeObject(mensaje);
-            return flujoEntrada.readBoolean();
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            LinkedList<Integer> argumentos = new LinkedList<>();
+            argumentos.add(grupoid);
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.BUSCARLUGARESPARAUNGRUPO, argumentos);
+                flujoSalida.writeObject(mensaje);
+                return flujoEntrada.readBoolean();
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
         CerrarConexion();
         return true;
@@ -381,13 +433,16 @@ public class ConectorDB {
      */
     public static LinkedList<Grupo> BuscarGrupos() {
         LinkedList listaGrupos = new LinkedList();
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.BUSCARGRUPOS);
-            flujoSalida.writeObject(mensaje);
-            listaGrupos = (LinkedList) flujoEntrada.readObject();
-        } catch (IOException | ClassNotFoundException ex) {
-            ex.getMessage();
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.BUSCARGRUPOS);
+                flujoSalida.writeObject(mensaje);
+                listaGrupos = (LinkedList) flujoEntrada.readObject();
+            } catch (IOException | ClassNotFoundException ex) {
+                ex.getMessage();
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
         CerrarConexion();
         return listaGrupos;
@@ -400,15 +455,18 @@ public class ConectorDB {
      * @return true si se crea un nuevo lugar, false en caso contrario.
      */
     public static boolean CrearNuevoLugar(Lugar lugar) {
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.CREARLUGAR, lugar);
-            flujoSalida.writeObject(mensaje);
-            return flujoEntrada.readBoolean();
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.CREARLUGAR, lugar);
+                flujoSalida.writeObject(mensaje);
+                return flujoEntrada.readBoolean();
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
-        CerrarConexion();
         return false;
     }
 
@@ -419,13 +477,17 @@ public class ConectorDB {
      * @return Una lista de objetos Lugar.
      */
     public static LinkedList<Lugar> BuscarLugares() {
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.BUSCARLUGARES);
-            flujoSalida.writeObject(mensaje);
-            return (LinkedList<Lugar>) flujoEntrada.readObject();
-        } catch (ClassNotFoundException | IOException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.BUSCARLUGARES);
+                flujoSalida.writeObject(mensaje);
+                return (LinkedList<Lugar>) flujoEntrada.readObject();
+            } catch (ClassNotFoundException | IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
         return null;
     }
@@ -443,15 +505,18 @@ public class ConectorDB {
         LinkedList listaTareas = new LinkedList();
         LinkedList dia = new LinkedList();
         dia.add(fecha);
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.TAREASDELDIA, dia, idgrupo);
-            flujoSalida.writeObject(mensaje);
-            listaTareas = (LinkedList) flujoEntrada.readObject();
-        } catch (IOException | ClassNotFoundException ex) {
-            System.out.println(ex.getMessage());
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.TAREASDELDIA, dia, idgrupo);
+                flujoSalida.writeObject(mensaje);
+                listaTareas = (LinkedList) flujoEntrada.readObject();
+            } catch (IOException | ClassNotFoundException ex) {
+                System.out.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
-        CerrarConexion();
         return listaTareas;
     }
 
@@ -462,15 +527,18 @@ public class ConectorDB {
      * @return la tarea encontrada o null si no se encontró.
      */
     public static Tarea BuscarTareaPorId(Tarea tarea) {
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.BUSCARTAREAPORID, tarea);
-            flujoSalida.writeObject(mensaje);
-            return (Tarea) flujoEntrada.readObject();
-        } catch (IOException | ClassNotFoundException ex) {
-            System.out.println(ex.getMessage());
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.BUSCARTAREAPORID, tarea);
+                flujoSalida.writeObject(mensaje);
+                return (Tarea) flujoEntrada.readObject();
+            } catch (IOException | ClassNotFoundException ex) {
+                System.out.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
-        CerrarConexion();
         return null;
     }
 
@@ -486,16 +554,19 @@ public class ConectorDB {
         LinkedList listapersona = new LinkedList();
         listapersona.add(persona);
         boolean actualizado = false;
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.ACTUALIZARPERSONAL, listapersona);
-            flujoSalida.writeObject(mensaje);
-            actualizado = flujoEntrada.readBoolean();
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.ACTUALIZARPERSONAL, listapersona);
+                flujoSalida.writeObject(mensaje);
+                actualizado = flujoEntrada.readBoolean();
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+                CerrarConexion();
+            }
             CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
-        CerrarConexion();
         return actualizado;
     }
 
@@ -508,13 +579,17 @@ public class ConectorDB {
      */
     public static boolean EliminarPersonal(Persona persona) {
         boolean eliminado = false;
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.ELIMINARPERSONAL, persona);
-            flujoSalida.writeObject(mensaje);
-            eliminado = flujoEntrada.readBoolean();
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.ELIMINARPERSONAL, persona);
+                flujoSalida.writeObject(mensaje);
+                eliminado = flujoEntrada.readBoolean();
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
         return eliminado;
     }
@@ -527,14 +602,18 @@ public class ConectorDB {
      * contrario
      */
     public static boolean ActualizarTarea(Tarea tarea) {
-        Conectar();
         boolean actualizada = false;
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.ACTUALIZARTAREA, tarea);
-            flujoSalida.writeObject(mensaje);
-            actualizada = flujoEntrada.readBoolean();
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.ACTUALIZARTAREA, tarea);
+                flujoSalida.writeObject(mensaje);
+                actualizada = flujoEntrada.readBoolean();
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
         return actualizada;
     }
@@ -549,13 +628,17 @@ public class ConectorDB {
      */
     public static boolean AñadirPersonalATarea(Persona persona, Tarea tarea) {
         boolean añadido = false;
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.AÑADIRPERSONALATAREA, persona, tarea);
-            flujoSalida.writeObject(mensaje);
-            añadido = flujoEntrada.readBoolean();
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.AÑADIRPERSONALATAREA, persona, tarea);
+                flujoSalida.writeObject(mensaje);
+                añadido = flujoEntrada.readBoolean();
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
         return añadido;
     }
@@ -571,14 +654,18 @@ public class ConectorDB {
      */
     public static boolean EliminarPersonalDeTarea(Persona persona, Tarea tarea) {
         boolean eliminado = false;
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.ELIMINARPERSONALDETAREA, persona, tarea);
-            flujoSalida.writeObject(mensaje);
-            eliminado = flujoEntrada.readBoolean();
-            return eliminado;
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.ELIMINARPERSONALDETAREA, persona, tarea);
+                flujoSalida.writeObject(mensaje);
+                eliminado = flujoEntrada.readBoolean();
+                return eliminado;
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
         return eliminado;
     }
@@ -593,28 +680,39 @@ public class ConectorDB {
      */
     public static boolean EliminarTarea(Tarea tarea) {
         boolean eliminado = false;
-        Conectar();
-        try {
-            Mensaje mensaje = new Mensaje(Comandos.ELIMINARTAREA, tarea);
-            flujoSalida.writeObject(mensaje);
-            eliminado = flujoEntrada.readBoolean();
-        } catch (IOException ex) {
-            System.err.println(ex.getMessage());
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.ELIMINARTAREA, tarea);
+                flujoSalida.writeObject(mensaje);
+                eliminado = flujoEntrada.readBoolean();
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
         }
         return eliminado;
     }
 
     /**
      * Abre la conexion con el servidor.
+     *
+     * @return si la conexion es correcta true, de lo contrario false.
      */
-    private static void Conectar() {
+    private static boolean Conectar() {
         try {
-            s = new Socket(SERVERIP, PUERTO);
-            flujoEntrada = new ObjectInputStream(s.getInputStream());
-            flujoSalida = new ObjectOutputStream(s.getOutputStream());
+            if (ControladorIP.validarIP(ControladorIP.TomarIp())) {
+                socket = new Socket(ControladorIP.TomarIp(), PUERTO);
+                flujoEntrada = new ObjectInputStream(socket.getInputStream());
+                flujoSalida = new ObjectOutputStream(socket.getOutputStream());
+            } else {
+                return false;
+            }
         } catch (IOException ex) {
             ex.getMessage();
         }
+        return true;
     }
 
     /**

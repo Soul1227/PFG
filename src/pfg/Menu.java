@@ -44,6 +44,7 @@ public class Menu extends javax.swing.JFrame {
     };
     private Paneles panelActivo;
     private final Date diaActual;
+    private Date diaElegido;
     private Calendar calendar;
     private final Date[] dias;
     public static Persona usuario;
@@ -480,6 +481,7 @@ public class Menu extends javax.swing.JFrame {
      * @param bool Indica si se debe volver a la semana actual o no.
      */
     private void ActualizarSemana(boolean bool) {
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         StringBuilder textoSemana = new StringBuilder();
         DateFormat df = new SimpleDateFormat("dd/MMMMM");
         textoSemana.append("Semana ");
@@ -493,8 +495,7 @@ public class Menu extends javax.swing.JFrame {
         jLabelSemana.setText(textoSemana.toString());
         if (bool) {
             calendar.setTime(diaActual);
-        }
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        } 
     }
 
     /**
@@ -513,6 +514,7 @@ public class Menu extends javax.swing.JFrame {
             calendar.add(Calendar.DATE, 1);
             dias[i] = calendar.getTime();
         }
+        this.calendar = calendar;
         textoSemana.append(df.format(calendar.getTime()));
         jLabelSemana.setText(textoSemana.toString());
     }

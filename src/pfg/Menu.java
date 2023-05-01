@@ -49,6 +49,8 @@ public class Menu extends javax.swing.JFrame {
     public static Persona usuario;
     public static Maper maper;
     private JPanel panel;
+    private final int altoIconos = 25;
+    private final int anchoIconos = 25;
 
     /**
      * Crea una nueva instancia de la clase Menu.
@@ -522,24 +524,19 @@ public class Menu extends javax.swing.JFrame {
      * @param isAdmin Booleano que designa si el usuario es admin o no.
      */
     private void PrepararInterface(boolean isAdmin) {
-        ImageIcon imageFDerecha = new ImageIcon(new ImageIcon(".\\iconos\\chevronright.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-        ImageIcon imageFIzquierda = new ImageIcon(new ImageIcon(".\\iconos\\chevronleft.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-        ImageIcon imageHome = new ImageIcon(new ImageIcon(".\\iconos\\home.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-        jLabelFlechaDerecha.setIcon(imageFIzquierda);
-        jLabelFlechaIzquierda.setIcon(imageFDerecha);
+        jLabelFlechaDerecha.setIcon(cargarImagen("chevronleft.png", anchoIconos, altoIconos));
+        jLabelFlechaIzquierda.setIcon(cargarImagen("chevronright.png", anchoIconos, altoIconos));
         jLabelFlechaDerecha.setText("");
         jLabelFlechaIzquierda.setText("");
         jButtonAñadirPT.setVisible(false);
         jLabelHome.setText("");
-        jLabelHome.setIcon(imageHome);
+        jLabelHome.setIcon(cargarImagen("home.png", anchoIconos, altoIconos));
         jLabelNombreUsuario.setText(usuario.getNombre() + " " + usuario.getApellidos());
         if (isAdmin) {
-            ImageIcon imagePersonal = new ImageIcon(new ImageIcon(".\\iconos\\staff.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-            ImageIcon imageTareas = new ImageIcon(new ImageIcon(".\\iconos\\tasks.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
             jLabelPersonal.setText("");
             jLabelTareas.setText("");
-            jLabelPersonal.setIcon(imagePersonal);
-            jLabelTareas.setIcon(imageTareas);
+            jLabelPersonal.setIcon(cargarImagen("staff.png", anchoIconos, altoIconos));
+            jLabelTareas.setIcon(cargarImagen("tasks.png", anchoIconos, altoIconos));
         } else {
             jPanelIconos.remove(jLabelPersonal);
             jPanelIconos.remove(jLabelTareas);
@@ -573,6 +570,19 @@ public class Menu extends javax.swing.JFrame {
     }
 
     /**
+     *
+     * @param nombreArchivo
+     * @param ancho
+     * @param alto
+     * @return
+     */
+    private ImageIcon cargarImagen(String nombreArchivo, int ancho, int alto) {
+        ImageIcon imagenOriginal = new ImageIcon(getClass().getResource("/pfg/resources/" + nombreArchivo));
+        Image imagenRedimensionada = imagenOriginal.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+        return new ImageIcon(imagenRedimensionada);
+    }
+
+    /**
      * Crea y devuelve un nuevo PanelPersonal.
      *
      * @return Un nuevo PanelPersonal.
@@ -601,12 +611,13 @@ public class Menu extends javax.swing.JFrame {
         panelActivo = Paneles.Semana;
         return new PanelSemana(dias, ConectorDB.BuscarLugaresDeUsuario(usuario.getGrupo()), usuario.isEsAdmin(), this);
     }
+
     /**
      * Abre la ventana donde introducir la ip del servidor.
      */
-     private void AbrirVentanaServidorIP() {
-         VentanaServidorIP ventanaServidor = new VentanaServidorIP(this, true);
-         ventanaServidor.setVisible(true);
+    private void AbrirVentanaServidorIP() {
+        VentanaServidorIP ventanaServidor = new VentanaServidorIP(this, true);
+        ventanaServidor.setVisible(true);
     }
 
     /**
@@ -624,6 +635,7 @@ public class Menu extends javax.swing.JFrame {
         jDatePickerMenu.getModel().setDate(ano, mes, dia);
         jDatePickerMenu.getModel().setSelected(true);
     }
+
     /**
      * Toma la lista de Grupos de la base de datos y abre la ventana Grupos.
      */
@@ -632,7 +644,7 @@ public class Menu extends javax.swing.JFrame {
         VentanaGrupos ventanaGrupos = new VentanaGrupos(this, true, maper);
         ventanaGrupos.setVisible(true);
     }
-    
+
     /**
      * Toma la lista de lugares de la base de datos y abre la ventana Lugares.
      */

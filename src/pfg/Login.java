@@ -1,9 +1,8 @@
 package pfg;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
+import pfg.Dialogs.VentanaServidorIP;
 import servidorprueba.Persona;
 
 /**
@@ -16,14 +15,7 @@ public class Login extends javax.swing.JFrame {
      */
     public Login() {
         initComponents();
-        File file = new File("."+ File.separator + "ServerIP.txt");
-        if (!file.exists()) {
-            try {
-                file.createNewFile();
-            } catch (IOException ex) {
-                System.err.println(ex.getMessage());
-            }
-        }
+        ControladorIP.CrearArchivoIP();
     }
 
     @SuppressWarnings("unchecked")
@@ -113,6 +105,11 @@ public class Login extends javax.swing.JFrame {
 
         jMenuItemServer.setText(resourceMap.getString("jMenuItemServer.text")); // NOI18N
         jMenuItemServer.setName("jMenuItemServer"); // NOI18N
+        jMenuItemServer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemServerActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItemServer);
 
         jMenuBar1.add(jMenu1);
@@ -169,6 +166,17 @@ public class Login extends javax.swing.JFrame {
             dispose();
         }
     }//GEN-LAST:event_jButtonAceptarMouseClicked
+    /**
+     * Abre la ventana donde introducir la ip del servidor.
+     */
+    private void AbrirVentanaServidorIP() {
+        VentanaServidorIP ventanaServidor = new VentanaServidorIP(this, true);
+        ventanaServidor.setVisible(true);
+    }
+
+    private void jMenuItemServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemServerActionPerformed
+        AbrirVentanaServidorIP();
+    }//GEN-LAST:event_jMenuItemServerActionPerformed
     /**
      * @param args the command line arguments
      */

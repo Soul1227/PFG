@@ -1,5 +1,10 @@
 package pfg.Dialogs;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import pfg.ControladorIP;
+
 /**
  *
  * @author angel
@@ -15,6 +20,7 @@ public class VentanaServidorIP extends javax.swing.JDialog {
     public VentanaServidorIP(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        MostrarIPServidor();
     }
 
     @SuppressWarnings("unchecked")
@@ -38,6 +44,11 @@ public class VentanaServidorIP extends javax.swing.JDialog {
 
         jButtonGuardarIP.setText(resourceMap.getString("jButtonGuardarIP.text")); // NOI18N
         jButtonGuardarIP.setName("jButtonGuardarIP"); // NOI18N
+        jButtonGuardarIP.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonGuardarIPActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -70,6 +81,10 @@ public class VentanaServidorIP extends javax.swing.JDialog {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButtonGuardarIPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarIPActionPerformed
+        GuardarIP();
+    }//GEN-LAST:event_jButtonGuardarIPActionPerformed
 
     /**
      * @param args the command line arguments
@@ -116,4 +131,26 @@ public class VentanaServidorIP extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JTextField jTextFieldIPServidor;
     // End of variables declaration//GEN-END:variables
+
+    /**
+     * Toma el valor del archivo "ServerIP.txt" y lo pone en el
+     * jTextFieldIPServidor.
+     */
+    private void MostrarIPServidor() {
+        if (ControladorIP.getArchivoIP().exists()) {
+            try {
+                FileReader fr = new FileReader(ControladorIP.getArchivoIP());
+                BufferedReader br = new BufferedReader(fr);
+                jTextFieldIPServidor.setText(br.readLine());
+                br.close();
+                fr.close();
+            } catch (IOException ex) {
+                System.err.println(ex.getMessage());
+            }
+        }
+    }
+
+    private void GuardarIP() {
+        ControladorIP.GuardarNuevaIP(jTextFieldIPServidor.getText());
+    }
 }

@@ -1,15 +1,10 @@
 package pfg;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.LinkedList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import servidorprueba.Comandos;
 import servidorprueba.Grupo;
@@ -28,7 +23,6 @@ import servidorprueba.Tarea;
 public class ConectorDB {
 
     //192.168.0.12
-    private static String SERVERIP = "";
     private static final int PUERTO = 6565;
     private static ObjectInputStream flujoEntrada;
     private static ObjectOutputStream flujoSalida;
@@ -707,10 +701,9 @@ public class ConectorDB {
      * @return si la conexion es correcta true, de lo contrario false.
      */
     private static boolean Conectar() {
-        TomarIp();
         try {
-            if (validarIP(SERVERIP)) {
-                socket = new Socket(SERVERIP, PUERTO);
+            if (ControladorIP.validarIP(ControladorIP.TomarIp())) {
+                socket = new Socket(ControladorIP.TomarIp(), PUERTO);
                 flujoEntrada = new ObjectInputStream(socket.getInputStream());
                 flujoSalida = new ObjectOutputStream(socket.getOutputStream());
             } else {
@@ -720,24 +713,6 @@ public class ConectorDB {
             ex.getMessage();
         }
         return true;
-    }
-
-    /**
-     * Toma la Ip del server del archivo donde esta se almacena.
-     */
-    private static void TomarIp() {
-        File file = new File("." + File.separator + "ServerIP.txt");
-        if (file.exists()) {
-            try {
-                FileReader fr = new FileReader(file);
-                BufferedReader br = new BufferedReader(fr);
-                SERVERIP = br.readLine();
-                br.close();
-                fr.close();
-            } catch (IOException ex) {
-                System.err.println(ex.getMessage());
-            }
-        }
     }
 
     /**
@@ -758,21 +733,5 @@ public class ConectorDB {
                 ex.getMessage();
             }
         }
-    }
-
-    /**
-     * Valida que la direccion IP introducida es correcta.
-     *
-     * @param ip direccion ip a la que conectar.
-     * @return si es valida true, de lo contrario false.
-     */
-    public static boolean validarIP(String ip) {
-        String patron = "^([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-                + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-                + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])\\."
-                + "([01]?\\d\\d?|2[0-4]\\d|25[0-5])$";
-        Pattern pattern = Pattern.compile(patron);
-        Matcher matcher = pattern.matcher(ip);
-        return matcher.matches();
     }
 }

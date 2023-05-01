@@ -18,6 +18,7 @@ import pfg.Dialogs.VentanaCrearTarea;
 import pfg.Dialogs.VentanaDetallesPersonal;
 import pfg.Dialogs.VentanaGrupos;
 import pfg.Dialogs.VentanaLugares;
+import pfg.Dialogs.VentanaServidorIP;
 import pfg.paneles.PanelPersonal;
 import pfg.paneles.PanelSemana;
 import pfg.paneles.PanelTareas;
@@ -325,6 +326,11 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuItemServidor.setText(resourceMap.getString("jMenuItemServidor.text")); // NOI18N
         jMenuItemServidor.setName("jMenuItemServidor"); // NOI18N
+        jMenuItemServidor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemServidorActionPerformed(evt);
+            }
+        });
         fileMenu.add(jMenuItemServidor);
 
         menuBar.add(fileMenu);
@@ -428,6 +434,10 @@ public class Menu extends javax.swing.JFrame {
     private void jMenuItemLugaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLugaresActionPerformed
         AbrirVentanaLugares();
     }//GEN-LAST:event_jMenuItemLugaresActionPerformed
+
+    private void jMenuItemServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemServidorActionPerformed
+        AbrirVentanaServidorIP();
+    }//GEN-LAST:event_jMenuItemServidorActionPerformed
 
     /**
      * @param args the command line arguments
@@ -590,6 +600,13 @@ public class Menu extends javax.swing.JFrame {
     private PanelSemana CrearPanelSemana() {
         panelActivo = Paneles.Semana;
         return new PanelSemana(dias, ConectorDB.BuscarLugaresDeUsuario(usuario.getGrupo()), usuario.isEsAdmin(), this);
+    }
+    /**
+     * Abre la ventana donde introducir la ip del servidor.
+     */
+     private void AbrirVentanaServidorIP() {
+         VentanaServidorIP ventanaServidor = new VentanaServidorIP(this, true);
+         ventanaServidor.setVisible(true);
     }
 
     /**

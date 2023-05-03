@@ -57,6 +57,7 @@ public class PanelDiaSemana extends javax.swing.JPanel {
         Border bordeTitulado = BorderFactory.createTitledBorder(borde, diaSemana, TitledBorder.CENTER, TitledBorder.TOP);
         this.setBorder(bordeTitulado);
         jPanel2.setSize(this.getWidth(), HEIGHT);
+        jPanel2.setAlignmentY(TOP_ALIGNMENT);
         for (Tarea tarea : listaTareas) {
             EtiquetaTarea etiquetaTarea = new EtiquetaTarea(tarea, menu);
             jPanel2.add(etiquetaTarea);
@@ -93,8 +94,8 @@ public class PanelDiaSemana extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jButtonAñadirTarea, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
-            .addComponent(jScrollPane1)
+            .addComponent(jButtonAñadirTarea, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 279, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

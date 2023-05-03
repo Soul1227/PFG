@@ -116,6 +116,11 @@ public class Login extends javax.swing.JFrame {
 
         jMenu2.setText(resourceMap.getString("jMenu2.text")); // NOI18N
         jMenu2.setName("jMenu2"); // NOI18N
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu2MouseClicked(evt);
+            }
+        });
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -177,6 +182,10 @@ public class Login extends javax.swing.JFrame {
     private void jMenuItemServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemServerActionPerformed
         AbrirVentanaServidorIP();
     }//GEN-LAST:event_jMenuItemServerActionPerformed
+
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+        javahelp.showHelp("Login");
+    }//GEN-LAST:event_jMenu2MouseClicked
     /**
      * @param args the command line arguments
      */

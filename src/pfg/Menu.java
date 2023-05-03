@@ -44,7 +44,6 @@ public class Menu extends javax.swing.JFrame {
     };
     private Paneles panelActivo;
     private final Date diaActual;
-    private Date diaElegido;
     private Calendar calendar;
     private final Date[] dias;
     public static Persona usuario;
@@ -340,6 +339,11 @@ public class Menu extends javax.swing.JFrame {
 
         helpMenu.setText(resourceMap.getString("helpMenu.text")); // NOI18N
         helpMenu.setName("helpMenu"); // NOI18N
+        helpMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                helpMenuMouseClicked(evt);
+            }
+        });
 
         aboutMenuItem.setAction(actionMap.get("showAboutBox")); // NOI18N
         aboutMenuItem.setName("aboutMenuItem"); // NOI18N
@@ -441,6 +445,10 @@ public class Menu extends javax.swing.JFrame {
     private void jMenuItemServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemServidorActionPerformed
         AbrirVentanaServidorIP();
     }//GEN-LAST:event_jMenuItemServidorActionPerformed
+
+    private void helpMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_helpMenuMouseClicked
+        javahelp.showHelp("Menu");
+    }//GEN-LAST:event_helpMenuMouseClicked
 
     /**
      * @param args the command line arguments

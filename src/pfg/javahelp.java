@@ -6,6 +6,9 @@ import javax.help.HelpSet;
 import javax.help.HelpSetException;
 
 /**
+ * Esta clase proporciona métodos estáticos para mostrar la ayuda durante la
+ * ejecución de la aplicación. Utiliza un archivo HelpSet y un mapa para mostrar
+ * las páginas de ayuda.
  *
  * @author angel
  */
@@ -14,6 +17,10 @@ public class javahelp {
     private static HelpSet helpSet;
     private static HelpBroker helpBroker;
 
+    /**
+     * Carga el archivo HelpSet y crea un objeto HelpBroker para mostrar la
+     * ayuda.
+     */
     static {
         try {
             URL url = javahelp.class.getResource("/pfg/help/help.hs");
@@ -24,6 +31,11 @@ public class javahelp {
         }
     }
 
+    /**
+     * Muestra la página de ayuda con el ID especificado.
+     *
+     * @param helpID El ID de la página de ayuda a mostrar.
+     */
     public static void showHelp(String helpID) {
         if (helpSet == null) {
             System.out.println("No se ha encontrado el archivo de ayuda");

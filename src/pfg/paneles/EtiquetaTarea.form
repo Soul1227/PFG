@@ -23,14 +23,14 @@
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
           <Group type="102" alignment="0" attributes="0">
-              <EmptySpace max="-2" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
               <Component id="jPanelColor" min="-2" max="-2" attributes="0"/>
               <EmptySpace min="-2" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
-                  <Component id="jLabelNombreTarea" min="-2" max="-2" attributes="0"/>
-                  <Component id="jLabelHora" min="-2" max="-2" attributes="0"/>
+                  <Component id="jLabelHora" max="32767" attributes="0"/>
+                  <Component id="jLabelNombreTarea" pref="179" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace pref="104" max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -41,12 +41,12 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jPanelColor" min="-2" pref="47" max="-2" attributes="0"/>
                   <Group type="102" attributes="0">
-                      <Component id="jLabelNombreTarea" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelNombreTarea" min="-2" pref="22" max="-2" attributes="0"/>
                       <EmptySpace min="-2" max="-2" attributes="0"/>
-                      <Component id="jLabelHora" min="-2" max="-2" attributes="0"/>
+                      <Component id="jLabelHora" min="-2" pref="22" max="-2" attributes="0"/>
                   </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace min="-2" max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>

@@ -2,7 +2,23 @@
 <!DOCTYPE map
 PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Map Version 2.0//EN" "http://java.sun.com/products/javahelp/map_2_0.dtd">
 <map version="1.0">
-   <mapID target="manual" url="html/manual.html" />
-   <mapID target="1" url="html/1.html" />
-   <mapID target="instalar" url="html/instalar.html" />
+    <mapID target="Menu" url="html/Menu.html" />
+    <mapID target="Login" url="html/Login.html" />
+   
+    <mapID target="PanelPersonal" url="html/Panel Personal.html" />
+    <mapID target="PanelSemana" url="html/Panel Semana.html" />
+    <mapID target="PanelTareas" url="html/Panel Tareas.html" />
+    <mapID target="PanelDiaSemana" url="html/Panel dia de la Semana.html" />
+    <mapID target="PanelMuestraTareas" url="html/Panel muestra Tareas.html" />
+    <mapID target="EtiquetaTarea" url="html/Etiqueta Tarea.html" />
+    <mapID target="EtiquetaPersonal" url="html/Etiqueta Personal.html" />
+   
+    <mapID target="VentanaAñadirPersonalATarea" url="html/Ventana añadir Personal a Tarea.html" />
+    <mapID target="VentanaCrearPersonal" url="html/Ventana Crear Personal.html" />
+    <mapID target="VentanaCrearTarea" url="html/Ventana Crear Tarea.html" />
+    <mapID target="VentanaDetallesDePersonal" url="html/Ventana detalles de Personal.html" />
+    <mapID target="VentanaDetallesDeTarea" url="html/Ventana detalles de Tarea.html" />
+    <mapID target="VentanaGrupo" url="html/Ventana Grupo.html" />
+    <mapID target="VentanaLugar" url="html/Ventana Lugar.html" />
+    <mapID target="VentanaServidorIP" url="html/VentanaServidorIP.html" />
 </map>

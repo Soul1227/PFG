@@ -184,7 +184,7 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_jMenuItemServerActionPerformed
 
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
-        javahelp.showHelp("manual");
+        javahelp.showHelp("Login");
     }//GEN-LAST:event_jMenu2MouseClicked
     /**
      * @param args the command line arguments

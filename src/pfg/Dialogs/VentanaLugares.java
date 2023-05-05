@@ -63,9 +63,10 @@ public class VentanaLugares extends javax.swing.JDialog {
         jPanelLugares = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(VentanaLugares.class);
+        setTitle(resourceMap.getString("Form.title")); // NOI18N
         setName("Form"); // NOI18N
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(VentanaLugares.class);
         jLabelNombre.setText(resourceMap.getString("jLabelNombre.text")); // NOI18N
         jLabelNombre.setName("jLabelNombre"); // NOI18N
 

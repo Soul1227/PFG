@@ -31,7 +31,6 @@ public class Login extends javax.swing.JFrame {
         jButtonAceptar = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItemServer = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -102,16 +101,11 @@ public class Login extends javax.swing.JFrame {
 
         jMenu1.setText(resourceMap.getString("jMenu1.text")); // NOI18N
         jMenu1.setName("jMenu1"); // NOI18N
-
-        jMenuItemServer.setText(resourceMap.getString("jMenuItemServer.text")); // NOI18N
-        jMenuItemServer.setName("jMenuItemServer"); // NOI18N
-        jMenuItemServer.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItemServerActionPerformed(evt);
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
             }
         });
-        jMenu1.add(jMenuItemServer);
-
         jMenuBar1.add(jMenu1);
 
         jMenu2.setText(resourceMap.getString("jMenu2.text")); // NOI18N
@@ -179,13 +173,13 @@ public class Login extends javax.swing.JFrame {
         ventanaServidor.setVisible(true);
     }
 
-    private void jMenuItemServerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemServerActionPerformed
-        AbrirVentanaServidorIP();
-    }//GEN-LAST:event_jMenuItemServerActionPerformed
-
     private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
         javahelp.showHelp("Login");
     }//GEN-LAST:event_jMenu2MouseClicked
+
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+        AbrirVentanaServidorIP();
+    }//GEN-LAST:event_jMenu1MouseClicked
     /**
      * @param args the command line arguments
      */
@@ -227,7 +221,6 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItemServer;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextFieldNombreUsuario;

@@ -52,13 +52,16 @@ public class ControladorIP {
                 FileReader fr = new FileReader(archivoIP);
                 BufferedReader br = new BufferedReader(fr);
                 String linea = br.readLine();
-                if (validarIP(linea)) {
+                if (linea != null) {
+
                     br.close();
                     fr.close();
                     return linea;
+                } else {
+                    br.close();
+                    fr.close();
+                    return "";
                 }
-                br.close();
-                fr.close();
             } catch (IOException ex) {
                 System.err.println(ex.getMessage());
             }

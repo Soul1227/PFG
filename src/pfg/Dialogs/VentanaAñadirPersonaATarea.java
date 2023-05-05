@@ -57,6 +57,8 @@ public class VentanaAñadirPersonaATarea extends javax.swing.JDialog {
         jButtonAñadir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(VentanaAñadirPersonaATarea.class);
+        setTitle(resourceMap.getString("Form.title")); // NOI18N
         setName("Form"); // NOI18N
 
         jPanel2.setName("jPanel2"); // NOI18N
@@ -68,7 +70,6 @@ public class VentanaAñadirPersonaATarea extends javax.swing.JDialog {
 
         jPanel3.setName("jPanel3"); // NOI18N
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(VentanaAñadirPersonaATarea.class);
         jButtonAñadir.setText(resourceMap.getString("jButtonAñadir.text")); // NOI18N
         jButtonAñadir.setName("jButtonAñadir"); // NOI18N
         jButtonAñadir.addActionListener(new java.awt.event.ActionListener() {

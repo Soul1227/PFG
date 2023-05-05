@@ -109,13 +109,14 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
         jLabelEditador = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(VentanaDetallesTarea.class);
+        setTitle(resourceMap.getString("Form.title")); // NOI18N
         setName("Form"); // NOI18N
 
         jPanelNuevaTareaCreacion.setName("jPanelNuevaTareaCreacion"); // NOI18N
 
         jTextFieldNombreTarea.setName("jTextFieldNombreTarea"); // NOI18N
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(VentanaDetallesTarea.class);
         jLabelNombre.setText(resourceMap.getString("jLabelNombre.text")); // NOI18N
         jLabelNombre.setName("jLabelNombre"); // NOI18N
 

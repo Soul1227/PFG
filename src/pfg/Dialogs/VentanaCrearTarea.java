@@ -628,7 +628,11 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
                 return null;
             }
         }
-
+        
+        if(jComboBoxLugar.getSelectedItem()==null){
+            JOptionPane.showMessageDialog(this, "Ha de seleccionarse un lugar.\n Si el grupo no cuenta con un lugar asignado, podrá hacerlo en el menu ´Lugares´");
+            return null;
+        }
         int lugarId = (int) Menu.maper.getMapaLugares().get(jComboBoxLugar.getSelectedItem().toString());
 
         int PrioridadId = 0;

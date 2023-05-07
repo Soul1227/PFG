@@ -20,6 +20,7 @@ public class VentanaServidorIP extends javax.swing.JDialog {
     public VentanaServidorIP(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        this.setTitle("Servidor IP");
         MostrarIPServidor();
     }
 

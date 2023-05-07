@@ -496,6 +496,7 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
      * desactivación de la edición si el usuario no es un administrador.
      */
     private void ConfigurarComponentesUI() {
+        this.setTitle("Detalles Tarea");
         boolean esAdmin = Menu.usuario.isEsAdmin();
         jButtonAñadirPersonal.setVisible(esAdmin);
         jButtonEliminarPersonal.setVisible(esAdmin);

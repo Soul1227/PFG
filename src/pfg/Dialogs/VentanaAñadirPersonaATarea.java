@@ -41,6 +41,7 @@ public class VentanaAñadirPersonaATarea extends javax.swing.JDialog {
         super(parent, modal);
         this.tarea = tarea;
         initComponents();
+        this.setTitle("Añadir Persona a Tarea");
         listaPersonas.stream().map((persona) -> new EtiquetaPersonal(persona, true)).forEachOrdered((etiquetaPersona) -> {
             jPanelMuestraPersonal.add(etiquetaPersona);
         });

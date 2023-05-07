@@ -535,6 +535,7 @@ public class Menu extends javax.swing.JFrame {
      * @param isAdmin Booleano que designa si el usuario es admin o no.
      */
     private void PrepararInterface(boolean isAdmin) {
+        this.setTitle("Menu");
         jLabelFlechaDerecha.setIcon(cargarImagen("chevronleft.png", anchoIconos, altoIconos));
         jLabelFlechaIzquierda.setIcon(cargarImagen("chevronright.png", anchoIconos, altoIconos));
         jLabelFlechaDerecha.setText("");

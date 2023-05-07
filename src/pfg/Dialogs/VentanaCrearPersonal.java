@@ -303,6 +303,7 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
      * diálogo.
      */
     private void initializeUIComponents() {
+        this.setTitle("Crear Personal");
         jCheckBoxEsAdministrador.setSelected(false);
         for (Grupo grupo : listagrupos) {
             jComboBoxGrupos.addItem(grupo.getGrupoNombre());

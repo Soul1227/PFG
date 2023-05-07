@@ -67,6 +67,7 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
     public VentanaCrearTarea(java.awt.Frame parent, boolean modal, Date fecha, LinkedList<Lugar> listaLugares) {
         super(parent, modal);
         initComponents();
+        this.setTitle("Crear Tarea");
         this.maper = Menu.maper;
         this.dateFormat = new SimpleDateFormat();
 

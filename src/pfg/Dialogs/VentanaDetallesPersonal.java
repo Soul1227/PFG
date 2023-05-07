@@ -42,6 +42,7 @@ public class VentanaDetallesPersonal extends javax.swing.JDialog {
     public VentanaDetallesPersonal(java.awt.Frame parent, boolean modal, Persona persona, boolean esAdmin) {
         super(parent, modal);
         initComponents();
+        this.setTitle("Detalles de Personal");
         this.persona = persona;
         jTextFieldNombre.setText(persona.getNombre());
         jTextFieldApellidos.setText(persona.getApellidos());

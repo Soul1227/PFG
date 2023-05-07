@@ -46,6 +46,7 @@ public class VentanaLugares extends javax.swing.JDialog {
         this.maper = maper;
         listaCheckBoxLugares = new LinkedList<>();
         initComponents();
+        this.setTitle("Lugares");
         RellenarListaLugares(this.maper.getListaLugares());
         MarcarLugaresDelGrupo(ConectorDB.BuscarLugaresDeUsuario(Menu.usuario.getGrupo()));
     }

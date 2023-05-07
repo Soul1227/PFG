@@ -22,9 +22,6 @@ import servidorprueba.Tarea;
  */
 public class ConectorDB {
 
-    //192.168.0.1
-    //84.125.237.146 publica
-    //192.168.0.12 privada
     private static final int PUERTO = 6565;
     private static ObjectInputStream flujoEntrada;
     private static ObjectOutputStream flujoSalida;

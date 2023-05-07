@@ -42,6 +42,7 @@ public class VentanaGrupos extends javax.swing.JDialog {
         super(parent, modal);
         this.maper = maper;
         initComponents();
+        this.setTitle("Grupos");
         RellenarGrupos(maper.getListaGrupos());
     }
 

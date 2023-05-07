@@ -65,6 +65,9 @@ public class VentanaDetallesPersonal extends javax.swing.JDialog {
             jTextFieldTelefonos.setEditable(true);
             jTextFieldPass.setEditable(true);
         }
+        if(!esAdmin ){
+            jButtonEliminarPersonal.setVisible(false);
+        }           
     }
 
     @SuppressWarnings("unchecked")
@@ -134,9 +137,9 @@ public class VentanaDetallesPersonal extends javax.swing.JDialog {
 
         jButtonActualizarPersonal.setText(resourceMap.getString("jButtonActualizarPersonal.text")); // NOI18N
         jButtonActualizarPersonal.setName("jButtonActualizarPersonal"); // NOI18N
-        jButtonActualizarPersonal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonActualizarPersonalActionPerformed(evt);
+        jButtonActualizarPersonal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonActualizarPersonalMouseClicked(evt);
             }
         });
 
@@ -145,9 +148,9 @@ public class VentanaDetallesPersonal extends javax.swing.JDialog {
 
         jButtonEliminarPersonal.setText(resourceMap.getString("jButtonEliminarPersonal.text")); // NOI18N
         jButtonEliminarPersonal.setName("jButtonEliminarPersonal"); // NOI18N
-        jButtonEliminarPersonal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEliminarPersonalActionPerformed(evt);
+        jButtonEliminarPersonal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonEliminarPersonalMouseClicked(evt);
             }
         });
 
@@ -235,31 +238,7 @@ public class VentanaDetallesPersonal extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonActualizarPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarPersonalActionPerformed
-        RellenarPersona();
-        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
-            @Override
-            protected Boolean doInBackground() throws Exception {
-                return ConectorDB.ActualizarPersonal(persona);
-            }
-
-            @Override
-            protected void done() {
-                try {
-                    if (get()) {
-                        dispose();
-                    } else {
-                        JOptionPane.showConfirmDialog(rootPane, "No se pudo conectar con la base de datos\nintentelo mas tarde");
-                    }
-                } catch (ExecutionException | InterruptedException ex) {
-                    System.err.println(ex.getMessage());
-                }
-            }
-        };
-        worker.execute();
-    }//GEN-LAST:event_jButtonActualizarPersonalActionPerformed
-
-    private void jButtonEliminarPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarPersonalActionPerformed
+    private void jButtonEliminarPersonalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonEliminarPersonalMouseClicked
         SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
             @Override
             protected Boolean doInBackground() throws Exception {
@@ -282,7 +261,11 @@ public class VentanaDetallesPersonal extends javax.swing.JDialog {
             }
         };
         worker.execute();
-    }//GEN-LAST:event_jButtonEliminarPersonalActionPerformed
+    }//GEN-LAST:event_jButtonEliminarPersonalMouseClicked
+
+    private void jButtonActualizarPersonalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonActualizarPersonalMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButtonActualizarPersonalMouseClicked
 
     /**
      * @param args the command line arguments
@@ -313,17 +296,15 @@ public class VentanaDetallesPersonal extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                VentanaDetallesPersonal dialog = new VentanaDetallesPersonal(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            VentanaDetallesPersonal dialog = new VentanaDetallesPersonal(new javax.swing.JFrame(), true);
+            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    System.exit(0);
+                }
+            });
+            dialog.setVisible(true);
         });
     }
 

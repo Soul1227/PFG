@@ -453,7 +453,7 @@
             <Property name="name" type="java.lang.String" value="jButtonAceptar" noResource="true"/>
           </Properties>
           <Events>
-            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButtonAceptarActionPerformed"/>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="jButtonAceptarMouseClicked"/>
           </Events>
         </Component>
         <Component class="javax.swing.JButton" name="jButtonCancelar">

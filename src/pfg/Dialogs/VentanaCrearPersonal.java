@@ -104,9 +104,9 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
 
         jButtonCrear.setText(resourceMap.getString("jButtonCrear.text")); // NOI18N
         jButtonCrear.setName("jButtonCrear"); // NOI18N
-        jButtonCrear.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCrearActionPerformed(evt);
+        jButtonCrear.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonCrearMouseClicked(evt);
             }
         });
 
@@ -200,8 +200,16 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearActionPerformed
-        SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
+    private void jCheckBoxEsAdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxEsAdministradorActionPerformed
+        if (jCheckBoxEsAdministrador.isSelected()) {
+            jComboBoxGrupos.setEnabled(true);
+        } else {
+            jComboBoxGrupos.setEnabled(false);
+        }
+    }//GEN-LAST:event_jCheckBoxEsAdministradorActionPerformed
+
+    private void jButtonCrearMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonCrearMouseClicked
+         SwingWorker<Boolean, Void> worker = new SwingWorker<Boolean, Void>() {
             @Override
             protected Boolean doInBackground() throws Exception {
                 return ConectorDB.CrearEmpleado(TomaDatosDeLosCampos());
@@ -215,15 +223,7 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
         };
         jButtonCrear.setEnabled(false);
         worker.execute();
-    }//GEN-LAST:event_jButtonCrearActionPerformed
-
-    private void jCheckBoxEsAdministradorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBoxEsAdministradorActionPerformed
-        if (jCheckBoxEsAdministrador.isSelected()) {
-            jComboBoxGrupos.setEnabled(true);
-        } else {
-            jComboBoxGrupos.setEnabled(false);
-        }
-    }//GEN-LAST:event_jCheckBoxEsAdministradorActionPerformed
+    }//GEN-LAST:event_jButtonCrearMouseClicked
 
     /**
      * @param args the command line arguments
@@ -254,18 +254,15 @@ public class VentanaCrearPersonal extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                VentanaCrearPersonal dialog = new VentanaCrearPersonal(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            VentanaCrearPersonal dialog = new VentanaCrearPersonal(new javax.swing.JFrame(), true);
+            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    System.exit(0);
+                }
+            });
+            dialog.setVisible(true);
         });
     }
 

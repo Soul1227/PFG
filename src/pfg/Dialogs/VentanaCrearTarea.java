@@ -346,9 +346,9 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
 
         jButtonAceptar.setText(resourceMap.getString("jButtonAceptar.text")); // NOI18N
         jButtonAceptar.setName("jButtonAceptar"); // NOI18N
-        jButtonAceptar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAceptarActionPerformed(evt);
+        jButtonAceptar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonAceptarMouseClicked(evt);
             }
         });
         jPanel3.add(jButtonAceptar);
@@ -435,20 +435,8 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
         jComboBoxMinHasta.setEnabled(false);
         jComboBoxPrioridad.setEnabled(true);
     }//GEN-LAST:event_jRadioButtonPrioridadMouseClicked
-    /**
-     * Método que se ejecuta cuando se presiona el botón "Aceptar" del
-     * formulario de creación de tarea. Verifica que se haya seleccionado entre
-     * "Hora" y "Prioridad". Si no es así, muestra un mensaje de error y termina
-     * la ejecución. Obtiene los valores del formulario y los convierte en una
-     * instancia de la clase Tarea. Luego, la envía a la base de datos para que
-     * sea creada. Si la tarea es creada exitosamente, cierra el formulario. Si
-     * no, muestra un mensaje de error. Este método se ejecuta en un hilo
-     * SwingWorker para no bloquear la interfaz gráfica de usuario.
-     *
-     * @param evt objeto que representa el evento de presionar el botón
-     * "Aceptar".
-     */
-    private void jButtonAceptarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAceptarActionPerformed
+
+    private void jButtonAceptarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAceptarMouseClicked
         if (!jRadioButtonHora.isSelected() && !jRadioButtonPrioridad.isSelected()) {
             JOptionPane.showMessageDialog(rootPane, "seleccione entre hora y prioridad");
             return;
@@ -478,7 +466,7 @@ public class VentanaCrearTarea extends javax.swing.JDialog {
             }
         };
         worker.execute();
-    }//GEN-LAST:event_jButtonAceptarActionPerformed
+    }//GEN-LAST:event_jButtonAceptarMouseClicked
 
     /**
      * @param args the command line arguments

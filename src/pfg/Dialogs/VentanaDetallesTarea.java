@@ -200,9 +200,9 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
 
         jButtonAñadirPersonal.setText(resourceMap.getString("jButtonAñadirPersonal.text")); // NOI18N
         jButtonAñadirPersonal.setName("jButtonAñadirPersonal"); // NOI18N
-        jButtonAñadirPersonal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAñadirPersonalActionPerformed(evt);
+        jButtonAñadirPersonal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonAñadirPersonalMouseClicked(evt);
             }
         });
 
@@ -218,25 +218,25 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
 
         jButtonEliminarPersonal.setText(resourceMap.getString("jButtonEliminarPersonal.text")); // NOI18N
         jButtonEliminarPersonal.setName("jButtonEliminarPersonal"); // NOI18N
-        jButtonEliminarPersonal.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEliminarPersonalActionPerformed(evt);
+        jButtonEliminarPersonal.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonEliminarPersonalMouseClicked(evt);
             }
         });
 
         jButtonActualizarTarea.setText(resourceMap.getString("jButtonActualizarTarea.text")); // NOI18N
         jButtonActualizarTarea.setName("jButtonActualizarTarea"); // NOI18N
-        jButtonActualizarTarea.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonActualizarTareaActionPerformed(evt);
+        jButtonActualizarTarea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonActualizarTareaMouseClicked(evt);
             }
         });
 
         jButtonEliminarTarea.setText(resourceMap.getString("jButtonEliminarTarea.text")); // NOI18N
         jButtonEliminarTarea.setName("jButtonEliminarTarea"); // NOI18N
-        jButtonEliminarTarea.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEliminarTareaActionPerformed(evt);
+        jButtonEliminarTarea.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonEliminarTareaMouseClicked(evt);
             }
         });
 
@@ -408,22 +408,22 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
         jComboBoxPrioridad.setEnabled(true);
     }//GEN-LAST:event_jRadioButtonPrioridadMouseClicked
 
-    private void jButtonEliminarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarTareaActionPerformed
-        EliminarTarea();
-    }//GEN-LAST:event_jButtonEliminarTareaActionPerformed
-
-    private void jButtonAñadirPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirPersonalActionPerformed
+    private void jButtonAñadirPersonalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAñadirPersonalMouseClicked
         CearVentanaAñadirPersonalATarea();
-    }//GEN-LAST:event_jButtonAñadirPersonalActionPerformed
+    }//GEN-LAST:event_jButtonAñadirPersonalMouseClicked
 
-    private void jButtonActualizarTareaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarTareaActionPerformed
-        ActualizarTarea();
-    }//GEN-LAST:event_jButtonActualizarTareaActionPerformed
-
-    private void jButtonEliminarPersonalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarPersonalActionPerformed
+    private void jButtonEliminarPersonalMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonEliminarPersonalMouseClicked
         EliminarPersonarlDeTarea(ConfirmarEliminarPersonal());
         RellenarDetallesTarea(tarea);
-    }//GEN-LAST:event_jButtonEliminarPersonalActionPerformed
+    }//GEN-LAST:event_jButtonEliminarPersonalMouseClicked
+
+    private void jButtonEliminarTareaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonEliminarTareaMouseClicked
+        EliminarTarea();
+    }//GEN-LAST:event_jButtonEliminarTareaMouseClicked
+
+    private void jButtonActualizarTareaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonActualizarTareaMouseClicked
+        ActualizarTarea();
+    }//GEN-LAST:event_jButtonActualizarTareaMouseClicked
 
     /**
      * @param args the command line arguments
@@ -550,7 +550,7 @@ public class VentanaDetallesTarea extends javax.swing.JDialog {
      * @param eliminar Si es true, se eliminará al personal seleccionado de la
      * tarea actual.
      */
-   private void EliminarPersonarlDeTarea(Boolean eliminar) {
+    private void EliminarPersonarlDeTarea(Boolean eliminar) {
         if (eliminar) {
             List<String> selectedValues = jListEmpleadosEnTarea.getSelectedValuesList();
             Iterator<Persona> iterator = tarea.getEmpleadosEnTarea().iterator();

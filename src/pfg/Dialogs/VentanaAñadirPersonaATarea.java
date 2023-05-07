@@ -73,9 +73,9 @@ public class VentanaAñadirPersonaATarea extends javax.swing.JDialog {
 
         jButtonAñadir.setText(resourceMap.getString("jButtonAñadir.text")); // NOI18N
         jButtonAñadir.setName("jButtonAñadir"); // NOI18N
-        jButtonAñadir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonAñadirActionPerformed(evt);
+        jButtonAñadir.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonAñadirMouseClicked(evt);
             }
         });
 
@@ -132,9 +132,9 @@ public class VentanaAñadirPersonaATarea extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirActionPerformed
+    private void jButtonAñadirMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAñadirMouseClicked
         AñadirPersonalATarea();
-    }//GEN-LAST:event_jButtonAñadirActionPerformed
+    }//GEN-LAST:event_jButtonAñadirMouseClicked
 
     /**
      * @param args the command line arguments

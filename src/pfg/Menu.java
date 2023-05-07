@@ -106,7 +106,6 @@ public class Menu extends javax.swing.JFrame {
         jMenuItemLugares = new javax.swing.JMenuItem();
         jMenuItemServidor = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
-        javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(Menu.class);
@@ -128,6 +127,11 @@ public class Menu extends javax.swing.JFrame {
 
         jButtonAñadirPT.setText(resourceMap.getString("jButtonAñadirPT.text")); // NOI18N
         jButtonAñadirPT.setName("jButtonAñadirPT"); // NOI18N
+        jButtonAñadirPT.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonAñadirPTMouseClicked(evt);
+            }
+        });
         jButtonAñadirPT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAñadirPTActionPerformed(evt);
@@ -311,6 +315,11 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuItemGrupos.setText(resourceMap.getString("jMenuItemGrupos.text")); // NOI18N
         jMenuItemGrupos.setName("jMenuItemGrupos"); // NOI18N
+        jMenuItemGrupos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItemGruposMouseClicked(evt);
+            }
+        });
         jMenuItemGrupos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemGruposActionPerformed(evt);
@@ -320,6 +329,11 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuItemLugares.setText(resourceMap.getString("jMenuItemLugares.text")); // NOI18N
         jMenuItemLugares.setName("jMenuItemLugares"); // NOI18N
+        jMenuItemLugares.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItemLugaresMouseClicked(evt);
+            }
+        });
         jMenuItemLugares.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemLugaresActionPerformed(evt);
@@ -329,6 +343,11 @@ public class Menu extends javax.swing.JFrame {
 
         jMenuItemServidor.setText(resourceMap.getString("jMenuItemServidor.text")); // NOI18N
         jMenuItemServidor.setName("jMenuItemServidor"); // NOI18N
+        jMenuItemServidor.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenuItemServidorMouseClicked(evt);
+            }
+        });
         jMenuItemServidor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jMenuItemServidorActionPerformed(evt);
@@ -345,11 +364,6 @@ public class Menu extends javax.swing.JFrame {
                 helpMenuMouseClicked(evt);
             }
         });
-
-        aboutMenuItem.setAction(actionMap.get("showAboutBox")); // NOI18N
-        aboutMenuItem.setName("aboutMenuItem"); // NOI18N
-        helpMenu.add(aboutMenuItem);
-
         menuBar.add(helpMenu);
 
         setJMenuBar(menuBar);
@@ -408,6 +422,32 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelNombreUsuarioMouseClicked
 
     private void jButtonAñadirPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirPTActionPerformed
+
+    }//GEN-LAST:event_jButtonAñadirPTActionPerformed
+
+    private void jDatePickerMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDatePickerMenuActionPerformed
+        Calendar selectedValue = (Calendar) jDatePickerMenu.getModel().getValue();
+        ActualizarSemana(selectedValue);
+        CambiarPanel(Paneles.Semana);
+    }//GEN-LAST:event_jDatePickerMenuActionPerformed
+
+    private void helpMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_helpMenuMouseClicked
+        javahelp.showHelp("Menu");
+    }//GEN-LAST:event_helpMenuMouseClicked
+
+    private void jMenuItemGruposMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItemGruposMouseClicked
+
+    }//GEN-LAST:event_jMenuItemGruposMouseClicked
+
+    private void jMenuItemLugaresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItemLugaresMouseClicked
+
+    }//GEN-LAST:event_jMenuItemLugaresMouseClicked
+
+    private void jMenuItemServidorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenuItemServidorMouseClicked
+
+    }//GEN-LAST:event_jMenuItemServidorMouseClicked
+
+    private void jButtonAñadirPTMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonAñadirPTMouseClicked
         if (panelActivo == Paneles.Tareas) {
             VentanaCrearTarea ventanaCrearTarea = new VentanaCrearTarea(this, true, null, ConectorDB.BuscarLugaresDeUsuario(usuario.getGrupo()));
             ventanaCrearTarea.addWindowListener(new WindowAdapter() {
@@ -427,13 +467,7 @@ public class Menu extends javax.swing.JFrame {
             });
             ventanaCrearPersonal.setVisible(true);
         }
-    }//GEN-LAST:event_jButtonAñadirPTActionPerformed
-
-    private void jDatePickerMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDatePickerMenuActionPerformed
-        Calendar selectedValue = (Calendar) jDatePickerMenu.getModel().getValue();
-        ActualizarSemana(selectedValue);
-        CambiarPanel(Paneles.Semana);
-    }//GEN-LAST:event_jDatePickerMenuActionPerformed
+    }//GEN-LAST:event_jButtonAñadirPTMouseClicked
 
     private void jMenuItemGruposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGruposActionPerformed
         AbrirVentanaGrupo();
@@ -446,10 +480,6 @@ public class Menu extends javax.swing.JFrame {
     private void jMenuItemServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemServidorActionPerformed
         AbrirVentanaServidorIP();
     }//GEN-LAST:event_jMenuItemServidorActionPerformed
-
-    private void helpMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_helpMenuMouseClicked
-        javahelp.showHelp("Menu");
-    }//GEN-LAST:event_helpMenuMouseClicked
 
     /**
      * @param args the command line arguments
@@ -504,7 +534,7 @@ public class Menu extends javax.swing.JFrame {
         jLabelSemana.setText(textoSemana.toString());
         if (bool) {
             calendar.setTime(diaActual);
-        } 
+        }
     }
 
     /**

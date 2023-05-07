@@ -70,9 +70,9 @@ public class VentanaGrupos extends javax.swing.JDialog {
 
         jButtonCrearGrupo.setText(resourceMap.getString("jButtonCrearGrupo.text")); // NOI18N
         jButtonCrearGrupo.setName("jButtonCrearGrupo"); // NOI18N
-        jButtonCrearGrupo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCrearGrupoActionPerformed(evt);
+        jButtonCrearGrupo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonCrearGrupoMouseClicked(evt);
             }
         });
 
@@ -84,9 +84,9 @@ public class VentanaGrupos extends javax.swing.JDialog {
 
         jButtonEliminarGrupos.setText(resourceMap.getString("jButtonEliminarGrupos.text")); // NOI18N
         jButtonEliminarGrupos.setName("jButtonEliminarGrupos"); // NOI18N
-        jButtonEliminarGrupos.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonEliminarGruposActionPerformed(evt);
+        jButtonEliminarGrupos.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonEliminarGruposMouseClicked(evt);
             }
         });
 
@@ -132,7 +132,7 @@ public class VentanaGrupos extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonCrearGrupoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearGrupoActionPerformed
+    private void jButtonCrearGrupoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonCrearGrupoMouseClicked
         if (jTextFieldNombre.getText().isEmpty()) {
             JOptionPane.showMessageDialog(rootPane, "Por favor introduzca un nombre.");
             return;
@@ -147,9 +147,9 @@ public class VentanaGrupos extends javax.swing.JDialog {
         } else {
             JOptionPane.showMessageDialog(rootPane, "No pudo conectase con la base de datos\n porfavor intentelo más tarde.");
         }
-    }//GEN-LAST:event_jButtonCrearGrupoActionPerformed
+    }//GEN-LAST:event_jButtonCrearGrupoMouseClicked
 
-    private void jButtonEliminarGruposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonEliminarGruposActionPerformed
+    private void jButtonEliminarGruposMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonEliminarGruposMouseClicked
         if (ConfirmarEliminarGrupo()) {
             LinkedList<Integer> gruposSeleccionados = GruposSeleccionados();
             for (Integer gruposSeleccionado : gruposSeleccionados) {
@@ -164,7 +164,7 @@ public class VentanaGrupos extends javax.swing.JDialog {
             }
             RellenarGrupos(ConectorDB.BuscarGrupos());
         }
-    }//GEN-LAST:event_jButtonEliminarGruposActionPerformed
+    }//GEN-LAST:event_jButtonEliminarGruposMouseClicked
 
     /**
      * @param args the command line arguments

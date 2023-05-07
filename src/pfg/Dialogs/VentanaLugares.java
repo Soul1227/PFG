@@ -82,17 +82,17 @@ public class VentanaLugares extends javax.swing.JDialog {
 
         jButtonCrearLugar.setText(resourceMap.getString("jButtonCrearLugar.text")); // NOI18N
         jButtonCrearLugar.setName("jButtonCrearLugar"); // NOI18N
-        jButtonCrearLugar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonCrearLugarActionPerformed(evt);
+        jButtonCrearLugar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonCrearLugarMouseClicked(evt);
             }
         });
 
         jButtonActualizarLugares.setText(resourceMap.getString("jButtonActualizarLugares.text")); // NOI18N
         jButtonActualizarLugares.setName("jButtonActualizarLugares"); // NOI18N
-        jButtonActualizarLugares.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonActualizarLugaresActionPerformed(evt);
+        jButtonActualizarLugares.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonActualizarLugaresMouseClicked(evt);
             }
         });
 
@@ -163,8 +163,8 @@ public class VentanaLugares extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonCrearLugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonCrearLugarActionPerformed
-        if (!ComprobarNombre()) {
+    private void jButtonCrearLugarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonCrearLugarMouseClicked
+       if (!ComprobarNombre()) {
             String nombre = jTextFieldNombre.getText();
             String direccion = jTextFieldDireccion.getText();
             CrearNuevoLugar(nombre, direccion);
@@ -174,11 +174,11 @@ public class VentanaLugares extends javax.swing.JDialog {
         } else {
             JOptionPane.showMessageDialog(rootPane, "Ya existe un grupo con ese nombre.");
         }
-    }//GEN-LAST:event_jButtonCrearLugarActionPerformed
+    }//GEN-LAST:event_jButtonCrearLugarMouseClicked
 
-    private void jButtonActualizarLugaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonActualizarLugaresActionPerformed
-        ActualizarLugares(TomarLugaresMarcados());
-    }//GEN-LAST:event_jButtonActualizarLugaresActionPerformed
+    private void jButtonActualizarLugaresMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonActualizarLugaresMouseClicked
+       ActualizarLugares(TomarLugaresMarcados());
+    }//GEN-LAST:event_jButtonActualizarLugaresMouseClicked
 
     /**
      * @param args the command line arguments

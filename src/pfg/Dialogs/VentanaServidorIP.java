@@ -45,9 +45,9 @@ public class VentanaServidorIP extends javax.swing.JDialog {
 
         jButtonGuardarIP.setText(resourceMap.getString("jButtonGuardarIP.text")); // NOI18N
         jButtonGuardarIP.setName("jButtonGuardarIP"); // NOI18N
-        jButtonGuardarIP.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButtonGuardarIPActionPerformed(evt);
+        jButtonGuardarIP.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButtonGuardarIPMouseClicked(evt);
             }
         });
 
@@ -83,9 +83,9 @@ public class VentanaServidorIP extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButtonGuardarIPActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonGuardarIPActionPerformed
+    private void jButtonGuardarIPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButtonGuardarIPMouseClicked
         GuardarIP();
-    }//GEN-LAST:event_jButtonGuardarIPActionPerformed
+    }//GEN-LAST:event_jButtonGuardarIPMouseClicked
 
     /**
      * @param args the command line arguments

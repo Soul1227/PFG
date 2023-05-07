@@ -158,6 +158,7 @@ public class VentanaGrupos extends javax.swing.JDialog {
                     EliminarTareasDelGrupo(gruposSeleccionado);
                     EliminarAdmins(gruposSeleccionado);
                     EliminarGrupo(gruposSeleccionado);
+                    System.exit(0);
                 } else {
                     JOptionPane.showMessageDialog(rootPane, "No puede ser eliminado un grupo mientras\n haya lugares, empleados o tareas ligados a este.\n Solo puedes eliminar un grupo si perteneces a este.");
                 }

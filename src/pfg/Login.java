@@ -50,6 +50,11 @@ public class Login extends javax.swing.JFrame {
         jTextFieldNombreUsuario.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         jTextFieldNombreUsuario.setText(resourceMap.getString("jTextFieldNombreUsuario.text")); // NOI18N
         jTextFieldNombreUsuario.setName("jTextFieldNombreUsuario"); // NOI18N
+        jTextFieldNombreUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextFieldNombreUsuarioActionPerformed(evt);
+            }
+        });
 
         jLabelContrasena.setText(resourceMap.getString("jLabelContrasena.text")); // NOI18N
         jLabelContrasena.setName("jLabelContrasena"); // NOI18N
@@ -181,6 +186,10 @@ public class Login extends javax.swing.JFrame {
     private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
         AbrirVentanaServidorIP();
     }//GEN-LAST:event_jMenu1MouseClicked
+
+    private void jTextFieldNombreUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreUsuarioActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextFieldNombreUsuarioActionPerformed
     /**
      * @param args the command line arguments
      */

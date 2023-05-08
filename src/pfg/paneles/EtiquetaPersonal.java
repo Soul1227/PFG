@@ -170,7 +170,7 @@ public class EtiquetaPersonal extends javax.swing.JPanel {
         if (chequeable) {
             jCheckBox1.setSelected(!jCheckBox1.isSelected());
         } else {
-            JDialog detallesPersona = new VentanaDetallesPersonal(null, true, persona, Menu.usuario.isEsAdmin());
+            JDialog detallesPersona = new VentanaDetallesPersonal(null, true, persona, Menu.usuario.isEsAdmin(),false);
             detallesPersona.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {

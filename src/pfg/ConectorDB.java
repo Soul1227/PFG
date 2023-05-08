@@ -492,6 +492,34 @@ public class ConectorDB {
     }
 
     /**
+     * Manda al servidor la orden de obtener la lista de tareas para un usuario
+     * especifico un dia en especifico.
+     *
+     * @param fecha día específico del que se quiere obtener las tareas. Debe
+     * estar en formato "yyyy-MM-dd".
+     * @param idusuario id del usuario.
+     * @return Lista de objetos Tarea correspondientes al día especificado.
+     */
+    public static LinkedList<Tarea> BuscarTareasParaUnUsuario(String fecha, int idusuario) {
+        LinkedList listaTareas = new LinkedList();
+        LinkedList dia = new LinkedList();
+        dia.add(fecha);
+        if (Conectar()) {
+            try {
+                Mensaje mensaje = new Mensaje(Comandos.TAREASDELDIAPARAUNUSUAIO, dia, idusuario);
+                flujoSalida.writeObject(mensaje);
+                listaTareas = (LinkedList) flujoEntrada.readObject();
+            } catch (IOException | ClassNotFoundException ex) {
+                System.out.println(ex.getMessage());
+            }
+            CerrarConexion();
+        } else {
+            JOptionPane.showMessageDialog(null, "Ip de servidor no valida.\nPor favor introduzca una correcta en el submenu 'Servidor'.");
+        }
+        return listaTareas;
+    }
+
+    /**
      * Manda al servidor la orden de obtener la lista de tareas para un dia en
      * especifico.
      *

@@ -548,6 +548,8 @@ public class Menu extends javax.swing.JFrame {
         } else {
             jPanelIconos.remove(jLabelPersonal);
             jPanelIconos.remove(jLabelTareas);
+            jMenuItemGrupos.setVisible(isAdmin);
+            jMenuItemLugares.setVisible(isAdmin);
         }
     }
 

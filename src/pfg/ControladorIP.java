@@ -43,8 +43,8 @@ public class ControladorIP {
 
     /**
      * Toma la Ip del server del archivo donde esta se almacena.
-     *
-     * @return
+     * 
+     * @return IP a la que conectarse o "" en caso de que no hubiese.
      */
     public static String TomarIp() {
         if (archivoIP.exists()) {

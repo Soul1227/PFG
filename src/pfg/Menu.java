@@ -403,7 +403,7 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_jLabelFlechaDerechaMouseClicked
 
     private void jLabelNombreUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelNombreUsuarioMouseClicked
-        JDialog detallesPersona = new VentanaDetallesPersonal(null, true, Menu.usuario, Menu.usuario.isEsAdmin());
+        JDialog detallesPersona = new VentanaDetallesPersonal(null, true, Menu.usuario, Menu.usuario.isEsAdmin(),true);
         detallesPersona.setVisible(true);
     }//GEN-LAST:event_jLabelNombreUsuarioMouseClicked
 

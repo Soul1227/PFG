@@ -38,8 +38,9 @@ public class VentanaDetallesPersonal extends javax.swing.JDialog {
      * @param modal Booleano que indica si la ventana debe ser modal o no.
      * @param persona Objeto Persona que se va a mostrar y/o editar.
      * @param esAdmin Booleano que indica si el usuario es administrador o no.
+     * @param desdeMenu Booleano que indica si la ventana se ha abierto desde el menu principal.
      */
-    public VentanaDetallesPersonal(java.awt.Frame parent, boolean modal, Persona persona, boolean esAdmin) {
+    public VentanaDetallesPersonal(java.awt.Frame parent, boolean modal, Persona persona, boolean esAdmin, boolean desdeMenu) {
         super(parent, modal);
         initComponents();
         this.setTitle("Detalles de Personal");
@@ -64,6 +65,9 @@ public class VentanaDetallesPersonal extends javax.swing.JDialog {
             jTextFieldEmail.setEditable(true);
             jTextFieldTelefonos.setEditable(true);
             jTextFieldPass.setEditable(true);
+        }
+        if(desdeMenu){
+            jButtonEliminarPersonal.setVisible(false);
         }
     }
 
@@ -313,17 +317,15 @@ public class VentanaDetallesPersonal extends javax.swing.JDialog {
         //</editor-fold>
 
         /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                VentanaDetallesPersonal dialog = new VentanaDetallesPersonal(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            VentanaDetallesPersonal dialog = new VentanaDetallesPersonal(new javax.swing.JFrame(), true);
+            dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+                @Override
+                public void windowClosing(java.awt.event.WindowEvent e) {
+                    System.exit(0);
+                }
+            });
+            dialog.setVisible(true);
         });
     }
 

@@ -2,19 +2,20 @@ package pfg;
 
 import java.util.LinkedList;
 import javax.swing.JOptionPane;
+import pfg.Dialogs.VentanaServidorIP;
 import servidorprueba.Persona;
 
 /**
- *
- * @author angel
+ * Clase que representa la ventana de inicio de sesión para el usuario.
  */
 public class Login extends javax.swing.JFrame {
 
     /**
-     * Creates new form Login
+     * Constructor de la clase. Inicializa los componentes de la ventana.
      */
     public Login() {
         initComponents();
+        ControladorIP.CrearArchivoIP();
     }
 
     @SuppressWarnings("unchecked")
@@ -28,11 +29,15 @@ public class Login extends javax.swing.JFrame {
         jLabelContrasena = new javax.swing.JLabel();
         jPasswordField1 = new javax.swing.JPasswordField();
         jButtonAceptar = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(Login.class);
+        setTitle(resourceMap.getString("Form.title")); // NOI18N
         setName("Form"); // NOI18N
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(Login.class);
         jLabelLogo.setIcon(resourceMap.getIcon("jLabelLogo.icon")); // NOI18N
         jLabelLogo.setText(resourceMap.getString("jLabelLogo.text")); // NOI18N
         jLabelLogo.setName("jLabelLogo"); // NOI18N
@@ -98,6 +103,28 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
+        jMenuBar1.setName("jMenuBar1"); // NOI18N
+
+        jMenu1.setText(resourceMap.getString("jMenu1.text")); // NOI18N
+        jMenu1.setName("jMenu1"); // NOI18N
+        jMenu1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu1MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu1);
+
+        jMenu2.setText(resourceMap.getString("jMenu2.text")); // NOI18N
+        jMenu2.setName("jMenu2"); // NOI18N
+        jMenu2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jMenu2MouseClicked(evt);
+            }
+        });
+        jMenuBar1.add(jMenu2);
+
+        setJMenuBar(jMenuBar1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -132,18 +159,33 @@ public class Login extends javax.swing.JFrame {
         credenciales.add(jTextFieldNombreUsuario.getText());
         String passText = new String(jPasswordField1.getPassword());
         credenciales.add(passText);
-        Persona p = ConectorDB.Login(credenciales);
-        if (p == null) {
+        Persona persona = ConectorDB.Login(credenciales);
+        if (persona == null) {
             JOptionPane.showMessageDialog(this, "Las credenciales no son correctas\n Por favor vuelva a intentarlo.");
         } //Sistema de seguridad, intentar mejorarlo.
-        else if (p.getNombre().equals("1")) {
+        else if (persona.getNombre().equals("1")) {
             JOptionPane.showMessageDialog(this, "Imposible conectar con la Base de datos\n Por favor vuelva a intentarlo.");
         } else {
-            Menu menu = new Menu(p);
+            Menu menu = new Menu(persona);
             menu.setVisible(true);
             dispose();
         }
     }//GEN-LAST:event_jButtonAceptarMouseClicked
+    /**
+     * Abre la ventana donde introducir la ip del servidor.
+     */
+    private void AbrirVentanaServidorIP() {
+        VentanaServidorIP ventanaServidor = new VentanaServidorIP(this, true);
+        ventanaServidor.setVisible(true);
+    }
+
+    private void jMenu2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu2MouseClicked
+        javahelp.showHelp("Login");
+    }//GEN-LAST:event_jMenu2MouseClicked
+
+    private void jMenu1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jMenu1MouseClicked
+        AbrirVentanaServidorIP();
+    }//GEN-LAST:event_jMenu1MouseClicked
 
     private void jTextFieldNombreUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextFieldNombreUsuarioActionPerformed
         // TODO add your handling code here:
@@ -176,10 +218,8 @@ public class Login extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Login().setVisible(true);
         });
     }
 
@@ -188,6 +228,9 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelContrasena;
     private javax.swing.JLabel jLabelLogo;
     private javax.swing.JLabel jLabelNombreUsuario;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPasswordField jPasswordField1;
     private javax.swing.JTextField jTextFieldNombreUsuario;

@@ -1,47 +1,67 @@
 package pfg;
 
 import java.awt.Image;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
 import javax.swing.ImageIcon;
 import javax.swing.JDialog;
 import javax.swing.JPanel;
 import pfg.Menu.Paneles;
-import pfg.resources.CrearPersonal;
-import pfg.resources.CrearTarea;
-import pfg.resources.DetallesPersonal;
-import pfg.resources.PanelPersonal;
-import pfg.resources.PanelSemana;
-import pfg.resources.PanelTareas;
+import pfg.Dialogs.VentanaCrearPersonal;
+import pfg.Dialogs.VentanaCrearTarea;
+import pfg.Dialogs.VentanaDetallesPersonal;
+import pfg.Dialogs.VentanaGrupos;
+import pfg.Dialogs.VentanaLugares;
+import pfg.Dialogs.VentanaServidorIP;
+import pfg.paneles.PanelPersonal;
+import pfg.paneles.PanelSemana;
+import pfg.paneles.PanelTareas;
 import servidorprueba.Persona;
 
 /**
+ * La clase Menu representa la ventana principal de la aplicación de gestión de
+ * tareas.
+ *
+ * Esta clase contiene diferentes paneles que permiten visualizar y gestionar
+ * las tareas, personal y la semana.
+ *
  * @author angel
  */
 public class Menu extends javax.swing.JFrame {
 
+    /**
+     * Enumeración que representa los diferentes paneles disponibles en la
+     * ventana Menu.
+     */
     public enum Paneles {
         Tareas, Personal, Semana
     };
-    private boolean panelTareasActivo;
+    private Paneles panelActivo;
     private final Date diaActual;
     private Calendar calendar;
     private final Date[] dias;
     public static Persona usuario;
+    public static Maper maper;
     private JPanel panel;
+    private final int altoIconos = 25;
+    private final int anchoIconos = 25;
 
     /**
-     * Creates new form Menu
+     * Crea una nueva instancia de la clase Menu.
      *
-     * @param usuario Usuario que ha logeado.
+     * @param usuario El usuario que ha iniciado sesión.
      */
     public Menu(Persona usuario) {
         super();
-        this.usuario = usuario;
-        panelTareasActivo = false;
+        Menu.usuario = usuario;
+        maper = new Maper(usuario.getGrupo());
+        panelActivo = Paneles.Semana;
         dias = new Date[7];
         calendar = Calendar.getInstance();
         diaActual = calendar.getTime();
@@ -78,17 +98,19 @@ public class Menu extends javax.swing.JFrame {
         jDatePickerMenu = new org.jdatepicker.JDatePicker();
         jPanelUsuario = new javax.swing.JPanel();
         jLabelNombreUsuario = new javax.swing.JLabel();
-        jButtonActualizar = new javax.swing.JButton();
         jPaneAbajo = new javax.swing.JPanel();
         menuBar = new javax.swing.JMenuBar();
         javax.swing.JMenu fileMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem exitMenuItem = new javax.swing.JMenuItem();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
+        jMenuItemGrupos = new javax.swing.JMenuItem();
+        jMenuItemLugares = new javax.swing.JMenuItem();
+        jMenuItemServidor = new javax.swing.JMenuItem();
         javax.swing.JMenu helpMenu = new javax.swing.JMenu();
         javax.swing.JMenuItem aboutMenuItem = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(Menu.class);
+        setTitle(resourceMap.getString("Form.title")); // NOI18N
         setName("Form"); // NOI18N
 
         mainPanel.setName("mainPanel"); // NOI18N
@@ -98,7 +120,6 @@ public class Menu extends javax.swing.JFrame {
 
         jPanelLogo.setName("jPanelLogo"); // NOI18N
 
-        org.jdesktop.application.ResourceMap resourceMap = org.jdesktop.application.Application.getInstance(pfg.PFGApp.class).getContext().getResourceMap(Menu.class);
         jLabelLogo.setFont(resourceMap.getFont("jLabelLogo.font")); // NOI18N
         jLabelLogo.setIcon(resourceMap.getIcon("jLabelLogo.icon")); // NOI18N
         jLabelLogo.setText(resourceMap.getString("jLabelLogo.text")); // NOI18N
@@ -193,26 +214,9 @@ public class Menu extends javax.swing.JFrame {
         jPanelSemana.add(jLabelFlechaIzquierda);
 
         jDatePickerMenu.setName("jDatePickerMenu"); // NOI18N
-        jDatePickerMenu.addFocusListener(new java.awt.event.FocusAdapter() {
-            public void focusLost(java.awt.event.FocusEvent evt) {
-                jDatePickerMenuFocusLost(evt);
-            }
-        });
-        jDatePickerMenu.addInputMethodListener(new java.awt.event.InputMethodListener() {
-            public void caretPositionChanged(java.awt.event.InputMethodEvent evt) {
-            }
-            public void inputMethodTextChanged(java.awt.event.InputMethodEvent evt) {
-                jDatePickerMenuInputMethodTextChanged(evt);
-            }
-        });
         jDatePickerMenu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jDatePickerMenuActionPerformed(evt);
-            }
-        });
-        jDatePickerMenu.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
-            public void propertyChange(java.beans.PropertyChangeEvent evt) {
-                jDatePickerMenuPropertyChange(evt);
             }
         });
 
@@ -256,34 +260,25 @@ public class Menu extends javax.swing.JFrame {
             }
         });
 
-        jButtonActualizar.setText(resourceMap.getString("jButtonActualizar.text")); // NOI18N
-        jButtonActualizar.setName("jButtonActualizar"); // NOI18N
-
         javax.swing.GroupLayout jPanelUsuarioLayout = new javax.swing.GroupLayout(jPanelUsuario);
         jPanelUsuario.setLayout(jPanelUsuarioLayout);
         jPanelUsuarioLayout.setHorizontalGroup(
             jPanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUsuarioLayout.createSequentialGroup()
                 .addGap(0, 410, Short.MAX_VALUE)
-                .addGroup(jPanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanelUsuarioLayout.createSequentialGroup()
-                        .addComponent(jButtonActualizar)
-                        .addGap(2, 2, 2))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelUsuarioLayout.createSequentialGroup()
-                        .addComponent(jLabelNombreUsuario)
-                        .addContainerGap())))
+                .addComponent(jLabelNombreUsuario)
+                .addContainerGap())
         );
         jPanelUsuarioLayout.setVerticalGroup(
             jPanelUsuarioLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanelUsuarioLayout.createSequentialGroup()
                 .addComponent(jLabelNombreUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButtonActualizar)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         jPanelArriba.add(jPanelUsuario);
 
+        jPaneAbajo.setMaximumSize(getSize());
         jPaneAbajo.setName("jPaneAbajo"); // NOI18N
         jPaneAbajo.setPreferredSize(new java.awt.Dimension(500, 500));
         jPaneAbajo.setLayout(new java.awt.BorderLayout());
@@ -292,15 +287,15 @@ public class Menu extends javax.swing.JFrame {
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelArriba, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 1517, Short.MAX_VALUE)
-            .addComponent(jPaneAbajo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelArriba, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPaneAbajo, javax.swing.GroupLayout.DEFAULT_SIZE, 1517, Short.MAX_VALUE)
         );
         mainPanelLayout.setVerticalGroup(
             mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, mainPanelLayout.createSequentialGroup()
                 .addComponent(jPanelArriba, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPaneAbajo, javax.swing.GroupLayout.DEFAULT_SIZE, 651, Short.MAX_VALUE)
+                .addComponent(jPaneAbajo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -314,18 +309,42 @@ public class Menu extends javax.swing.JFrame {
         exitMenuItem.setName("exitMenuItem"); // NOI18N
         fileMenu.add(exitMenuItem);
 
-        jMenuItem1.setText(resourceMap.getString("jMenuItem1.text")); // NOI18N
-        jMenuItem1.setName("jMenuItem1"); // NOI18N
-        fileMenu.add(jMenuItem1);
+        jMenuItemGrupos.setText(resourceMap.getString("jMenuItemGrupos.text")); // NOI18N
+        jMenuItemGrupos.setName("jMenuItemGrupos"); // NOI18N
+        jMenuItemGrupos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemGruposActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItemGrupos);
 
-        jMenuItem2.setText(resourceMap.getString("jMenuItem2.text")); // NOI18N
-        jMenuItem2.setName("jMenuItem2"); // NOI18N
-        fileMenu.add(jMenuItem2);
+        jMenuItemLugares.setText(resourceMap.getString("jMenuItemLugares.text")); // NOI18N
+        jMenuItemLugares.setName("jMenuItemLugares"); // NOI18N
+        jMenuItemLugares.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemLugaresActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItemLugares);
+
+        jMenuItemServidor.setText(resourceMap.getString("jMenuItemServidor.text")); // NOI18N
+        jMenuItemServidor.setName("jMenuItemServidor"); // NOI18N
+        jMenuItemServidor.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemServidorActionPerformed(evt);
+            }
+        });
+        fileMenu.add(jMenuItemServidor);
 
         menuBar.add(fileMenu);
 
         helpMenu.setText(resourceMap.getString("helpMenu.text")); // NOI18N
         helpMenu.setName("helpMenu"); // NOI18N
+        helpMenu.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                helpMenuMouseClicked(evt);
+            }
+        });
 
         aboutMenuItem.setAction(actionMap.get("showAboutBox")); // NOI18N
         aboutMenuItem.setName("aboutMenuItem"); // NOI18N
@@ -373,48 +392,64 @@ public class Menu extends javax.swing.JFrame {
         calendar.add(Calendar.WEEK_OF_YEAR, 1);
         ActualizarSemana(false);
         CambiarPanel(Paneles.Semana);
+        jButtonAñadirPT.setVisible(false);
     }//GEN-LAST:event_jLabelFlechaIzquierdaMouseClicked
 
     private void jLabelFlechaDerechaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelFlechaDerechaMouseClicked
         calendar.add(Calendar.WEEK_OF_YEAR, -1);
         ActualizarSemana(false);
         CambiarPanel(Paneles.Semana);
+        jButtonAñadirPT.setVisible(false);
     }//GEN-LAST:event_jLabelFlechaDerechaMouseClicked
 
     private void jLabelNombreUsuarioMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabelNombreUsuarioMouseClicked
-        JDialog detallesPersona = new DetallesPersonal(null, true, Menu.usuario, Menu.usuario.isEsAdmin());
+        JDialog detallesPersona = new VentanaDetallesPersonal(null, true, Menu.usuario, Menu.usuario.isEsAdmin(),true);
         detallesPersona.setVisible(true);
     }//GEN-LAST:event_jLabelNombreUsuarioMouseClicked
 
     private void jButtonAñadirPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAñadirPTActionPerformed
-        if (panelTareasActivo) {
-            LinkedList listagrupos = new LinkedList<>();
-            listagrupos.add(usuario.getGrupo());
-            CrearTarea ventanaCrearTarea = new CrearTarea(this, true, null, ConectorDB.BuscarLugaresDeUsuario(listagrupos));
+        if (panelActivo == Paneles.Tareas) {
+            VentanaCrearTarea ventanaCrearTarea = new VentanaCrearTarea(this, true, null, ConectorDB.BuscarLugaresDeUsuario(usuario.getGrupo()));
+            ventanaCrearTarea.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    CambiarPanel(panelActivo);
+                }
+            });
             ventanaCrearTarea.setVisible(true);
-        } else {
-            CrearPersonal ventanaCrearPersonal = new CrearPersonal(this, true, ConectorDB.BuscarGrupos());
+        } else if (panelActivo == Paneles.Personal) {
+            VentanaCrearPersonal ventanaCrearPersonal = new VentanaCrearPersonal(this, true, ConectorDB.BuscarGrupos());
+            ventanaCrearPersonal.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    CambiarPanel(panelActivo);
+                }
+            });
             ventanaCrearPersonal.setVisible(true);
         }
     }//GEN-LAST:event_jButtonAñadirPTActionPerformed
 
-    private void jDatePickerMenuFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_jDatePickerMenuFocusLost
-
-    }//GEN-LAST:event_jDatePickerMenuFocusLost
-
-    private void jDatePickerMenuInputMethodTextChanged(java.awt.event.InputMethodEvent evt) {//GEN-FIRST:event_jDatePickerMenuInputMethodTextChanged
-
-    }//GEN-LAST:event_jDatePickerMenuInputMethodTextChanged
-
-    private void jDatePickerMenuPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_jDatePickerMenuPropertyChange
-
-    }//GEN-LAST:event_jDatePickerMenuPropertyChange
-
     private void jDatePickerMenuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jDatePickerMenuActionPerformed
-         Calendar selectedValue = (Calendar) jDatePickerMenu.getModel().getValue();
+        Calendar selectedValue = (Calendar) jDatePickerMenu.getModel().getValue();
         ActualizarSemana(selectedValue);
-        CambiarPanel(Paneles.Semana); 
+        CambiarPanel(Paneles.Semana);
     }//GEN-LAST:event_jDatePickerMenuActionPerformed
+
+    private void jMenuItemGruposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemGruposActionPerformed
+        AbrirVentanaGrupo();
+    }//GEN-LAST:event_jMenuItemGruposActionPerformed
+
+    private void jMenuItemLugaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemLugaresActionPerformed
+        AbrirVentanaLugares();
+    }//GEN-LAST:event_jMenuItemLugaresActionPerformed
+
+    private void jMenuItemServidorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemServidorActionPerformed
+        AbrirVentanaServidorIP();
+    }//GEN-LAST:event_jMenuItemServidorActionPerformed
+
+    private void helpMenuMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_helpMenuMouseClicked
+        javahelp.showHelp("Menu");
+    }//GEN-LAST:event_helpMenuMouseClicked
 
     /**
      * @param args the command line arguments
@@ -432,30 +467,26 @@ public class Menu extends javax.swing.JFrame {
                     break;
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Menu.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
+        
+        //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Menu().setVisible(true);
-            }
+        java.awt.EventQueue.invokeLater(() -> {
+            new Menu().setVisible(true);
         });
     }
 
     /**
+     * Actualiza la semana mostrada en la interfaz y la variable 'dias'.
      *
-     * @param bool
+     * @param bool Indica si se debe volver a la semana actual o no.
      */
     private void ActualizarSemana(boolean bool) {
+        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
         StringBuilder textoSemana = new StringBuilder();
         DateFormat df = new SimpleDateFormat("dd/MMMMM");
         textoSemana.append("Semana ");
@@ -469,13 +500,13 @@ public class Menu extends javax.swing.JFrame {
         jLabelSemana.setText(textoSemana.toString());
         if (bool) {
             calendar.setTime(diaActual);
-        }
-        calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+        } 
     }
 
     /**
+     * Actualiza la semana a partir de un objeto Calendar.
      *
-     * @param calendar
+     * @param calendar objeto Calendar que representa el inicio de la semana.
      */
     private void ActualizarSemana(Calendar calendar) {
         calendar.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
@@ -488,6 +519,7 @@ public class Menu extends javax.swing.JFrame {
             calendar.add(Calendar.DATE, 1);
             dias[i] = calendar.getTime();
         }
+        this.calendar = calendar;
         textoSemana.append(df.format(calendar.getTime()));
         jLabelSemana.setText(textoSemana.toString());
     }
@@ -496,53 +528,50 @@ public class Menu extends javax.swing.JFrame {
      * Metodo que prepara la interfaz de usuario en base a si el usuario es
      * administrador o no.
      *
-     * @param isAdmin
+     * @param isAdmin Booleano que designa si el usuario es admin o no.
      */
     private void PrepararInterface(boolean isAdmin) {
-        ImageIcon imageFDerecha = new ImageIcon(new ImageIcon(".\\iconos\\chevronright.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-        ImageIcon imageFIzquierda = new ImageIcon(new ImageIcon(".\\iconos\\chevronleft.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-        ImageIcon imageHome = new ImageIcon(new ImageIcon(".\\iconos\\home.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-//        ImageIcon imageCalendar = new ImageIcon(new ImageIcon(".\\iconos\\calendar.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-        jLabelFlechaDerecha.setIcon(imageFIzquierda);
-        jLabelFlechaIzquierda.setIcon(imageFDerecha);
+        this.setTitle("Menu");
+        jLabelFlechaDerecha.setIcon(cargarImagen("chevronleft.png", anchoIconos, altoIconos));
+        jLabelFlechaIzquierda.setIcon(cargarImagen("chevronright.png", anchoIconos, altoIconos));
         jLabelFlechaDerecha.setText("");
         jLabelFlechaIzquierda.setText("");
         jButtonAñadirPT.setVisible(false);
         jLabelHome.setText("");
-        jLabelHome.setIcon(imageHome);
+        jLabelHome.setIcon(cargarImagen("home.png", anchoIconos, altoIconos));
         jLabelNombreUsuario.setText(usuario.getNombre() + " " + usuario.getApellidos());
         if (isAdmin) {
-            ImageIcon imagePersonal = new ImageIcon(new ImageIcon(".\\iconos\\staff.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
-            ImageIcon imageTareas = new ImageIcon(new ImageIcon(".\\iconos\\tasks.png").getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
             jLabelPersonal.setText("");
             jLabelTareas.setText("");
-            jLabelPersonal.setIcon(imagePersonal);
-            jLabelTareas.setIcon(imageTareas);
+            jLabelPersonal.setIcon(cargarImagen("staff.png", anchoIconos, altoIconos));
+            jLabelTareas.setIcon(cargarImagen("tasks.png", anchoIconos, altoIconos));
         } else {
             jPanelIconos.remove(jLabelPersonal);
             jPanelIconos.remove(jLabelTareas);
+            jMenuItemGrupos.setVisible(isAdmin);
+            jMenuItemLugares.setVisible(isAdmin);
         }
     }
 
     /**
+     * Cambia el panel activo en el frame principal según el tipo de panel
+     * especificado.
      *
-     * @param panelTipo
+     * @param panelTipo El tipo de panel a activar.
      */
-    private void CambiarPanel(Paneles panelTipo) {
+    public void CambiarPanel(Paneles panelTipo) {
+        maper.ActualizarMapaLugares(ConectorDB.BuscarLugaresDeUsuario(usuario.getGrupo()));
+        maper.ActualizarMapaPrioridades(ConectorDB.BuscarPrioridades());
         jPaneAbajo.removeAll();
         switch (panelTipo) {
             case Semana:
-                LinkedList grupo = new LinkedList<>();
-                grupo.add(usuario.getGrupo());
-                panel = new PanelSemana(dias, ConectorDB.BuscarLugaresDeUsuario(grupo), usuario.isEsAdmin());
+                panel = CrearPanelSemana();
                 break;
             case Tareas:
-                panel = new PanelTareas(ConectorDB.BuscarTareasGuardadas());
-                panelTareasActivo = true;
+                panel = CrearPanelTareas();
                 break;
             case Personal:
-                panel = new PanelPersonal(ConectorDB.BuscarPersonal());
-                panelTareasActivo = false;
+                panel = CrearPanelPersonal();
                 break;
         }
         panel.setSize(jPaneAbajo.getWidth(), jPaneAbajo.getHeight());
@@ -552,23 +581,99 @@ public class Menu extends javax.swing.JFrame {
 
     /**
      *
-     * @param fecha
+     * @param nombreArchivo
+     * @param ancho
+     * @param alto
+     * @return
+     */
+    private ImageIcon cargarImagen(String nombreArchivo, int ancho, int alto) {
+        ImageIcon imagenOriginal = new ImageIcon(getClass().getResource("/pfg/resources/" + nombreArchivo));
+        Image imagenRedimensionada = imagenOriginal.getImage().getScaledInstance(ancho, alto, Image.SCALE_SMOOTH);
+        return new ImageIcon(imagenRedimensionada);
+    }
+
+    /**
+     * Crea y devuelve un nuevo PanelPersonal.
+     *
+     * @return Un nuevo PanelPersonal.
+     */
+    private PanelPersonal CrearPanelPersonal() {
+        panelActivo = Paneles.Personal;
+        return new PanelPersonal(ConectorDB.BuscarPersonal(usuario.getGrupo()), this);
+    }
+
+    /**
+     * Crea y devuelve un nuevo PanelTareas.
+     *
+     * @return Un nuevo PanelTareas.
+     */
+    private PanelTareas CrearPanelTareas() {
+        panelActivo = Paneles.Tareas;
+        return new PanelTareas(ConectorDB.BuscarTareasGuardadas(usuario.getGrupo()), this);
+    }
+
+    /**
+     * Crea y devuelve un nuevo PanelSemana.
+     *
+     * @return Un nuevo PanelSemana.
+     */
+    private PanelSemana CrearPanelSemana() {
+        panelActivo = Paneles.Semana;
+        return new PanelSemana(dias, ConectorDB.BuscarLugaresDeUsuario(usuario.getGrupo()), usuario.isEsAdmin(), this);
+    }
+
+    /**
+     * Abre la ventana donde introducir la ip del servidor.
+     */
+    private void AbrirVentanaServidorIP() {
+        VentanaServidorIP ventanaServidor = new VentanaServidorIP(this, true);
+        ventanaServidor.setVisible(true);
+    }
+
+    /**
+     * Toma una fecha y la utiliza para seleccionar esa fecha en el componente
+     * jDatePickerMenu.
+     *
+     * @param fecha la fecha que se va a seleccionar en el jDatePickerMenu. Debe
+     * ser un objeto java.util.Date.
      */
     private void TomarFechaDelDia(Date fecha) {
-        DateFormat dfDia = new SimpleDateFormat("dd");
-        DateFormat dfMes = new SimpleDateFormat("MM");
-        DateFormat dfAno = new SimpleDateFormat("yyyy");
-        int dia = Integer.valueOf(dfDia.format(fecha));
-        int mes = Integer.valueOf(dfMes.format(fecha)) - 1;
-        int ano = Integer.valueOf(dfAno.format(fecha));
-        jDatePickerMenu.getModel().setDay(dia);
-        jDatePickerMenu.getModel().setMonth(mes);
-        jDatePickerMenu.getModel().setYear(ano);
+        LocalDate localDate = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+        int dia = localDate.getDayOfMonth();
+        int mes = localDate.getMonthValue() - 1;
+        int ano = localDate.getYear();
+        jDatePickerMenu.getModel().setDate(ano, mes, dia);
         jDatePickerMenu.getModel().setSelected(true);
     }
 
+    /**
+     * Toma la lista de Grupos de la base de datos y abre la ventana Grupos.
+     */
+    private void AbrirVentanaGrupo() {
+        maper.ActualizarMapaGrupos(ConectorDB.BuscarGrupos());
+        VentanaGrupos ventanaGrupos = new VentanaGrupos(this, true, maper);
+        ventanaGrupos.setVisible(true);
+    }
+
+    /**
+     * Toma la lista de lugares de la base de datos y abre la ventana Lugares.
+     */
+    private void AbrirVentanaLugares() {
+        maper.ActualizarMapaLugares(ConectorDB.BuscarLugares());
+        VentanaLugares ventanaLugares = new VentanaLugares(this, true, maper);
+        ventanaLugares.setVisible(true);
+    }
+
+    public Paneles getPanelActivo() {
+        return panelActivo;
+    }
+
+    public void setPanelActivo(Paneles panelActivo) {
+        this.panelActivo = panelActivo;
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButtonActualizar;
     private javax.swing.JButton jButtonAñadirPT;
     private org.jdatepicker.JDatePicker jDatePickerMenu;
     private javax.swing.JLabel jLabelFlechaDerecha;
@@ -579,8 +684,9 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabelPersonal;
     private javax.swing.JLabel jLabelSemana;
     private javax.swing.JLabel jLabelTareas;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
+    private javax.swing.JMenuItem jMenuItemGrupos;
+    private javax.swing.JMenuItem jMenuItemLugares;
+    private javax.swing.JMenuItem jMenuItemServidor;
     private javax.swing.JPanel jPaneAbajo;
     private javax.swing.JPanel jPanelArriba;
     private javax.swing.JPanel jPanelIconos;
@@ -591,5 +697,4 @@ public class Menu extends javax.swing.JFrame {
     private javax.swing.JPanel mainPanel;
     private javax.swing.JMenuBar menuBar;
     // End of variables declaration//GEN-END:variables
-
 }

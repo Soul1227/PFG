@@ -1,0 +1,25 @@
+<?xml version='1.0' encoding='ISO-8859-1'  ?>
+<!DOCTYPE index PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp Index Version 1.0//EN" "http://java.sun.com/products/javahelp/index_1_0.dtd">
+<index version="1.0">
+    <indexitem text="Login"    target="Login"/>
+    <indexitem text="Ventana Servidor IP"    target="VentanaServidorIP"/>
+    <indexitem/>
+    <indexitem text="Menu"    target="Menu">
+        <indexitem text="Panel Semana"    target="PanelSemana"/>
+        <indexitem text="Panel Tareas"    target="PanelTareas"/>
+        <indexitem text="Panel Personal"    target="PanelPersonal"/>
+            
+        <indexitem text="Panel dia de la Semana"    target="PanelDiaSemana"/>
+        <indexitem text="Etiqueta Personal"    target="EtiquetaPersonal"/>
+        <indexitem text="Etiqueta Tarea"    target="EtiquetaTarea"/>
+        
+        <indexitem text="Ventana añadir Personal a Tarea"    target="VentanaAñadirPersonalATarea"/>
+        <indexitem text="Ventana Crear Personal"    target="VentanaCrearPersonal"/>
+        <indexitem text="Ventana Crear Tarea"    target="VentanaCrearTarea"/>
+        <indexitem text="Ventana Detalles de Personal"    target="VentanaDetallesDePersonal"/>
+        <indexitem text="Ventana Detalles de Tarea"    target="VentanaDetallesDeTarea"/>
+        <indexitem text="Ventana Grupo"    target="VentanaGrupo"/>
+        <indexitem text="Ventana Lugar"    target="VentanaLugar"/>
+        <indexitem text="Ventana Servidor IP"    target="VentanaServidorIP"/>
+    </indexitem>
+</index>

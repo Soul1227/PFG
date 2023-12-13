@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<toc version="1.0"> 
+    <!--  categoryclosedimage="FolderClosed" categoryopenimage="FolderOpened" topicimage="ItemIco"-->
+    <tocitem text="Login"    target="Login">
+        <tocitem text="Ventana Servidor IP"    target="VentanaServidorIP"/>
+    </tocitem>
+    <tocitem text="Menu"    target="Menu">
+        <tocitem text="Ventana Servidor IP"    target="VentanaServidorIP"/>
+        <tocitem text="Ventana Grupo"    target="VentanaGrupo"/>
+        <tocitem text="Ventana Lugar"    target="VentanaLugar"/>
+        
+        <tocitem text="Panel Tareas" target ="PanelTareas" />
+        <tocitem text="Panel Semana" target ="PanelSemana" />
+        <tocitem text="Panel Personal" target ="PanelPersonal" />        
+        <tocitem text="Panel dia de la Semana" target ="PanelDiaSemana" />
+        <tocitem text="Etiqueta Personal" target ="EtiquetaPersonal" />
+        <tocitem text="Etiqueta Tarea" target ="EtiquetaTarea" />
+        
+        <tocitem text="Ventana añadir Personal a Tarea" target ="VentanaAñadirPersonalATarea" />
+        <tocitem text="Ventana Crear Personal" target ="VentanaCrearPersonal" />
+        <tocitem text="Ventana Crear Tarea" target ="VentanaCrearTarea" />
+        <tocitem text="Ventana Detalles de Personal" target ="VentanaDetallesDePersonal" />
+        <tocitem text="Ventana Detalles de Tarea" target ="VentanaDetallesDeTarea" />
+    </tocitem>
+</toc>

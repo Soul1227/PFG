@@ -11,6 +11,8 @@ import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 
 /**
+ * Clase encargada de generar el archivo .txt donde se almacena la ip del
+ * servidor, acceder a este y comprobar que la ip es valida.
  *
  * @author angel
  */
@@ -43,7 +45,7 @@ public class ControladorIP {
 
     /**
      * Toma la Ip del server del archivo donde esta se almacena.
-     * 
+     *
      * @return IP a la que conectarse o "" en caso de que no hubiese.
      */
     public static String TomarIp() {
@@ -53,7 +55,6 @@ public class ControladorIP {
                 BufferedReader br = new BufferedReader(fr);
                 String linea = br.readLine();
                 if (linea != null) {
-
                     br.close();
                     fr.close();
                     return linea;
